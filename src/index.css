@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { @apply box-border; }
+  body { @apply m-0 min-w-80 bg-paper font-sans text-ink antialiased; background-image: radial-gradient(circle at 80% 0%, rgba(82,103,93,.09), transparent 32%), linear-gradient(rgba(24,35,31,.025) 1px, transparent 1px); background-size: auto, 100% 32px; }
+  button, input, textarea, select { @apply font-sans; }
+  button { @apply disabled:cursor-not-allowed disabled:opacity-50; }
+  :focus-visible { @apply outline-none ring-2 ring-amber ring-offset-2; }
+}
+@layer components {
+  .page-wrap { @apply mx-auto max-w-[1500px] px-5 py-20 sm:px-8 lg:px-10 lg:py-12 2xl:px-14; }
+  .page-title { @apply mt-2 font-serif text-4xl font-semibold tracking-tight text-ink sm:text-5xl; }
+  .eyebrow { @apply text-xs font-semibold uppercase tracking-[.24em] text-clay; }
+  .button-primary { @apply inline-flex items-center justify-center gap-2 rounded-xl bg-ink px-5 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-moss; }
+  .button-secondary { @apply inline-flex items-center justify-center gap-2 rounded-xl border border-ink/15 bg-white px-5 py-3 text-sm font-medium text-ink transition hover:border-moss/40 hover:bg-stone-50; }
+  .button-danger { @apply inline-flex items-center justify-center gap-2 rounded-xl bg-rose-700 px-5 py-3 text-sm font-medium text-white transition hover:bg-rose-800; }
+  .icon-button { @apply grid h-9 w-9 place-items-center rounded-xl border border-ink/10 bg-white text-moss transition hover:bg-ink hover:text-white; }
+  .status-badge { @apply inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium; }
+  .filter-chip { @apply inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/60 px-3.5 py-2 text-xs text-moss transition hover:border-moss/40; }
+  .filter-chip span { @apply rounded-full bg-ink/5 px-1.5 py-0.5 text-[10px]; }
+  .filter-chip-active { @apply border-ink bg-ink text-white; }
+  .filter-chip-active span { @apply bg-white/15; }
+  .search-box { @apply flex min-w-64 items-center gap-2 rounded-xl border border-ink/10 bg-white px-4 py-2.5 text-moss; }
+  .search-box input { @apply w-full bg-transparent text-sm text-ink outline-none placeholder:text-moss/55; }
+  .field { @apply block; }
+  .field > span { @apply mb-2 block text-sm font-medium text-ink; }
+  .field input, .field textarea, .field select { @apply w-full rounded-xl border border-ink/15 bg-white px-4 py-3 text-sm text-ink outline-none transition placeholder:text-moss/45 focus:border-moss focus:ring-2 focus:ring-moss/15; }
+  .field textarea { @apply resize-y leading-6; }
+  .field small { @apply mt-1.5 block text-xs text-rose-700; }
+}
