@@ -37,6 +37,7 @@ export function AppShell() {
       <aside
         className={`app-sidebar fixed inset-y-0 left-0 z-50 flex w-72 flex-col px-5 py-7 shadow-card transition-transform duration-300 lg:translate-x-0 ${open ? 'translate-x-0' : '-translate-x-full'}`}
       >
+        <div className="sidebar-system-label tech-only" aria-hidden="true"><span>SYSTEM / PRAXIS</span><span>LOCAL NODE · ONLINE</span></div>
         <div className="flex items-center justify-between px-2">
           <div className="flex items-center gap-3">
             <span className="grid h-10 w-10 place-items-center rounded-2xl bg-accent-primary text-text-inverse shadow-glow">
@@ -69,8 +70,7 @@ export function AppShell() {
         </nav>
 
         <div className="sidebar-quote mt-auto rounded-[calc(var(--radius-card)-0.25rem)] p-4 backdrop-blur-sm">
-          <p className="font-serif text-sm text-sidebar-fg/92">只有人们的社会实践，才是人们对于
-          外界认识的真理性的标准。</p>
+          <p className="font-serif text-sm text-sidebar-fg/92">只有人们的社会实践，才是人们对于外界认识的真理性的标准。</p>
           <p className="mt-1 font-serif text-sm text-sidebar-fg/92"></p>
           <div className="mt-4 h-px bg-sidebar-fg/12" />
           <p className="mt-3 text-[10px] tracking-widest text-sidebar-fg/42">本地存储 · 数据属于你</p>

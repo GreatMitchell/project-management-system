@@ -481,7 +481,9 @@
 
 @layer components {
   .tech-only,
-  .tech-module-label {
+  .tech-module-label,
+  .game-only,
+  .game-module-label {
     display: none;
   }
 
@@ -668,6 +670,117 @@
     background: rgb(var(--bg-surface-2) / 0.96);
   }
 
+  html[data-theme='tech'] .sidebar-system-label {
+    display: flex;
+    justify-content: space-between;
+    margin: -0.25rem 0.5rem 1.25rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid rgb(var(--accent-primary) / 0.16);
+    color: rgb(var(--sidebar-fg) / 0.42);
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+  }
+
+  html[data-theme='tech'] .app-sidebar {
+    background: linear-gradient(90deg, transparent calc(100% - 1px), rgb(var(--accent-primary) / 0.16) calc(100% - 1px)), linear-gradient(180deg, rgb(var(--bg-sidebar) / 0.99), rgb(var(--bg-sidebar) / 0.95));
+  }
+
+  html[data-theme='tech'] .app-sidebar nav::before {
+    content: 'NAVIGATION / 03 MODULES';
+    display: block;
+    margin: 0 0.75rem 0.75rem;
+    color: rgb(var(--sidebar-fg) / 0.34);
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.14em;
+  }
+
+  html[data-theme='tech'] .sidebar-link {
+    border-radius: 0.45rem;
+    border-left: 2px solid transparent;
+  }
+
+  html[data-theme='tech'] .sidebar-link-active {
+    border-left-color: rgb(var(--accent-primary) / 0.85);
+    box-shadow: inset 12px 0 24px rgb(var(--accent-primary) / 0.05), 0 0 0 1px var(--sidebar-active-ring);
+  }
+
+  html[data-theme='tech'] .sidebar-quote {
+    border-radius: 0.55rem;
+  }
+
+  html[data-theme='tech'] .page-header {
+    position: relative;
+    border-bottom-color: rgb(var(--border-soft) / 0.28);
+  }
+
+  html[data-theme='tech'] .page-header::after {
+    content: 'WORKSPACE / PROJECT MATRIX';
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    padding: 0 0 0.4rem 0.8rem;
+    border-bottom: 1px solid rgb(var(--accent-primary) / 0.72);
+    color: rgb(var(--accent-primary) / 0.58);
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.14em;
+  }
+
+  html[data-theme='tech'] .page-title {
+    letter-spacing: -0.035em;
+  }
+
+  html[data-theme='tech'] .eyebrow {
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    letter-spacing: 0.18em;
+  }
+
+  html[data-theme='tech'] .control-bar {
+    padding: 0.75rem;
+    border: 1px solid rgb(var(--border-soft) / 0.22);
+    border-radius: 0.65rem;
+    background: rgb(var(--bg-surface-2) / 0.72);
+    box-shadow: inset 0 1px 0 rgb(203 232 255 / 0.03);
+  }
+
+  html[data-theme='tech'] .filter-chip,
+  html[data-theme='tech'] .search-box {
+    border-radius: 0.4rem;
+  }
+
+  html[data-theme='tech'] .filter-chip-active {
+    border-color: rgb(var(--accent-primary) / 0.48);
+    background: rgb(var(--accent-primary) / 0.13);
+    color: rgb(var(--accent-primary));
+    box-shadow: inset 0 -1px 0 rgb(var(--accent-primary) / 0.34);
+  }
+
+  html[data-theme='tech'] .search-box:focus-within {
+    border-color: rgb(var(--accent-primary) / 0.54);
+    box-shadow: 0 0 0 1px rgb(var(--accent-primary) / 0.08);
+  }
+
+  html[data-theme='tech'] .project-detail-hero {
+    background: radial-gradient(circle at 88% 12%, rgb(var(--accent-primary) / 0.07), transparent 26%), rgb(var(--bg-surface) / 0.96);
+  }
+
+  html[data-theme='tech'] .project-detail-hero::after {
+    background: linear-gradient(rgb(var(--accent-primary) / 0.48), rgb(var(--accent-primary) / 0.48)) left top / 18px 1px no-repeat, linear-gradient(rgb(var(--accent-primary) / 0.48), rgb(var(--accent-primary) / 0.48)) left top / 1px 18px no-repeat, linear-gradient(rgb(var(--accent-primary) / 0.2), rgb(var(--accent-primary) / 0.2)) right bottom / 36px 1px no-repeat, linear-gradient(rgb(var(--accent-primary) / 0.2), rgb(var(--accent-primary) / 0.2)) right bottom / 1px 12px no-repeat;
+  }
+
+  html[data-theme='tech'] .project-detail-hero h1 {
+    max-width: 46rem;
+  }
+
+  html[data-theme='tech'] .project-detail-hero select,
+  html[data-theme='tech'] .button-primary,
+  html[data-theme='tech'] .button-secondary,
+  html[data-theme='tech'] .icon-button {
+    border-radius: 0.4rem;
+  }
+
   html[data-theme='tech'] .review-card {
     border-radius: 0.4rem;
     border-left: 2px solid rgb(var(--accent-secondary) / 0.56);
@@ -678,10 +791,355 @@
     background: linear-gradient(90deg, rgb(var(--accent-secondary) / 0.06), transparent 58%);
   }
 
+  @media (max-width: 639px) {
+    html[data-theme='tech'] .page-header::after {
+      content: none;
+    }
+
+    html[data-theme='tech'] .control-bar {
+      margin-inline: -0.25rem;
+      padding: 0.6rem;
+    }
+  }
+
+  html[data-theme='game'] .theme-label-default {
+    display: none;
+  }
+
+  html[data-theme='game'] .game-only {
+    display: inline;
+  }
+
+  html[data-theme='game'] .game-module-label {
+    display: inline-flex;
+    align-items: center;
+    color: rgb(var(--accent-primary) / 0.82);
+    font-size: 0.625rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  html[data-theme='game'] .surface-card {
+    border-color: rgb(var(--border-soft) / 0.3);
+    background: rgb(var(--bg-surface) / 0.96);
+    box-shadow: 0 22px 54px rgba(8, 5, 16, 0.38), inset 0 1px 0 rgb(255 255 255 / 0.045);
+  }
+
+  html[data-theme='game'] .surface-card::before {
+    background: radial-gradient(circle at 18% 0%, rgb(var(--accent-primary) / 0.07), transparent 30%), radial-gradient(circle at 92% 100%, rgb(var(--accent-secondary) / 0.035), transparent 30%);
+    opacity: 1;
+  }
+
+  html[data-theme='game'] .surface-panel {
+    border-color: rgb(var(--border-soft) / 0.28);
+    background: rgb(var(--bg-panel) / 0.9);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 14px 34px rgba(8, 5, 16, 0.28);
+  }
+
+  html[data-theme='game'] .button-primary {
+    border: 1px solid rgb(255 226 150 / 0.42);
+    border-radius: 0.7rem;
+    box-shadow: inset 0 -3px 0 rgb(91 48 21 / 0.34), 0 5px 0 rgb(12 8 20 / 0.58), 0 10px 24px rgb(var(--accent-primary) / 0.1);
+    font-weight: 800;
+    letter-spacing: 0.025em;
+  }
+
+  html[data-theme='game'] .button-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: inset 0 -3px 0 rgb(91 48 21 / 0.3), 0 6px 0 rgb(12 8 20 / 0.58), 0 12px 28px rgb(var(--accent-primary) / 0.14);
+  }
+
+  html[data-theme='game'] .button-primary:active {
+    transform: translateY(3px);
+    box-shadow: inset 0 -1px 0 rgb(91 48 21 / 0.28), 0 2px 0 rgb(12 8 20 / 0.58);
+  }
+
+  html[data-theme='game'] .button-secondary,
+  html[data-theme='game'] .icon-button {
+    border-color: rgb(var(--border-soft) / 0.3);
+    background: rgb(var(--bg-panel) / 0.86);
+    box-shadow: inset 0 -2px 0 rgb(9 6 15 / 0.3);
+  }
+
+  html[data-theme='game'] .status-badge,
+  html[data-theme='game'] .filter-chip,
+  html[data-theme='game'] .project-kind,
+  html[data-theme='game'] .project-reward {
+    border-radius: 0.45rem;
+  }
+
+  html[data-theme='game'] .project-card {
+    isolation: isolate;
+    border-radius: 0.85rem;
+    border-color: rgb(var(--accent-primary) / 0.26);
+    background: linear-gradient(135deg, rgb(var(--accent-primary) / 0.055), transparent 34%), rgb(var(--bg-surface) / 0.98);
+    box-shadow: 0 22px 50px rgba(8, 5, 16, 0.4), inset 0 0 0 1px rgb(255 255 255 / 0.025);
+  }
+
+  html[data-theme='game'] .project-card::before {
+    inset: 0.7rem;
+    border: 1px solid rgb(var(--accent-primary) / 0.11);
+    border-radius: 0.45rem;
+    background: linear-gradient(90deg, rgb(var(--accent-primary) / 0.64), rgb(var(--accent-primary) / 0.64)) left top / 2.5rem 2px no-repeat, linear-gradient(180deg, rgb(var(--accent-primary) / 0.64), rgb(var(--accent-primary) / 0.64)) left top / 2px 2.5rem no-repeat, linear-gradient(90deg, rgb(var(--accent-secondary) / 0.36), rgb(var(--accent-secondary) / 0.36)) right bottom / 1.75rem 1px no-repeat, linear-gradient(180deg, rgb(var(--accent-secondary) / 0.36), rgb(var(--accent-secondary) / 0.36)) right bottom / 1px 1.75rem no-repeat;
+    opacity: 0.8;
+  }
+
+  html[data-theme='game'] .project-card::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    inset: 0 auto 0 0;
+    z-index: 2;
+    width: 3px;
+    background: linear-gradient(180deg, transparent 8%, rgb(var(--accent-primary) / 0.9) 22%, rgb(var(--accent-primary) / 0.28) 70%, transparent 92%);
+    opacity: 0.62;
+    transform: scaleY(0.42);
+    transition: opacity 240ms ease, transform 300ms ease;
+  }
+
+  html[data-theme='game'] .project-card:hover {
+    transform: translateY(-3px);
+    border-color: rgb(var(--accent-primary) / 0.48);
+    background: linear-gradient(135deg, rgb(var(--accent-primary) / 0.085), transparent 36%), rgb(var(--bg-surface) / 0.99);
+    box-shadow: 0 28px 64px rgba(8, 5, 16, 0.48), 0 0 0 1px rgb(var(--accent-primary) / 0.08);
+  }
+
+  html[data-theme='game'] .project-card:hover::after {
+    opacity: 1;
+    transform: scaleY(0.82);
+  }
+
+  html[data-theme='game'] .project-card-header {
+    min-height: 2.4rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid rgb(var(--accent-primary) / 0.16);
+  }
+
+  html[data-theme='game'] .project-card-header::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    width: 3.25rem;
+    height: 1px;
+    background: rgb(var(--accent-primary) / 0.72);
+  }
+
+  html[data-theme='game'] .project-card-link {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border: 1px solid rgb(var(--accent-primary) / 0.25);
+    border-radius: 50%;
+    padding: 0.35rem;
+    color: rgb(var(--accent-primary) / 0.78);
+  }
+
+  html[data-theme='game'] .project-kind {
+    border-color: rgb(var(--accent-primary) / 0.3);
+    background: rgb(var(--accent-primary) / 0.08);
+    font-size: 0.56rem;
+    letter-spacing: 0.14em;
+  }
+
+  html[data-theme='game'] .project-card-metrics {
+    padding-top: 1.5rem;
+  }
+
+  html[data-theme='game'] .metric-value {
+    color: rgb(var(--accent-primary));
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+
+  html[data-theme='game'] .progress-track {
+    height: 0.65rem;
+    border: 1px solid rgb(var(--accent-primary) / 0.16);
+    border-radius: 0.25rem;
+    padding: 2px;
+    background: repeating-linear-gradient(90deg, transparent 0 calc(10% - 2px), rgb(var(--bg-app) / 0.8) calc(10% - 2px) 10%), rgb(var(--bg-app) / 0.66);
+  }
+
+  html[data-theme='game'] .progress-fill {
+    position: relative;
+    border-radius: 0.12rem;
+    background: linear-gradient(90deg, rgb(220 133 54), rgb(var(--accent-primary)) 72%, rgb(255 221 132));
+    box-shadow: 0 0 12px rgb(var(--accent-primary) / 0.22);
+  }
+
+  html[data-theme='game'] .project-reward {
+    border: 1px solid rgb(var(--accent-secondary) / 0.2);
+    background: rgb(var(--accent-secondary) / 0.075);
+    color: rgb(var(--accent-secondary));
+    letter-spacing: 0.08em;
+  }
+
+  html[data-theme='game'] .detail-timeline::before {
+    left: 1.93rem;
+    width: 3px;
+    border-radius: 99px;
+    background: linear-gradient(180deg, rgb(var(--accent-primary) / 0.66), rgb(var(--accent-primary) / 0.16) 52%, rgb(var(--accent-secondary) / 0.34));
+    box-shadow: 0 0 0 3px rgb(var(--bg-app)), 0 0 14px rgb(var(--accent-primary) / 0.12);
+  }
+
+  html[data-theme='game'] .node-surface {
+    background-image: none;
+  }
+
+  html[data-theme='game'] .node-card {
+    --node-accent: 168 132 232;
+    overflow: visible;
+    border-radius: 0.85rem;
+    border-color: rgb(var(--node-accent) / 0.26);
+    border-left-width: 3px;
+    background: linear-gradient(90deg, rgb(var(--node-accent) / 0.07), transparent 22%), rgb(var(--bg-surface) / 0.97);
+  }
+
+  html[data-theme='game'] .node-card-question {
+    --node-accent: 148 129 255;
+  }
+
+  html[data-theme='game'] .node-card-solution {
+    --node-accent: 255 184 77;
+  }
+
+  html[data-theme='game'] .node-card-result {
+    --node-accent: 125 225 139;
+  }
+
+  html[data-theme='game'] .node-card::before {
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(90deg, rgb(var(--node-accent) / 0.72), transparent 30%) top left / 8rem 1px no-repeat, radial-gradient(circle at 7% 20%, rgb(var(--node-accent) / 0.08), transparent 19%);
+  }
+
+  html[data-theme='game'] .node-card::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    top: 0.65rem;
+    right: 0.65rem;
+    z-index: 0;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-top: 1px solid rgb(var(--node-accent) / 0.42);
+    border-right: 1px solid rgb(var(--node-accent) / 0.42);
+  }
+
+  html[data-theme='game'] .node-marker {
+    border: 2px solid rgb(var(--node-accent) / 0.72);
+    border-radius: 0.65rem;
+    color: rgb(var(--node-accent));
+    background: rgb(var(--bg-panel));
+    box-shadow: 0 0 0 4px rgb(var(--bg-app)), 0 7px 18px rgb(7 4 13 / 0.38);
+    transform: rotate(45deg);
+  }
+
+  html[data-theme='game'] .node-marker > svg {
+    transform: rotate(-45deg);
+  }
+
+  html[data-theme='game'] .node-type-label {
+    color: rgb(var(--node-accent));
+  }
+
+  html[data-theme='game'] .node-card .game-module-label {
+    border-right: 1px solid rgb(var(--node-accent) / 0.3);
+    padding-right: 0.6rem;
+    color: rgb(var(--node-accent) / 0.88);
+  }
+
+  html[data-theme='game'] .checkpoint-panel {
+    border: 1px solid rgb(var(--accent-primary) / 0.34);
+    border-radius: 0.8rem;
+    background: radial-gradient(circle at 82% 13%, rgb(var(--accent-primary) / 0.12), transparent 25%), linear-gradient(160deg, rgb(30 20 44 / 0.98), rgb(16 11 25 / 0.98));
+    box-shadow: 0 24px 58px rgba(7, 4, 13, 0.5), inset 0 0 0 4px rgb(255 184 77 / 0.035), inset 0 1px 0 rgb(255 230 176 / 0.08);
+  }
+
+  html[data-theme='game'] .checkpoint-panel::before {
+    inset: 0.55rem;
+    border: 1px solid rgb(var(--accent-primary) / 0.13);
+    border-radius: 0.45rem;
+    background: linear-gradient(90deg, rgb(var(--accent-primary) / 0.74), rgb(var(--accent-primary) / 0.74)) left top / 2.4rem 2px no-repeat, linear-gradient(180deg, rgb(var(--accent-primary) / 0.74), rgb(var(--accent-primary) / 0.74)) left top / 2px 2.4rem no-repeat, linear-gradient(90deg, rgb(var(--accent-primary) / 0.4), rgb(var(--accent-primary) / 0.4)) right bottom / 1.7rem 1px no-repeat, linear-gradient(180deg, rgb(var(--accent-primary) / 0.4), rgb(var(--accent-primary) / 0.4)) right bottom / 1px 1.7rem no-repeat;
+    opacity: 1;
+  }
+
+  html[data-theme='game'] .checkpoint-emblem {
+    display: grid;
+    width: 2.45rem;
+    height: 2.45rem;
+    place-items: center;
+    border: 1px solid rgb(var(--accent-primary) / 0.35);
+    border-radius: 50%;
+    background: rgb(var(--accent-primary) / 0.08);
+    box-shadow: inset 0 0 0 3px rgb(var(--bg-sidebar) / 0.6);
+  }
+
+  html[data-theme='game'] .milestone-score {
+    font-size: 2.4rem;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 2px 18px rgb(var(--accent-primary) / 0.2);
+  }
+
+  html[data-theme='game'] .milestone-chip {
+    position: relative;
+    border: 1px solid rgb(var(--accent-primary) / 0.14);
+    border-radius: 0.4rem;
+    padding-left: 1.9rem;
+    background: rgb(var(--accent-primary) / 0.06);
+  }
+
+  html[data-theme='game'] .milestone-chip::before {
+    content: '';
+    position: absolute;
+    left: 0.72rem;
+    top: 50%;
+    width: 0.48rem;
+    height: 0.48rem;
+    border: 1px solid rgb(var(--accent-primary) / 0.62);
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  html[data-theme='game'] .milestone-chip:hover {
+    border-color: rgb(var(--accent-primary) / 0.3);
+    background: rgb(var(--accent-primary) / 0.1);
+    transform: translateX(2px);
+  }
+
+  html[data-theme='game'] .diagnostic-panel {
+    border-radius: 0.85rem;
+    background: rgb(var(--bg-surface-2) / 0.96);
+  }
+
+  html[data-theme='game'] .diagnostic-panel::before {
+    background: linear-gradient(135deg, rgb(var(--accent-secondary) / 0.05), transparent 44%);
+  }
+
+  html[data-theme='game'] .review-card {
+    border-radius: 0.35rem;
+    border-color: rgb(var(--accent-secondary) / 0.18);
+    border-left: 3px solid rgb(var(--accent-secondary) / 0.48);
+    background: rgb(var(--bg-panel) / 0.68);
+  }
+
+  html[data-theme='game'] .review-card::before {
+    background: linear-gradient(90deg, rgb(var(--accent-secondary) / 0.055), transparent 55%), repeating-linear-gradient(0deg, transparent 0 10px, rgb(var(--text-primary) / 0.018) 10px 11px);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html[data-theme='tech'] .project-card,
     html[data-theme='tech'] .project-card-link,
-    html[data-theme='tech'] .progress-fill {
+    html[data-theme='tech'] .progress-fill,
+    html[data-theme='game'] .project-card,
+    html[data-theme='game'] .project-card::after,
+    html[data-theme='game'] .project-card-link,
+    html[data-theme='game'] .button-primary,
+    html[data-theme='game'] .milestone-chip,
+    html[data-theme='game'] .progress-fill {
       transition: none;
     }
   }

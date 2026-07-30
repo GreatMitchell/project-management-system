@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect } from 'react'
+import { useLayoutEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Modal } from '../../components/Modal'
 import { milestoneInputSchema, type Milestone, type MilestoneInput } from '../../domain/types'
@@ -7,7 +7,7 @@ import { milestoneInputSchema, type Milestone, type MilestoneInput } from '../..
 export function MilestoneForm({ open, milestone, onClose, onSubmit, onDelete }: { open: boolean; milestone?: Milestone | null; onClose: () => void; onSubmit: (input: MilestoneInput) => Promise<void>; onDelete?: () => Promise<void> }) {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<MilestoneInput>({ resolver: zodResolver(milestoneInputSchema), defaultValues: { title: '', method: '', criteria: '', result: null, feeling: '' } })
   const milestoneId = milestone?.id
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!open) return
     reset(milestone ? { title: milestone.title, method: milestone.method, criteria: milestone.criteria, result: milestone.result, feeling: milestone.feeling } : { title: '', method: '', criteria: '', result: null, feeling: '' })
     // The entity object can be refreshed by Dexie while the modal is open; only a target change should reset user input.

@@ -33,7 +33,7 @@ export function ProjectsPage() {
 
   return (
     <div className="page-wrap">
-      <header className="flex flex-col gap-6 border-b border-line/15 pb-8 lg:flex-row lg:items-end lg:justify-between">
+      <header className="page-header flex flex-col gap-6 border-b border-line/15 pb-8 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="eyebrow">项目总览</p>
           <h1 className="page-title">从现实出发，沿实践前进</h1>
@@ -45,7 +45,7 @@ export function ProjectsPage() {
         </button>
       </header>
 
-      <section className="mt-8 flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+      <section className="control-bar mt-8 flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
         <div className="flex flex-wrap gap-2">
           <button className={`filter-chip ${filter === 'all' ? 'filter-chip-active' : ''}`} onClick={() => setFilter('all')}>
             全部 <span>{projects.length}</span>

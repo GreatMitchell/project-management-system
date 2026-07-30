@@ -31,7 +31,7 @@ export const themes: ThemeDefinition[] = [
   {
     id: 'game',
     label: 'Game',
-    description: '轻量任务成就风，像在推进任务面板与收集进度奖励。',
+    description: '暗色冒险任务日志风格，用任务契约、路线事件与检查点强化行动反馈。',
     themeColor: '#17141f',
     preview: {
       background: '#17141f',
