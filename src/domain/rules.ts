@@ -9,11 +9,11 @@ export const statusLabels: Record<ProjectStatus, string> = {
 }
 
 export const statusStyles: Record<ProjectStatus, string> = {
-  exploring: 'bg-sky-50 text-sky-700 border-sky-200',
-  advancing: 'bg-amber-50 text-amber-700 border-amber-200',
-  paused: 'bg-stone-100 text-stone-600 border-stone-200',
-  completed: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  abandoned: 'bg-rose-50 text-rose-700 border-rose-200',
+  exploring: 'border-sky-400/30 bg-sky-500/12 text-sky-300',
+  advancing: 'border-amber-400/30 bg-amber-500/12 text-amber-300',
+  paused: 'border-slate-400/30 bg-slate-500/12 text-slate-300',
+  completed: 'border-emerald-400/30 bg-emerald-500/12 text-emerald-300',
+  abandoned: 'border-rose-400/30 bg-rose-500/12 text-rose-300',
 }
 
 export const allowedProjectTransitions: Record<ProjectStatus, ProjectStatus[]> = {
