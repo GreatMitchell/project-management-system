@@ -2,13 +2,13 @@ import { expect, test } from '@playwright/test'
 
 test('核心实践闭环', async ({ page }) => {
   await page.goto('/projects')
-  await page.getByRole('button', { name: /开启新项目|创建第一个项目/ }).click()
+  await page.getByRole('button', { name: '开启新项目', exact: true }).click()
   await page.getByLabel('项目名称').fill('开发个人任务管理系统')
   await page.getByLabel('现实触发').fill('需要用真实项目验证认知—实践闭环')
   await page.getByRole('button', { name: '创建项目' }).click()
   await page.getByRole('link', { name: /开发个人任务管理系统/ }).click()
   await page.getByRole('button', { name: '添加节点' }).hover()
-  await page.getByRole('button', { name: '问题节点' }).click()
+  await page.getByRole('button', { name: '问题节点', exact: true }).click()
   await page.getByLabel('节点内容').fill('怎样构建可持续修正的个人执行系统？')
   await page.getByRole('button', { name: '保存节点' }).click()
   await page.getByRole('button', { name: '设为里程碑' }).click()

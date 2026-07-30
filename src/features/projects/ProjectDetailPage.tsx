@@ -1,4 +1,4 @@
-import { ArrowLeft, ChevronDown, Edit3, Flag, MoreHorizontal, Plus, Trophy, Trash2 } from 'lucide-react'
+import { ArrowLeft, ChevronDown, Edit3, MoreHorizontal, Plus, Trophy, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { Link, useNavigate, useParams } from 'react-router-dom'
