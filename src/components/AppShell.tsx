@@ -69,8 +69,9 @@ export function AppShell() {
         </nav>
 
         <div className="sidebar-quote mt-auto rounded-[calc(var(--radius-card)-0.25rem)] p-4 backdrop-blur-sm">
-          <p className="font-serif text-sm text-sidebar-fg/92">实践不是计划的终点，</p>
-          <p className="mt-1 font-serif text-sm text-sidebar-fg/92">而是认识的新起点。</p>
+          <p className="font-serif text-sm text-sidebar-fg/92">只有人们的社会实践，才是人们对于
+          外界认识的真理性的标准。</p>
+          <p className="mt-1 font-serif text-sm text-sidebar-fg/92"></p>
           <div className="mt-4 h-px bg-sidebar-fg/12" />
           <p className="mt-3 text-[10px] tracking-widest text-sidebar-fg/42">本地存储 · 数据属于你</p>
         </div>

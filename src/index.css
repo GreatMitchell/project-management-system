@@ -478,3 +478,211 @@
     background: var(--milestone-chip-hover);
   }
 }
+
+@layer components {
+  .tech-only,
+  .tech-module-label {
+    display: none;
+  }
+
+  html[data-theme='tech'] .theme-label-default {
+    display: none;
+  }
+
+  html[data-theme='tech'] .tech-only {
+    display: inline;
+  }
+
+  html[data-theme='tech'] .tech-module-label {
+    display: inline-flex;
+    align-items: center;
+    color: rgb(var(--accent-primary) / 0.72);
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  html[data-theme='tech'] .surface-card {
+    border-color: rgb(var(--border-soft) / 0.34);
+    background: rgb(var(--bg-surface) / 0.94);
+    box-shadow: 0 18px 48px rgba(1, 7, 16, 0.42), var(--surface-edge);
+  }
+
+  html[data-theme='tech'] .surface-card::before {
+    background: linear-gradient(90deg, rgb(var(--accent-primary) / 0.44) 0 2.75rem, transparent 2.75rem) top left / 100% 1px no-repeat;
+    opacity: 0.78;
+  }
+
+  html[data-theme='tech'] .surface-card::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    inset: 0.7rem;
+    z-index: 0;
+    background:
+      linear-gradient(rgb(var(--accent-primary) / 0.42), rgb(var(--accent-primary) / 0.42)) left top / 9px 1px no-repeat,
+      linear-gradient(rgb(var(--accent-primary) / 0.42), rgb(var(--accent-primary) / 0.42)) left top / 1px 9px no-repeat,
+      linear-gradient(rgb(var(--border-soft) / 0.28), rgb(var(--border-soft) / 0.28)) right bottom / 9px 1px no-repeat,
+      linear-gradient(rgb(var(--border-soft) / 0.28), rgb(var(--border-soft) / 0.28)) right bottom / 1px 9px no-repeat;
+    opacity: 0.8;
+  }
+
+  html[data-theme='tech'] .surface-panel {
+    border-color: rgb(var(--border-soft) / 0.28);
+    background: rgb(var(--bg-panel) / 0.92);
+    box-shadow: inset 0 1px 0 rgb(203 232 255 / 0.035), 0 14px 36px rgba(1, 7, 16, 0.28);
+  }
+
+  html[data-theme='tech'] .project-card {
+    isolation: isolate;
+  }
+
+  html[data-theme='tech'] .project-card:hover {
+    transform: translateY(-2px);
+    border-color: rgb(var(--accent-primary) / 0.52);
+    box-shadow: 0 20px 54px rgba(1, 7, 16, 0.5), 0 0 0 1px rgb(var(--accent-primary) / 0.08), var(--surface-edge);
+  }
+
+  html[data-theme='tech'] .project-card-header {
+    min-height: 2.15rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgb(var(--border-soft) / 0.22);
+  }
+
+  html[data-theme='tech'] .project-card-link {
+    border: 1px solid rgb(var(--border-soft) / 0.28);
+    border-radius: 0.35rem;
+    padding: 0.3rem;
+  }
+
+  html[data-theme='tech'] .project-kind,
+  html[data-theme='tech'] .project-reward {
+    border-radius: 0.3rem;
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    letter-spacing: 0.12em;
+  }
+
+  html[data-theme='tech'] .project-card-metrics {
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  }
+
+  html[data-theme='tech'] .metric-value {
+    color: rgb(var(--accent-primary));
+    font-variant-numeric: tabular-nums;
+  }
+
+  html[data-theme='tech'] .progress-track {
+    border-radius: 2px;
+    background: repeating-linear-gradient(90deg, rgb(var(--text-primary) / 0.1) 0 9px, transparent 9px 12px);
+  }
+
+  html[data-theme='tech'] .progress-fill {
+    position: relative;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgb(var(--accent-primary) / 0.62), rgb(var(--accent-primary)));
+    box-shadow: none;
+  }
+
+  html[data-theme='tech'] .progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgb(218 248 255);
+    box-shadow: 0 0 10px rgb(var(--accent-primary) / 0.85);
+    transform: translate(50%, -50%);
+  }
+
+  html[data-theme='tech'] .node-surface {
+    background-image: none;
+  }
+
+  html[data-theme='tech'] .node-card {
+    --node-accent: var(--accent-primary);
+    overflow: visible;
+    border-left-color: rgb(var(--node-accent) / 0.58);
+  }
+
+  html[data-theme='tech'] .node-card-question {
+    --node-accent: 56 189 248;
+  }
+
+  html[data-theme='tech'] .node-card-solution {
+    --node-accent: 245 158 11;
+  }
+
+  html[data-theme='tech'] .node-card-result {
+    --node-accent: 52 211 153;
+  }
+
+  html[data-theme='tech'] .node-card::before {
+    background: linear-gradient(180deg, rgb(var(--node-accent) / 0.64), transparent 72%) left top / 2px 5.5rem no-repeat;
+  }
+
+  html[data-theme='tech'] .node-marker {
+    border: 1px solid rgb(var(--node-accent) / 0.62);
+    border-radius: 0.45rem;
+    color: rgb(var(--node-accent));
+    background: rgb(var(--bg-panel) / 0.98);
+    box-shadow: 0 0 18px rgb(var(--node-accent) / 0.12);
+    transform: rotate(45deg);
+  }
+
+  html[data-theme='tech'] .node-marker > svg {
+    transform: rotate(-45deg);
+  }
+
+  html[data-theme='tech'] .detail-timeline::before {
+    width: 2px;
+    background: linear-gradient(180deg, rgb(var(--accent-primary) / 0.52), rgb(var(--border-soft) / 0.18));
+    box-shadow: 0 0 12px rgb(var(--accent-primary) / 0.12);
+  }
+
+  html[data-theme='tech'] .validation-terminal {
+    border-radius: 0.8rem;
+    border-color: rgb(var(--accent-primary) / 0.32);
+    background: rgb(var(--bg-sidebar) / 0.96);
+    box-shadow: 0 20px 54px rgba(1, 7, 16, 0.48), inset 0 1px 0 rgb(var(--accent-primary) / 0.12);
+  }
+
+  html[data-theme='tech'] .validation-terminal::before {
+    background:
+      linear-gradient(90deg, rgb(var(--accent-primary) / 0.72) 0 30%, transparent 30%) top left / 100% 2px no-repeat,
+      radial-gradient(circle at 86% 8%, rgb(var(--accent-primary) / 0.1), transparent 32%);
+    opacity: 1;
+  }
+
+  html[data-theme='tech'] .milestone-chip {
+    border: 1px solid rgb(var(--border-soft) / 0.18);
+    border-radius: 0.35rem;
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  }
+
+  html[data-theme='tech'] .diagnostic-panel {
+    background: rgb(var(--bg-surface-2) / 0.96);
+  }
+
+  html[data-theme='tech'] .review-card {
+    border-radius: 0.4rem;
+    border-left: 2px solid rgb(var(--accent-secondary) / 0.56);
+    background: rgb(var(--bg-panel) / 0.74);
+  }
+
+  html[data-theme='tech'] .review-card::before {
+    background: linear-gradient(90deg, rgb(var(--accent-secondary) / 0.06), transparent 58%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html[data-theme='tech'] .project-card,
+    html[data-theme='tech'] .project-card-link,
+    html[data-theme='tech'] .progress-fill {
+      transition: none;
+    }
+  }
+}
