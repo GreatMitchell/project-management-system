@@ -7,6 +7,7 @@ export function RouteMapEdge({ sourceX, sourceY, sourcePosition, targetX, target
 
   return (
     <>
+      <path className="graph-signal-bed" d={path} />
       <path className="game-road-bed" d={path} />
       <BaseEdge path={path} markerEnd={markerEnd} style={style} />
     </>

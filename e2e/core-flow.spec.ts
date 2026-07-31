@@ -22,6 +22,18 @@ test('核心实践闭环与当前路线', async ({ page }) => {
   await expect(page.getByText('0 / 2 当前路线节点完成')).toBeVisible()
   await expect(page.locator('.graph-node').first()).toHaveCSS('width', '336px')
   await expect(page.locator('.graph-node-content').first()).toHaveCSS('font-size', '15.5px')
+  const activeNode = page.locator('.graph-node-active')
+  await expect(activeNode).toHaveCSS('height', '220px')
+  for (const name of [/折叠包含 1 个节点的支线/, '继续推进']) {
+    const button = activeNode.getByRole('button', { name })
+    await expect(button).toBeVisible()
+    const contained = await button.evaluate((element) => {
+      const buttonRect = element.getBoundingClientRect()
+      const nodeRect = element.closest('.graph-node')?.getBoundingClientRect()
+      return Boolean(nodeRect && buttonRect.left >= nodeRect.left && buttonRect.top >= nodeRect.top && buttonRect.right <= nodeRect.right && buttonRect.bottom <= nodeRect.bottom)
+    })
+    expect(contained).toBe(true)
+  }
   await expect(page.getByLabel('路线导航图', { exact: true })).toBeVisible()
   await page.getByRole('button', { name: '收起路线导航图' }).click()
   await expect(page.getByRole('button', { name: '展开路线导航图' })).toBeVisible()

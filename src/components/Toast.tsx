@@ -19,7 +19,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={value}>
       {children}
-      <div className="fixed bottom-5 right-5 z-[70] flex w-[min(92vw,380px)] flex-col gap-2" aria-live="polite">
+      <div className="pointer-events-none fixed bottom-5 right-5 z-[70] flex w-[min(92vw,380px)] flex-col gap-2" aria-live="polite">
         {toasts.map((toast) => {
           const Icon = toast.kind === 'success' ? CheckCircle2 : toast.kind === 'error' ? AlertCircle : Info
           const tone = toast.kind === 'error'
@@ -31,7 +31,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             <div key={toast.id} className={`flex items-center gap-3 rounded-2xl border px-4 py-3 shadow-card backdrop-blur ${tone}`}>
               <Icon size={19} className={toast.kind === 'error' ? 'text-rose-300' : toast.kind === 'success' ? 'text-emerald-400' : 'text-accent-primary'} />
               <span className="flex-1 text-sm">{toast.message}</span>
-              <button onClick={() => dismiss(toast.id)} aria-label="关闭通知" className="text-current/70 transition hover:text-current">
+              <button onClick={() => dismiss(toast.id)} aria-label="关闭通知" className="pointer-events-auto text-current/70 transition hover:text-current">
                 <X size={16} />
               </button>
             </div>
