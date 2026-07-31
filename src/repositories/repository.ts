@@ -1,11 +1,17 @@
 import { z } from 'zod'
 import { db } from '../db/database'
-import { buildLinearConnections, validateConnectionSet } from '../domain/graph'
-import { milestoneInputSchema, nodeInputSchema, projectInputSchema, reviewInputSchema, type BackupData, type BackupDataV1, type MilestoneInput, type NodeConnection, type NodeInput, type PraxisNode, type Project, type ProjectBundle, type ProjectInput, type ProjectStatus, type ReviewInput } from '../domain/types'
+import { buildLinearConnections, resolveCurrentRoute, validateConnectionSet } from '../domain/graph'
+import { milestoneInputSchema, nodeInputSchema, projectInputSchema, reviewInputSchema, type BackupData, type BackupDataV1, type BackupDataV2, type MilestoneInput, type NodeConnection, type NodeCreateMode, type NodeInput, type PraxisNode, type Project, type ProjectBundle, type ProjectInput, type ProjectStatus, type ReviewInput } from '../domain/types'
 import { canTransition, nextNodePosition } from '../domain/rules'
 
-const now = () => new Date().toISOString()
-const id = () => crypto.randomUUID()
+const now = () => new Date().toISOString(); const id = () => crypto.randomUUID()
+export interface SaveNodeOptions { mode?: NodeCreateMode; predecessorNodeId?: string }
+const key = (edge: Pick<NodeConnection, 'projectId' | 'sourceNodeId' | 'targetNodeId'>) => `${edge.projectId}:${edge.sourceNodeId}:${edge.targetNodeId}`
+
+function validateProjects(projects: Project[], nodes: PraxisNode[], connections: NodeConnection[]) {
+  validateConnectionSet(nodes, connections); const nodeById = new Map(nodes.map((node) => [node.id, node]))
+  for (const project of projects) if (project.activeNodeId && nodeById.get(project.activeNodeId)?.projectId !== project.id) throw new Error('当前目标不存在或不属于该项目')
+}
 
 export const repository = {
   async listProjects() { return db.projects.orderBy('updatedAt').reverse().toArray() },
@@ -14,75 +20,54 @@ export const repository = {
     const [nodes, connections, milestones, reviews] = await Promise.all([db.nodes.where('projectId').equals(projectId).sortBy('position'), db.nodeConnections.where('projectId').equals(projectId).toArray(), db.milestones.where('projectId').equals(projectId).toArray(), db.reviews.where('projectId').equals(projectId).reverse().sortBy('createdAt')])
     return { project, nodes, connections, milestones, reviews }
   },
-  async createProject(input: ProjectInput) {
-    const clean = projectInputSchema.parse(input); const timestamp = now(); const project: Project = { id: id(), ...clean, createdAt: timestamp, updatedAt: timestamp }
-    await db.projects.add(project); return project
-  },
-  async updateProject(projectId: string, input: ProjectInput) {
-    const current = await db.projects.get(projectId); if (!current) throw new Error('项目不存在')
-    const clean = projectInputSchema.parse(input); if (!canTransition(current.status, clean.status)) throw new Error('不允许直接切换到该状态')
-    await db.projects.update(projectId, { ...clean, updatedAt: now() })
-  },
-  async setProjectStatus(projectId: string, status: ProjectStatus, force = false) {
-    const project = await db.projects.get(projectId); if (!project) throw new Error('项目不存在')
-    if (!canTransition(project.status, status)) throw new Error('不允许直接切换到该状态')
-    if (status === 'completed' && !force && !await db.milestones.where('projectId').equals(projectId).filter((item) => item.result === 'passed').count()) throw new Error('NO_PASSED_MILESTONE')
-    await db.projects.update(projectId, { status, updatedAt: now() })
-  },
-  async deleteProject(projectId: string) {
-    await db.transaction('rw', db.projects, db.nodes, db.nodeConnections, db.milestones, db.reviews, async () => {
-      await Promise.all([db.nodes.where('projectId').equals(projectId).delete(), db.nodeConnections.where('projectId').equals(projectId).delete(), db.milestones.where('projectId').equals(projectId).delete(), db.reviews.where('projectId').equals(projectId).delete()]); await db.projects.delete(projectId)
-    })
-  },
-  async saveNode(projectId: string, input: NodeInput, nodeId?: string, predecessorNodeId?: string) {
+  async createProject(input: ProjectInput) { const clean = projectInputSchema.parse(input); const timestamp = now(); const project: Project = { id: id(), ...clean, activeNodeId: null, createdAt: timestamp, updatedAt: timestamp }; await db.projects.add(project); return project },
+  async updateProject(projectId: string, input: ProjectInput) { const current = await db.projects.get(projectId); if (!current) throw new Error('项目不存在'); const clean = projectInputSchema.parse(input); if (!canTransition(current.status, clean.status)) throw new Error('不允许直接切换到该状态'); await db.projects.update(projectId, { ...clean, updatedAt: now() }) },
+  async setProjectStatus(projectId: string, status: ProjectStatus, force = false) { const project = await db.projects.get(projectId); if (!project) throw new Error('项目不存在'); if (!canTransition(project.status, status)) throw new Error('不允许直接切换到该状态'); if (status === 'completed' && !force && !await db.milestones.where('projectId').equals(projectId).filter((item) => item.result === 'passed').count()) throw new Error('NO_PASSED_MILESTONE'); await db.projects.update(projectId, { status, updatedAt: now() }) },
+  async deleteProject(projectId: string) { await db.transaction('rw', db.projects, db.nodes, db.nodeConnections, db.milestones, db.reviews, async () => { await Promise.all([db.nodes.where('projectId').equals(projectId).delete(), db.nodeConnections.where('projectId').equals(projectId).delete(), db.milestones.where('projectId').equals(projectId).delete(), db.reviews.where('projectId').equals(projectId).delete()]); await db.projects.delete(projectId) }) },
+
+  async saveNode(projectId: string, input: NodeInput, nodeId?: string, options: SaveNodeOptions = {}) {
     const clean = nodeInputSchema.parse(input); const timestamp = now()
     if (nodeId) { await db.nodes.update(nodeId, { ...clean, updatedAt: timestamp }); await db.projects.update(projectId, { updatedAt: timestamp }); return db.nodes.get(nodeId) }
-    const nodes = await db.nodes.where('projectId').equals(projectId).toArray()
-    if (predecessorNodeId && !nodes.some((node) => node.id === predecessorNodeId)) throw new Error('前驱节点不存在')
+    const [project, nodes] = await Promise.all([db.projects.get(projectId), db.nodes.where('projectId').equals(projectId).toArray()]); if (!project) throw new Error('项目不存在')
+    const mode = options.mode ?? 'independent'; const predecessor = options.predecessorNodeId ? nodes.find((node) => node.id === options.predecessorNodeId) : undefined
+    if (mode !== 'independent' && !predecessor) throw new Error('前驱节点不存在'); if (mode === 'advance' && predecessor?.id !== project.activeNodeId) throw new Error('只能从当前目标继续推进')
     const node: PraxisNode = { id: id(), projectId, ...clean, position: nextNodePosition(nodes), createdAt: timestamp, updatedAt: timestamp }
-    await db.transaction('rw', db.nodes, db.nodeConnections, db.projects, async () => { await db.nodes.add(node); if (predecessorNodeId) await db.nodeConnections.add({ id: id(), projectId, sourceNodeId: predecessorNodeId, targetNodeId: node.id, createdAt: timestamp }); await db.projects.update(projectId, { updatedAt: timestamp }) })
-    return node
+    await db.transaction('rw', db.nodes, db.nodeConnections, db.projects, async () => { await db.nodes.add(node); if (predecessor) await db.nodeConnections.add({ id: id(), projectId, sourceNodeId: predecessor.id, targetNodeId: node.id, isPreferred: false, createdAt: timestamp }); const activeNodeId = nodes.length === 0 || mode === 'advance' ? node.id : project.activeNodeId; await db.projects.update(projectId, { activeNodeId, updatedAt: timestamp }) }); return node
   },
+
+  async setActiveRoute(projectId: string, activeNodeId: string, preferredConnectionIds: string[] = []) {
+    const [nodes, connections] = await Promise.all([db.nodes.where('projectId').equals(projectId).toArray(), db.nodeConnections.where('projectId').equals(projectId).toArray()]); if (!nodes.some((node) => node.id === activeNodeId)) throw new Error('当前目标不存在')
+    const selected = new Set(preferredConnectionIds); const selectedEdges = connections.filter((edge) => selected.has(edge.id)); if (selectedEdges.length !== selected.size) throw new Error('所选路线连接无效')
+    const selectedTargets = new Set<string>(); for (const edge of selectedEdges) { if (selectedTargets.has(edge.targetNodeId)) throw new Error('每个汇合节点只能选择一个前驱'); selectedTargets.add(edge.targetNodeId) }
+    const candidate = connections.map((edge) => selectedTargets.has(edge.targetNodeId) ? { ...edge, isPreferred: selected.has(edge.id) } : edge)
+    const route = resolveCurrentRoute(nodes, candidate, activeNodeId); if (!route.complete || route.invalid) throw new Error('请先为所有汇合节点选择上游路线')
+    await db.transaction('rw', db.nodeConnections, db.projects, async () => { await Promise.all(candidate.filter((edge) => edge.isPreferred !== connections.find((old) => old.id === edge.id)?.isPreferred).map((edge) => db.nodeConnections.update(edge.id, { isPreferred: edge.isPreferred }))); await db.projects.update(projectId, { activeNodeId, updatedAt: now() }) })
+  },
+  async clearActiveRoute(projectId: string) { await db.projects.update(projectId, { activeNodeId: null, updatedAt: now() }) },
+
   async createConnection(projectId: string, sourceNodeId: string, targetNodeId: string) {
-    const [source, target, nodes, connections] = await Promise.all([db.nodes.get(sourceNodeId), db.nodes.get(targetNodeId), db.nodes.where('projectId').equals(projectId).toArray(), db.nodeConnections.where('projectId').equals(projectId).toArray()])
-    if (!source || !target || source.projectId !== projectId || target.projectId !== projectId) throw new Error('只能连接同一项目中存在的节点')
-    const connection: NodeConnection = { id: id(), projectId, sourceNodeId, targetNodeId, createdAt: now() }; validateConnectionSet(nodes, [...connections, connection])
-    await db.transaction('rw', db.nodeConnections, db.projects, async () => { await db.nodeConnections.add(connection); await db.projects.update(projectId, { updatedAt: now() }) }); return connection
+    const [project, source, target, nodes, connections] = await Promise.all([db.projects.get(projectId), db.nodes.get(sourceNodeId), db.nodes.get(targetNodeId), db.nodes.where('projectId').equals(projectId).toArray(), db.nodeConnections.where('projectId').equals(projectId).toArray()]); if (!project || !source || !target || source.projectId !== projectId || target.projectId !== projectId) throw new Error('只能连接同一项目中存在的节点')
+    const connection: NodeConnection = { id: id(), projectId, sourceNodeId, targetNodeId, isPreferred: false, createdAt: now() }; validateConnectionSet(nodes, [...connections, connection])
+    const route = resolveCurrentRoute(nodes, connections, project.activeNodeId); const previousIncoming = connections.filter((edge) => edge.targetNodeId === targetNodeId); const preserveId = route.nodeIds.includes(targetNodeId) && previousIncoming.length === 1 ? previousIncoming[0].id : null
+    await db.transaction('rw', db.nodeConnections, db.projects, async () => { if (preserveId) await db.nodeConnections.update(preserveId, { isPreferred: true }); await db.nodeConnections.add(connection); await db.projects.update(projectId, { updatedAt: now() }) }); return connection
   },
-  async deleteConnection(connectionId: string) {
-    const connection = await db.nodeConnections.get(connectionId); if (!connection) return
-    await db.transaction('rw', db.nodeConnections, db.projects, async () => { await db.nodeConnections.delete(connectionId); await db.projects.update(connection.projectId, { updatedAt: now() }) })
-  },
-  async deleteNode(nodeId: string) {
-    const node = await db.nodes.get(nodeId); if (!node) return
-    await db.transaction('rw', db.nodes, db.nodeConnections, db.milestones, db.projects, async () => {
-      await db.milestones.where('nodeId').equals(nodeId).delete(); await db.nodeConnections.where('sourceNodeId').equals(nodeId).delete(); await db.nodeConnections.where('targetNodeId').equals(nodeId).delete(); await db.nodes.delete(nodeId)
-      const remaining = await db.nodes.where('projectId').equals(node.projectId).sortBy('position'); await Promise.all(remaining.map((item, position) => db.nodes.update(item.id, { position }))); await db.projects.update(node.projectId, { updatedAt: now() })
-    })
-  },
-  async moveNode(nodeId: string, direction: -1 | 1) {
-    const node = await db.nodes.get(nodeId); if (!node) return
-    const nodes = await db.nodes.where('projectId').equals(node.projectId).sortBy('position'); const index = nodes.findIndex((item) => item.id === nodeId); const target = nodes[index + direction]; if (!target) return
-    await db.transaction('rw', db.nodes, async () => { const timestamp = now(); await db.nodes.update(node.id, { position: target.position, updatedAt: timestamp }); await db.nodes.update(target.id, { position: node.position, updatedAt: timestamp }) })
-  },
-  async saveMilestone(projectId: string, nodeId: string, input: MilestoneInput) {
-    const clean = milestoneInputSchema.parse(input); const existing = await db.milestones.where('nodeId').equals(nodeId).first(); const timestamp = now(); const values = { ...clean, validatedAt: clean.result ? timestamp : null, updatedAt: timestamp }
-    if (existing) await db.milestones.update(existing.id, values); else await db.milestones.add({ id: id(), projectId, nodeId, ...values, createdAt: timestamp }); await db.projects.update(projectId, { updatedAt: timestamp })
-  },
+  async deleteConnection(connectionId: string) { const connection = await db.nodeConnections.get(connectionId); if (!connection) return; const bundle = await this.getBundle(connection.projectId); if (bundle && resolveCurrentRoute(bundle.nodes, bundle.connections, bundle.project.activeNodeId).connectionIds.includes(connectionId)) throw new Error('当前路线连接不能断开，请先切换路线或取消追踪'); await db.transaction('rw', db.nodeConnections, db.projects, async () => { await db.nodeConnections.delete(connectionId); await db.projects.update(connection.projectId, { updatedAt: now() }) }) },
+  async deleteNode(nodeId: string) { const node = await db.nodes.get(nodeId); if (!node) return; const bundle = await this.getBundle(node.projectId); if (bundle && resolveCurrentRoute(bundle.nodes, bundle.connections, bundle.project.activeNodeId).nodeIds.includes(nodeId)) throw new Error('当前路线节点不能删除，请先切换路线或取消追踪'); await db.transaction('rw', db.nodes, db.nodeConnections, db.milestones, db.projects, async () => { await db.milestones.where('nodeId').equals(nodeId).delete(); await db.nodeConnections.where('sourceNodeId').equals(nodeId).delete(); await db.nodeConnections.where('targetNodeId').equals(nodeId).delete(); await db.nodes.delete(nodeId); const remaining = await db.nodes.where('projectId').equals(node.projectId).sortBy('position'); await Promise.all(remaining.map((item, position) => db.nodes.update(item.id, { position }))); await db.projects.update(node.projectId, { updatedAt: now() }) }) },
+  async moveNode(nodeId: string, direction: -1 | 1) { const node = await db.nodes.get(nodeId); if (!node) return; const nodes = await db.nodes.where('projectId').equals(node.projectId).sortBy('position'); const target = nodes[nodes.findIndex((item) => item.id === nodeId) + direction]; if (!target) return; await db.transaction('rw', db.nodes, async () => { const timestamp = now(); await db.nodes.update(node.id, { position: target.position, updatedAt: timestamp }); await db.nodes.update(target.id, { position: node.position, updatedAt: timestamp }) }) },
+  async saveMilestone(projectId: string, nodeId: string, input: MilestoneInput) { const clean = milestoneInputSchema.parse(input); const existing = await db.milestones.where('nodeId').equals(nodeId).first(); const timestamp = now(); const values = { ...clean, validatedAt: clean.result ? timestamp : null, updatedAt: timestamp }; if (existing) await db.milestones.update(existing.id, values); else await db.milestones.add({ id: id(), projectId, nodeId, ...values, createdAt: timestamp }); await db.projects.update(projectId, { updatedAt: timestamp }) },
   async deleteMilestone(nodeId: string) { await db.milestones.where('nodeId').equals(nodeId).delete() },
   async saveReview(projectId: string, input: ReviewInput, reviewId?: string) { const clean = reviewInputSchema.parse(input); const timestamp = now(); if (reviewId) await db.reviews.update(reviewId, { ...clean, updatedAt: timestamp }); else await db.reviews.add({ id: id(), projectId, ...clean, createdAt: timestamp, updatedAt: timestamp }) },
   async deleteReview(reviewId: string) { await db.reviews.delete(reviewId) },
-  async exportData(): Promise<BackupData> {
-    const [projects, nodes, connections, milestones, reviews] = await Promise.all([db.projects.toArray(), db.nodes.toArray(), db.nodeConnections.toArray(), db.milestones.toArray(), db.reviews.toArray()]); return { version: 2, exportedAt: now(), projects, nodes, connections, milestones, reviews }
-  },
+  async exportData(): Promise<BackupData> { const [projects, nodes, connections, milestones, reviews] = await Promise.all([db.projects.toArray(), db.nodes.toArray(), db.nodeConnections.toArray(), db.milestones.toArray(), db.reviews.toArray()]); return { version: 3, exportedAt: now(), projects, nodes, connections, milestones, reviews } },
   async importData(raw: unknown, mode: 'merge' | 'replace') {
-    const base = z.object({ id: z.string(), createdAt: z.string(), updatedAt: z.string() }).passthrough(); const project = base.extend({ trigger: z.string(), title: z.string(), status: z.string() }); const node = base.extend({ projectId: z.string(), type: z.string(), content: z.string(), status: z.string(), log: z.string(), position: z.number().int().nonnegative() }); const connection = z.object({ id: z.string(), projectId: z.string(), sourceNodeId: z.string(), targetNodeId: z.string(), createdAt: z.string() }); const milestone = base.extend({ projectId: z.string(), nodeId: z.string(), title: z.string(), method: z.string(), criteria: z.string(), result: z.string().nullable(), feeling: z.string(), validatedAt: z.string().nullable() }); const review = base.extend({ projectId: z.string(), trigger: z.string(), health: z.string(), execution: z.string(), systemAdjustment: z.string() })
-    const common = { exportedAt: z.string(), projects: z.array(project), nodes: z.array(node), milestones: z.array(milestone), reviews: z.array(review) }; const schema = z.discriminatedUnion('version', [z.object({ version: z.literal(1), ...common }), z.object({ version: z.literal(2), ...common, connections: z.array(connection) })]); const data = schema.parse(raw) as BackupData | BackupDataV1
-    data.projects.forEach((item) => projectInputSchema.parse(item)); data.nodes.forEach((item) => nodeInputSchema.parse(item)); data.milestones.forEach((item) => milestoneInputSchema.parse(item)); data.reviews.forEach((item) => reviewInputSchema.parse(item)); const connections = data.version === 1 ? buildLinearConnections(data.nodes, id) : data.connections; validateConnectionSet(data.nodes, connections)
-    await db.transaction('rw', db.projects, db.nodes, db.nodeConnections, db.milestones, db.reviews, async () => {
-      if (mode === 'replace') await Promise.all([db.projects.clear(), db.nodes.clear(), db.nodeConnections.clear(), db.milestones.clear(), db.reviews.clear()]); await db.projects.bulkPut(data.projects); await db.nodes.bulkPut(data.nodes)
-      if (mode === 'merge') { const keys = new Set((await db.nodeConnections.toArray()).map((item) => `${item.projectId}:${item.sourceNodeId}:${item.targetNodeId}`)); await db.nodeConnections.bulkPut(connections.filter((item) => !keys.has(`${item.projectId}:${item.sourceNodeId}:${item.targetNodeId}`))) } else await db.nodeConnections.bulkPut(connections)
-      await db.milestones.bulkPut(data.milestones); await db.reviews.bulkPut(data.reviews)
-    })
+    const base = z.object({ id: z.string(), createdAt: z.string(), updatedAt: z.string() }).passthrough(); const legacyProject = base.extend({ trigger: z.string(), title: z.string(), status: z.string() }); const currentProject = legacyProject.extend({ activeNodeId: z.string().nullable() }); const node = base.extend({ projectId: z.string(), type: z.string(), content: z.string(), status: z.string(), log: z.string(), position: z.number().int().nonnegative() }); const legacyEdge = z.object({ id: z.string(), projectId: z.string(), sourceNodeId: z.string(), targetNodeId: z.string(), createdAt: z.string() }); const currentEdge = legacyEdge.extend({ isPreferred: z.boolean() }); const milestone = base.extend({ projectId: z.string(), nodeId: z.string(), title: z.string(), method: z.string(), criteria: z.string(), result: z.string().nullable(), feeling: z.string(), validatedAt: z.string().nullable() }); const review = base.extend({ projectId: z.string(), trigger: z.string(), health: z.string(), execution: z.string(), systemAdjustment: z.string() }); const common = { exportedAt: z.string(), nodes: z.array(node), milestones: z.array(milestone), reviews: z.array(review) }
+    const schema = z.discriminatedUnion('version', [z.object({ version: z.literal(1), ...common, projects: z.array(legacyProject) }), z.object({ version: z.literal(2), ...common, projects: z.array(legacyProject), connections: z.array(legacyEdge) }), z.object({ version: z.literal(3), ...common, projects: z.array(currentProject), connections: z.array(currentEdge) })]); const rawData = schema.parse(raw) as BackupData | BackupDataV1 | BackupDataV2
+    rawData.projects.forEach((item) => projectInputSchema.parse(item)); rawData.nodes.forEach((item) => nodeInputSchema.parse(item)); rawData.milestones.forEach((item) => milestoneInputSchema.parse(item)); rawData.reviews.forEach((item) => reviewInputSchema.parse(item))
+    const legacyConnections = rawData.version === 1 ? buildLinearConnections(rawData.nodes, id) : rawData.version === 2 ? rawData.connections.map((edge) => ({ ...edge, isPreferred: false })) : rawData.connections
+    const projects: Project[] = rawData.version === 3 ? rawData.projects : rawData.projects.map((project) => ({ ...project, activeNodeId: [...rawData.nodes].filter((node) => node.projectId === project.id).sort((a, b) => b.position - a.position)[0]?.id ?? null }))
+    validateProjects(projects, rawData.nodes, legacyConnections)
+    let finalProjects = projects; let finalNodes = rawData.nodes; let finalConnections = legacyConnections
+    if (mode === 'merge') { const [oldProjects, oldNodes, oldConnections] = await Promise.all([db.projects.toArray(), db.nodes.toArray(), db.nodeConnections.toArray()]); const projectMap = new Map(oldProjects.map((item) => [item.id, item])); projects.forEach((item) => projectMap.set(item.id, item)); const nodeMap = new Map(oldNodes.map((item) => [item.id, item])); rawData.nodes.forEach((item) => nodeMap.set(item.id, item)); const importedKeys = new Set(legacyConnections.map(key)); finalProjects = [...projectMap.values()]; finalNodes = [...nodeMap.values()]; finalConnections = [...oldConnections.filter((item) => !importedKeys.has(key(item))), ...legacyConnections]; validateProjects(finalProjects, finalNodes, finalConnections) }
+    await db.transaction('rw', db.projects, db.nodes, db.nodeConnections, db.milestones, db.reviews, async () => { if (mode === 'replace') await Promise.all([db.projects.clear(), db.nodes.clear(), db.nodeConnections.clear(), db.milestones.clear(), db.reviews.clear()]); await db.projects.bulkPut(projects); await db.nodes.bulkPut(rawData.nodes); await db.nodeConnections.bulkPut(legacyConnections); await db.milestones.bulkPut(rawData.milestones); await db.reviews.bulkPut(rawData.reviews) })
   },
 }

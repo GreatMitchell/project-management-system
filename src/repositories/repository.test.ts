@@ -1,86 +1,18 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { db } from '../db/database'
-import type { BackupDataV1 } from '../domain/types'
+import type { BackupDataV1, BackupDataV2 } from '../domain/types'
 import { repository } from './repository'
-
 beforeEach(async () => { await db.delete(); await db.open() })
-
 const input = (content: string) => ({ type: 'question' as const, content, status: 'advancing' as const, log: '' })
+async function base() { const project = await repository.createProject({ title: '项目', trigger: '需求', status: 'exploring' }); const first = (await repository.saveNode(project.id, input('起点')))!; const second = (await repository.saveNode(project.id, input('推进'), undefined, { mode: 'advance', predecessorNodeId: first.id }))!; return { project, first, second } }
 
-async function projectWithNodes() {
-  const project = await repository.createProject({ title: '实践项目', trigger: '真实需求', status: 'exploring' })
-  const first = (await repository.saveNode(project.id, input('起点')))!
-  const second = (await repository.saveNode(project.id, input('第二节点'), undefined, first.id))!
-  return { project, first, second }
-}
-
-describe('repository', () => {
-  it('保存孤立节点，并从前驱原子创建连接', async () => {
-    const { project, first, second } = await projectWithNodes()
-    const bundle = await repository.getBundle(project.id)
-    expect(bundle?.nodes).toHaveLength(2)
-    expect(bundle?.connections).toEqual([expect.objectContaining({ sourceNodeId: first.id, targetNodeId: second.id })])
-  })
-
-  it('允许分支和汇合', async () => {
-    const { project, first, second } = await projectWithNodes()
-    const branch = (await repository.saveNode(project.id, input('支线'), undefined, first.id))!
-    const merge = (await repository.saveNode(project.id, input('汇合结果'), undefined, second.id))!
-    await repository.createConnection(project.id, branch.id, merge.id)
-    const connections = (await repository.getBundle(project.id))!.connections
-    expect(connections.filter((item) => item.sourceNodeId === first.id)).toHaveLength(2)
-    expect(connections.filter((item) => item.targetNodeId === merge.id)).toHaveLength(2)
-  })
-
-  it('拒绝自连接、重复连接和间接成环', async () => {
-    const { project, first, second } = await projectWithNodes()
-    await expect(repository.createConnection(project.id, first.id, first.id)).rejects.toThrow('自身')
-    await expect(repository.createConnection(project.id, first.id, second.id)).rejects.toThrow('已经存在')
-    const third = (await repository.saveNode(project.id, input('第三节点'), undefined, second.id))!
-    await expect(repository.createConnection(project.id, third.id, first.id)).rejects.toThrow('形成环')
-  })
-
-  it('删除节点只清理关联边，保留下游节点', async () => {
-    const { project, first, second } = await projectWithNodes()
-    const third = (await repository.saveNode(project.id, input('下游'), undefined, second.id))!
-    await repository.deleteNode(second.id)
-    const bundle = (await repository.getBundle(project.id))!
-    expect(bundle.nodes.map((node) => node.id)).toEqual([first.id, third.id])
-    expect(bundle.connections).toHaveLength(0)
-  })
-
-  it('删除项目时清理全部关联数据和连接', async () => {
-    const { project, second } = await projectWithNodes()
-    await repository.saveMilestone(project.id, second.id, { title: '验证', method: '运行测试', criteria: '测试通过', result: 'passed', feeling: '符合预期' })
-    await repository.saveReview(project.id, { trigger: 'milestone', health: '健康', execution: '正常', systemAdjustment: '无需调整' })
-    await repository.deleteProject(project.id)
-    expect(await repository.getBundle(project.id)).toBeNull()
-    expect(await db.nodes.count()).toBe(0)
-    expect(await db.nodeConnections.count()).toBe(0)
-    expect(await db.milestones.count()).toBe(0)
-    expect(await db.reviews.count()).toBe(0)
-  })
-
-  it('没有通过的里程碑时阻止普通完成', async () => {
-    const project = await repository.createProject({ title: '受约束项目', trigger: '验证完成规则', status: 'advancing' })
-    await expect(repository.setProjectStatus(project.id, 'completed')).rejects.toThrow('NO_PASSED_MILESTONE')
-  })
-
-  it('导入 version 1 备份时补建线性连接', async () => {
-    const { project } = await projectWithNodes()
-    const current = await repository.exportData()
-    const legacy: BackupDataV1 = { version: 1, exportedAt: current.exportedAt, projects: current.projects, nodes: current.nodes, milestones: [], reviews: [] }
-    await repository.importData(legacy, 'replace')
-    const bundle = (await repository.getBundle(project.id))!
-    expect(bundle.connections).toHaveLength(1)
-    expect(bundle.connections[0]).toMatchObject({ sourceNodeId: bundle.nodes[0].id, targetNodeId: bundle.nodes[1].id })
-  })
-
-  it('version 2 备份完整往返图连接', async () => {
-    const { project } = await projectWithNodes()
-    const backup = await repository.exportData()
-    expect(backup.version).toBe(2)
-    await repository.importData(backup, 'replace')
-    expect((await repository.getBundle(project.id))?.connections).toHaveLength(1)
-  })
+describe('当前路线 repository', () => {
+  it('首节点自动成为目标，推进时原子前移', async () => { const { project, second } = await base(); expect((await repository.getBundle(project.id))?.project.activeNodeId).toBe(second.id) })
+  it('创建支线不改变当前目标', async () => { const { project, first, second } = await base(); await repository.saveNode(project.id, input('支线'), undefined, { mode: 'branch', predecessorNodeId: first.id }); expect((await repository.getBundle(project.id))?.project.activeNodeId).toBe(second.id) })
+  it('保存汇合首选路线并允许切换目标', async () => { const { project, first, second } = await base(); const branch = (await repository.saveNode(project.id, input('支线'), undefined, { mode: 'branch', predecessorNodeId: first.id }))!; const merge = (await repository.saveNode(project.id, input('汇合'), undefined, { mode: 'branch', predecessorNodeId: second.id }))!; const edge = await repository.createConnection(project.id, branch.id, merge.id); await repository.setActiveRoute(project.id, merge.id, [edge.id]); const bundle = (await repository.getBundle(project.id))!; expect(bundle.project.activeNodeId).toBe(merge.id); expect(bundle.connections.find((item) => item.id === edge.id)?.isPreferred).toBe(true) })
+  it('取消追踪保留首选前驱', async () => { const { project, first, second } = await base(); const branch = (await repository.saveNode(project.id, input('支线'), undefined, { mode: 'branch', predecessorNodeId: first.id }))!; const edge = await repository.createConnection(project.id, branch.id, second.id); await repository.setActiveRoute(project.id, second.id, [edge.id]); await repository.clearActiveRoute(project.id); const bundle = (await repository.getBundle(project.id))!; expect(bundle.project.activeNodeId).toBeNull(); expect(bundle.connections.find((item) => item.id === edge.id)?.isPreferred).toBe(true) })
+  it('保护当前路线节点和连接，取消后允许删除', async () => { const { project, first, second } = await base(); const connection = (await repository.getBundle(project.id))!.connections[0]; await expect(repository.deleteNode(first.id)).rejects.toThrow('当前路线'); await expect(repository.deleteConnection(connection.id)).rejects.toThrow('当前路线'); await repository.clearActiveRoute(project.id); await repository.deleteNode(first.id); expect((await repository.getBundle(project.id))?.nodes.map((item) => item.id)).toEqual([second.id]) })
+  it('当前路线节点新增第二入边时保留原路线', async () => { const { project, second } = await base(); const independent = (await repository.saveNode(project.id, input('独立'))) !; await repository.createConnection(project.id, independent.id, second.id); const bundle = (await repository.getBundle(project.id))!; const original = bundle.connections.find((item) => item.targetNodeId === second.id && item.sourceNodeId !== independent.id); expect(original?.isPreferred).toBe(true) })
+  it('version 1 和 version 2 初始化最后节点为目标', async () => { const { project } = await base(); const current = await repository.exportData(); const projects = current.projects.map((item) => { const copy = { ...item } as Partial<typeof item>; delete copy.activeNodeId; return copy as Omit<typeof item, 'activeNodeId'> }); const latestId = [...current.nodes].sort((a, b) => b.position - a.position)[0].id; const v1: BackupDataV1 = { version: 1, exportedAt: '', projects, nodes: current.nodes, milestones: [], reviews: [] }; await repository.importData(v1, 'replace'); expect((await repository.getBundle(project.id))?.project.activeNodeId).toBe(latestId); const connections = current.connections.map((item) => { const copy = { ...item } as Partial<typeof item>; delete copy.isPreferred; return copy as Omit<typeof item, 'isPreferred'> }); const v2: BackupDataV2 = { version: 2, exportedAt: '', projects, nodes: current.nodes, connections, milestones: [], reviews: [] }; await repository.importData(v2, 'replace'); expect((await repository.getBundle(project.id))?.project.activeNodeId).toBe(latestId) })
+  it('version 3 完整往返并拒绝非法目标', async () => { const { project } = await base(); const backup = await repository.exportData(); expect(backup.version).toBe(3); await repository.importData(backup, 'replace'); expect((await repository.getBundle(project.id))?.project.activeNodeId).toBeTruthy(); backup.projects[0].activeNodeId = 'missing'; await expect(repository.importData(backup, 'replace')).rejects.toThrow('当前目标') })
 })

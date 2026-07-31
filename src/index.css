@@ -270,6 +270,21 @@
     box-shadow: var(--shadow-soft), 0 0 0 3px rgb(var(--accent-primary) / 0.12);
   }
 
+  .graph-node-active {
+    border-color: rgb(var(--accent-primary));
+    box-shadow: var(--shadow-soft), 0 0 0 4px rgb(var(--accent-primary) / 0.2), 0 0 28px rgb(var(--accent-primary) / 0.2);
+  }
+
+  .graph-node-route,
+  .node-card-route { border-color: rgb(var(--accent-secondary) / 0.58); }
+  .node-card-active { box-shadow: var(--shadow-card), 0 0 0 3px rgb(var(--accent-primary) / 0.18); }
+  .graph-node-choice { border-style: dashed; border-color: rgb(var(--warning-rgb) / 0.8); }
+  .route-badge { @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold; background: rgb(var(--accent-primary) / 0.18); color: rgb(var(--accent-primary)); }
+  .route-badge-subtle { background: rgb(var(--accent-secondary) / 0.14); color: rgb(var(--accent-secondary)); }
+  .route-choice-badge { @apply rounded-full px-2 py-0.5 text-[10px] font-semibold; background: rgb(var(--warning-rgb) / 0.14); color: rgb(var(--warning-rgb)); }
+  .task-graph .react-flow__edge.graph-edge-muted .react-flow__edge-path { opacity: 0.42; }
+  .task-graph .react-flow__edge.graph-edge-route .react-flow__edge-path { stroke: rgb(var(--accent-primary)); stroke-width: 3; opacity: 1; }
+
   .graph-node-content {
     display: -webkit-box;
     overflow: hidden;
