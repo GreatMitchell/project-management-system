@@ -242,6 +242,75 @@
 }
 
 @layer components {
+  .task-graph {
+    height: min(68vh, 720px);
+    min-height: 520px;
+    overflow: hidden;
+    border: 1px solid rgb(var(--border-soft) / 0.16);
+    border-radius: var(--radius-card);
+    background: rgb(var(--bg-surface-2) / 0.72);
+    box-shadow: var(--shadow-soft), var(--surface-edge);
+  }
+
+  .graph-node {
+    width: 270px;
+    min-height: 150px;
+    cursor: pointer;
+    border: 1px solid rgb(var(--border-soft) / 0.22);
+    border-radius: 1.1rem;
+    background: rgb(var(--bg-surface) / 0.96);
+    padding: 1rem;
+    box-shadow: var(--shadow-soft);
+    transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  }
+
+  .graph-node:hover,
+  .graph-node-selected {
+    border-color: rgb(var(--accent-primary) / 0.72);
+    box-shadow: var(--shadow-soft), 0 0 0 3px rgb(var(--accent-primary) / 0.12);
+  }
+
+  .graph-node-content {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .graph-handle {
+    width: 11px !important;
+    height: 11px !important;
+    border: 2px solid rgb(var(--bg-surface)) !important;
+    background: rgb(var(--accent-primary)) !important;
+  }
+
+  .task-graph .react-flow__edge-path {
+    stroke: rgb(var(--accent-secondary) / 0.72);
+    stroke-width: 2;
+  }
+
+  .task-graph .react-flow__controls,
+  .task-graph .react-flow__minimap {
+    overflow: hidden;
+    border: 1px solid rgb(var(--border-soft) / 0.18);
+    border-radius: 0.8rem;
+    background: rgb(var(--bg-surface) / 0.94);
+  }
+
+  .task-graph .react-flow__controls-button {
+    border-color: rgb(var(--border-soft) / 0.14);
+    background: rgb(var(--bg-surface));
+    color: rgb(var(--text-primary));
+  }
+
+  .task-graph .react-flow__controls-button svg {
+    fill: currentColor;
+  }
+
+  @media (max-width: 640px) {
+    .task-graph { min-height: 460px; }
+  }
+
   .page-wrap {
     @apply mx-auto max-w-[1500px] px-5 py-20 sm:px-8 lg:px-10 lg:py-12 2xl:px-14;
   }

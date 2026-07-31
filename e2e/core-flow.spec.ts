@@ -11,6 +11,7 @@ test('核心实践闭环', async ({ page }) => {
   await page.getByRole('button', { name: '问题节点', exact: true }).click()
   await page.getByLabel('节点内容').fill('怎样构建可持续修正的个人执行系统？')
   await page.getByRole('button', { name: '保存节点' }).click()
+  await page.getByRole('button', { name: '节点列表' }).click()
   await page.getByRole('button', { name: '设为里程碑' }).click()
   await page.getByLabel('里程碑名称').fill('核心闭环可用')
   await page.getByLabel('验证方式').fill('连续使用一个真实项目')

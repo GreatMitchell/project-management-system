@@ -33,6 +33,14 @@ export interface PraxisNode {
   updatedAt: string
 }
 
+export interface NodeConnection {
+  id: string
+  projectId: string
+  sourceNodeId: string
+  targetNodeId: string
+  createdAt: string
+}
+
 export interface Milestone {
   id: string
   projectId: string
@@ -94,15 +102,26 @@ export type ReviewInput = z.infer<typeof reviewInputSchema>
 export interface ProjectBundle {
   project: Project
   nodes: PraxisNode[]
+  connections: NodeConnection[]
+  milestones: Milestone[]
+  reviews: Review[]
+}
+
+export interface BackupDataV1 {
+  version: 1
+  exportedAt: string
+  projects: Project[]
+  nodes: PraxisNode[]
   milestones: Milestone[]
   reviews: Review[]
 }
 
 export interface BackupData {
-  version: 1
+  version: 2
   exportedAt: string
   projects: Project[]
   nodes: PraxisNode[]
+  connections: NodeConnection[]
   milestones: Milestone[]
   reviews: Review[]
 }
