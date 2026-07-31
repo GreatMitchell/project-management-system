@@ -1,0 +1,29 @@
+import { Handle, Position, type Node, type NodeProps } from '@xyflow/react'
+import { Check, CircleHelp, Flag, GitBranch, Lightbulb, LocateFixed, LockKeyhole, Pause, Plus, RotateCcw, Target } from 'lucide-react'
+import type { Milestone, PraxisNode } from '../../domain/types'
+import { statusLabels, statusStyles } from '../../domain/rules'
+import type { GraphVisualPresentation } from './graphVisualState'
+
+export const graphNodeWidth = 336
+export const graphNodeHeight = 196
+
+export interface TaskGraphNodeData extends Record<string, unknown> { node: PraxisNode; milestone?: Milestone; selected: boolean; active: boolean; onRoute: boolean; presentation: GraphVisualPresentation; transitionIndex: number; transitioning: boolean; collapsibleBranches: { id: string; count: number; collapsed: boolean }[]; onSelect: (node: PraxisNode) => void; onAdvance: (node: PraxisNode) => void; onToggleBranch: (id: string) => void }
+export type TaskFlowNode = Node<TaskGraphNodeData, 'praxis'>
+const typeMeta = { question: { label: '问题', icon: CircleHelp }, solution: { label: '方案', icon: Lightbulb }, result: { label: '结果', icon: Target } }
+const stateIcons = { target: LocateFixed, check: Check, route: GitBranch, lock: LockKeyhole, pause: Pause, abandoned: RotateCcw }
+
+export function TaskGraphNode({ data }: NodeProps<TaskFlowNode>) {
+  const item = data.node; const Meta = typeMeta[item.type]; const StateIcon = stateIcons[data.presentation.symbol]; const milestoneState = data.milestone?.result ?? 'pending'
+  return <article tabIndex={0} aria-label={`${Meta.label}节点：${item.content}。${data.presentation.label}${data.milestone ? `。里程碑：${data.milestone.title}` : ''}`} data-visual-state={data.presentation.state} data-milestone={data.milestone ? milestoneState : undefined} style={{ '--route-step': data.transitionIndex } as React.CSSProperties} className={`graph-node graph-node-${data.presentation.state} ${data.selected ? 'graph-node-selected' : ''} ${data.onRoute ? 'graph-node-route' : ''} ${data.active ? 'graph-node-active' : ''} ${data.presentation.needsChoice ? 'graph-node-choice' : ''} ${data.milestone ? 'graph-node-milestone' : ''} ${data.transitioning ? 'graph-node-transitioning' : ''}`} onClick={() => data.onSelect(item)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); data.onSelect(item) } }}>
+    <span className="graph-node-frame" aria-hidden="true" /><Handle type="target" position={Position.Left} className="graph-handle" />
+    <div className="graph-node-header"><span className={`graph-node-type graph-node-type-${item.type}`}><Meta.icon size={17} />{Meta.label}</span><span className={`status-badge !px-2.5 !py-1 !text-[11px] ${statusStyles[item.status]}`}>{statusLabels[item.status]}</span></div>
+    <div className="graph-node-state-row"><span className={`graph-state-badge graph-state-${data.presentation.state}`}><StateIcon size={13} />{data.presentation.label}</span>{data.presentation.needsChoice && <span className="route-choice-badge">路线待确认</span>}{data.milestone && <button className="nodrag graph-milestone-badge" title={data.milestone.title}><Flag size={13} /><span className="truncate">{data.milestone.title}</span></button>}</div>
+    <p className="graph-node-content">{item.content}</p>
+    <div className="graph-node-footer"><span className="graph-node-index">#{item.position + 1}</span><div className="nodrag flex items-center gap-2">{data.collapsibleBranches.map((branch) => <button key={branch.id} className="graph-branch-toggle" aria-label={`${branch.collapsed ? '展开' : '折叠'}包含 ${branch.count} 个节点的支线`} title={`${branch.collapsed ? '展开' : '折叠'}支线`} onClick={(event) => { event.stopPropagation(); data.onToggleBranch(branch.id) }}><GitBranch size={13} />{branch.collapsed ? `展开 ${branch.count}` : `收起 ${branch.count}`}</button>)}{data.active && <button className="graph-advance-button" onClick={(event) => { event.stopPropagation(); data.onAdvance(item) }}><Plus size={14} />继续推进</button>}</div></div>
+    <Handle type="source" position={Position.Right} className="graph-handle" />
+  </article>
+}
+
+export interface BranchSummaryData extends Record<string, unknown> { branchId: string; count: number; onExpand: (id: string) => void }
+export type BranchSummaryFlowNode = Node<BranchSummaryData, 'branchSummary'>
+export function BranchSummaryNode({ data }: NodeProps<BranchSummaryFlowNode>) { return <button className="graph-branch-summary" aria-label={`展开已收起的支线，共 ${data.count} 个节点`} onClick={() => data.onExpand(data.branchId)}><GitBranch size={20} /><span>支线已收起</span><strong>{data.count} 个节点</strong><Handle type="target" position={Position.Left} className="graph-handle" /></button> }
