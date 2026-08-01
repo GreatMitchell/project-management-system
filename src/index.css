@@ -1704,6 +1704,8 @@
   @media (max-width: 1279px) { html[data-theme='tech'] .task-graph-layout { grid-template-columns: minmax(0, 1fr); } }
   @media (max-width: 767px) { html[data-theme='tech'] .graph-toolbar { top: 0.75rem; right: 0.75rem; left: 0.75rem; justify-content: flex-end; } html[data-theme='tech'] .graph-system-title { display: none; } html[data-theme='tech'] .graph-toolbar-actions button span { display: none; } html[data-theme='tech'] .graph-coordinate-readout { display: none; } html[data-theme='tech'] .graph-node-content { font-size: 16.5px; } }
 
+
+
   /* ── Calm roadmap ──────────────────────────────────────────────────────
      Scoped to html[data-theme='calm'] so the unprefixed base graph rules stay
      intact as the shared default that tech and game inherit from.

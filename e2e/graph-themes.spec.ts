@@ -91,6 +91,63 @@ test('冷静专属工具栏元素不出现在科技与游戏主题', async ({ pa
   }
 })
 
+test('桌面侧边栏可以收起并记住状态，同时将项目详情改为纵向阅读', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('praxis-path-theme', 'calm'))
+  await createGraph(page, '侧边栏收起测试')
+  await page.getByRole('button', { name: '收起侧边栏' }).click()
+  await expect(page.locator('html')).toHaveAttribute('data-sidebar', 'collapsed')
+  await expect(page.getByRole('button', { name: '展开侧边栏' })).toBeVisible()
+  const layout = await page.locator('.project-workspace').evaluate((element) => getComputedStyle(element).gridTemplateColumns)
+  expect(layout.split(' ').length).toBe(1)
+  const graphLayout = await page.locator('.task-graph-layout').evaluate((element) => getComputedStyle(element).gridTemplateColumns)
+  expect(graphLayout.split(' ').length).toBe(1)
+  await expect(page.locator('.task-graph-layout .graph-intel-panel')).toHaveCSS('position', 'absolute')
+  await page.reload()
+  await expect(page.locator('html')).toHaveAttribute('data-sidebar', 'collapsed')
+  await expect(page.getByRole('button', { name: '展开侧边栏' })).toBeVisible()
+  await page.getByRole('button', { name: '展开侧边栏' }).click()
+  await expect(page.locator('html')).toHaveAttribute('data-sidebar', 'expanded')
+})
+
+test('侧栏收起后品牌图标居中且各主题装饰文字不越界', async ({ page }) => {
+  for (const theme of ['calm', 'tech', 'game'] as const) {
+    await page.goto('/projects')
+    await page.evaluate((value) => localStorage.setItem('praxis-path-theme', value), theme)
+    await page.reload()
+    await page.getByRole('button', { name: '收起侧边栏' }).click()
+    await expect(page.locator('html')).toHaveAttribute('data-sidebar', 'collapsed')
+    await expect(page.locator('.app-sidebar')).toHaveCSS('width', '72px')
+    const centering = await page.locator('.app-sidebar').evaluate((sidebar) => {
+      const rail = sidebar.getBoundingClientRect()
+      const mark = sidebar.querySelector('.sidebar-header span')!.getBoundingClientRect()
+      return { left: mark.left - rail.left, right: rail.right - mark.right }
+    })
+    expect(Math.abs(centering.left - centering.right), `${theme} 主题的图标应左右居中`).toBeLessThanOrEqual(1)
+    const overflow = await page.locator('.app-sidebar').evaluate((sidebar) => {
+      const rail = sidebar.getBoundingClientRect()
+      const nav = sidebar.querySelector('nav')!
+      const label = getComputedStyle(nav, '::before')
+      const raw = label.content
+      const text = raw === 'none' || raw === 'normal' ? '' : raw.replace(/^"|"$/g, '')
+      const probe = document.createElement('span')
+      probe.style.font = label.font
+      probe.style.letterSpacing = label.letterSpacing
+      probe.style.whiteSpace = 'pre'
+      probe.style.position = 'absolute'
+      probe.style.visibility = 'hidden'
+      probe.textContent = text
+      document.body.append(probe)
+      const labelWidth = text ? probe.getBoundingClientRect().width : 0
+      probe.remove()
+      return { railWidth: rail.width, clientWidth: nav.clientWidth, labelWidth, text }
+    })
+    expect(overflow.railWidth, `${theme} 主题收起后侧栏应为窄图标栏`).toBeLessThanOrEqual(80)
+    expect(overflow.labelWidth, `${theme} 主题的导航装饰文字（${overflow.text || '无'}）不应超出侧栏宽度`).toBeLessThanOrEqual(overflow.clientWidth)
+    await page.getByRole('button', { name: '展开侧边栏' }).click()
+    await expect(page.locator('html')).toHaveAttribute('data-sidebar', 'expanded')
+  }
+})
+
 test('窄屏默认收起路线导航图', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await createGraph(page, '窄屏路线图')

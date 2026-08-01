@@ -1,0 +1,187 @@
+/* Sidebar collapse.
+   Deliberately unlayered: these rules override Tailwind responsive utilities
+   such as `lg:pl-72` and `2xl:grid-cols-[...]`, and unlayered CSS outranks
+   every @layer regardless of source order or specificity.
+
+   Everything is gated behind min-width:1024px because below `lg` the sidebar is
+   already an off-canvas drawer and the pages are already single column. The
+   persisted collapsed flag must not leak into that layout. */
+
+@media (min-width: 1024px) {
+
+
+  .app-sidebar {
+    transition-property: width, padding, transform, background-color, border-color;
+  }
+
+  .app-main { transition: padding-left 240ms ease; }
+
+  /* Icon rail: 4.5rem matches the 72px target and keeps all three nav
+     destinations one click away. */
+  html[data-sidebar='collapsed'] .app-sidebar {
+    width: 4.5rem;
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+  }
+
+  html[data-sidebar='collapsed'] .app-main {
+    padding-left: 4.5rem;
+  }
+
+  html[data-sidebar='collapsed'] .sidebar-brand-text,
+  html[data-sidebar='collapsed'] .sidebar-collapsible,
+  html[data-sidebar='collapsed'] .sidebar-system-label {
+    display: none;
+  }
+
+  /* Brand mark stacks above the toggle; side by side will not fit in the rail. */
+  html[data-sidebar='collapsed'] .sidebar-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0;
+  }
+
+  html[data-sidebar='collapsed'] .sidebar-link {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* The tech theme prints a fixed 'NAVIGATION / 03 MODULES' string via nav::before,
+     which cannot fit the rail. Shorten rather than hide, so the theme keeps its
+     monospace system-label voice. */
+  html[data-theme='tech'][data-sidebar='collapsed'] .app-sidebar nav::before {
+    content: 'NAV';
+    margin-left: 0;
+    margin-right: 0;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  html[data-sidebar='collapsed'] .sidebar-link-label {
+    display: none;
+  }
+
+  /* Name on hover/focus, since the label is gone. Rendered from the NavLink's
+     own title attribute so it stays in sync with the nav config. */
+  html[data-sidebar='collapsed'] .sidebar-link {
+    position: relative;
+  }
+
+  html[data-sidebar='collapsed'] .sidebar-link::after {
+    content: attr(data-label);
+    position: absolute;
+    left: calc(100% + 0.55rem);
+    top: 50%;
+    z-index: 60;
+    transform: translateY(-50%);
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.6rem;
+    border: 1px solid var(--sidebar-panel-border);
+    background: rgb(var(--bg-sidebar));
+    color: rgb(var(--sidebar-fg));
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 140ms ease;
+  }
+
+  html[data-sidebar='collapsed'] .sidebar-link:hover::after,
+  html[data-sidebar='collapsed'] .sidebar-link:focus-visible::after {
+    opacity: 1;
+  }
+}
+
+.sidebar-collapse-toggle {
+  display: none;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--sidebar-panel-border);
+  background: var(--sidebar-panel-bg);
+  color: rgb(var(--sidebar-fg) / 0.75);
+  transition: color 140ms ease, border-color 140ms ease;
+}
+
+.sidebar-collapse-toggle:hover {
+  color: rgb(var(--sidebar-fg));
+  border-color: rgb(var(--sidebar-fg) / 0.3);
+}
+
+/* Must follow the base `display: none` above: same specificity, so source order
+   decides. Tailwind's `lg:grid` on the element cannot win here because unlayered
+   CSS outranks the utilities layer. */
+@media (min-width: 1024px) {
+  .sidebar-collapse-toggle { display: grid; }
+}
+
+/* Collapsed = single column on the project detail page.
+   DOM order is already hero → main(roadmap) → aside(milestones → reviews), so
+   forcing one column yields the required top-to-bottom reading order without
+   moving any JSX. */
+@media (min-width: 1024px) {
+  html[data-sidebar='collapsed'] .project-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  html[data-sidebar='collapsed'] .task-graph-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* The node action panel is tightly coupled to the graph: you select a node and
+     act on it immediately. Parking it below the canvas would force a look-down-
+     then-back-up trip on every selection, so it floats over the canvas instead,
+     costing no vertical space. */
+  html[data-sidebar='collapsed'] .task-graph-layout .graph-intel-panel {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 13;
+    width: 19rem;
+    max-height: calc(100% - 2rem);
+    overflow-y: auto;
+  }
+
+  html[data-sidebar='collapsed'] .task-graph-layout {
+    position: relative;
+  }
+
+  /* Minimap sits bottom-right too, so move it clear of the floating panel. */
+  html[data-sidebar='collapsed'] .task-graph-layout:has(.graph-intel-panel:not(.graph-intel-panel-empty)) .graph-minimap-panel,
+  html[data-sidebar='collapsed'] .task-graph-layout:has(.graph-intel-panel:not(.graph-intel-panel-empty)) .graph-minimap-toggle {
+    right: 21.4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+
+
+  html[data-sidebar='collapsed'] .graph-intel-panel-empty {
+    display: none;
+  }
+
+  html[data-sidebar='collapsed'] .app-sidebar,
+  html[data-sidebar='collapsed'] .app-main,
+  html[data-sidebar='collapsed'] .graph-minimap-panel,
+  html[data-sidebar='collapsed'] .graph-minimap-toggle {
+    transition-duration: 240ms;
+    transition-timing-function: ease;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+  html[data-sidebar='collapsed'] .task-graph-layout .graph-intel-panel {
+    width: 17rem;
+  }
+
+  html[data-sidebar='collapsed'] .task-graph-layout:has(.graph-intel-panel:not(.graph-intel-panel-empty)) .graph-minimap-panel,
+  html[data-sidebar='collapsed'] .task-graph-layout:has(.graph-intel-panel:not(.graph-intel-panel-empty)) .graph-minimap-toggle {
+    right: 19.4rem;
+  }
+}
+
