@@ -70,6 +70,27 @@ test('游戏主题节点文字区域互不重叠', async ({ page }) => {
   expect(regions.content.bottom).toBeLessThanOrEqual(regions.footer.top)
 })
 
+test('冷静主题补齐聚焦路线与适应全图按钮', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('praxis-path-theme', 'calm'))
+  await createGraph(page, '冷静工具栏按钮')
+  const actions = page.locator('.graph-paper-action:visible')
+  await expect(actions).toHaveCount(2)
+  await expect(actions.filter({ hasText: '聚焦路线' })).toBeEnabled()
+  await expect(actions.filter({ hasText: '适应全图' })).toBeEnabled()
+  await expect(page.locator('.graph-paper-readout')).toBeVisible()
+})
+
+test('冷静专属工具栏元素不出现在科技与游戏主题', async ({ page }) => {
+  for (const theme of ['tech', 'game'] as const) {
+    await page.goto('/projects')
+    await page.evaluate((value) => localStorage.setItem('praxis-path-theme', value), theme)
+    await page.reload()
+    await createGraph(page, `${theme} 不含冷静工具栏`)
+    await expect(page.locator('.graph-paper-action:visible')).toHaveCount(0)
+    await expect(page.locator('.graph-paper-readout')).toBeHidden()
+  }
+})
+
 test('窄屏默认收起路线导航图', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await createGraph(page, '窄屏路线图')

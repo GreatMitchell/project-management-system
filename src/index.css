@@ -1704,6 +1704,310 @@
   @media (max-width: 1279px) { html[data-theme='tech'] .task-graph-layout { grid-template-columns: minmax(0, 1fr); } }
   @media (max-width: 767px) { html[data-theme='tech'] .graph-toolbar { top: 0.75rem; right: 0.75rem; left: 0.75rem; justify-content: flex-end; } html[data-theme='tech'] .graph-system-title { display: none; } html[data-theme='tech'] .graph-toolbar-actions button span { display: none; } html[data-theme='tech'] .graph-coordinate-readout { display: none; } html[data-theme='tech'] .graph-node-content { font-size: 16.5px; } }
 
+  /* ── Calm roadmap ──────────────────────────────────────────────────────
+     Scoped to html[data-theme='calm'] so the unprefixed base graph rules stay
+     intact as the shared default that tech and game inherit from.
+     Language: paper print — hairline ink edges, no elevation, no glow, no
+     faceted silhouettes. Dot texture comes from ReactFlow's <Background>,
+     which already renders dots and reads --graph-grid-color. */
+
+  .calm-only,
+  .graph-paper-readout,
+  .graph-paper-action { display: none; }
+  html[data-theme='calm'] .calm-only { display: inline-flex; }
+
+  html[data-theme='calm'] .task-graph {
+    --graph-grid-color: 171 177 170;
+    --graph-node-clip: none;
+    --graph-milestone-clip: none;
+    --graph-blocked-opacity: 1;
+    border-color: rgb(var(--text-primary) / 0.12);
+    background-color: rgb(var(--bg-surface) / 0.5);
+    background-image: radial-gradient(circle at 88% 0%, rgba(82, 103, 93, 0.045), transparent 38%);
+    background-size: auto;
+    box-shadow: inset 0 0 0 1px rgb(var(--text-primary) / 0.02);
+  }
+
+  html[data-theme='calm'] .graph-node {
+    border: 1px solid rgb(var(--text-primary) / 0.14);
+    border-radius: 1.5rem;
+    background: rgb(var(--bg-surface));
+    box-shadow: none;
+    transition: border-color 160ms ease, background-color 160ms ease;
+  }
+
+  html[data-theme='calm'] .graph-node-frame { background: none; }
+
+  html[data-theme='calm'] .graph-node:hover,
+  html[data-theme='calm'] .graph-node-selected {
+    transform: none;
+    border-color: rgb(var(--text-primary) / 0.4);
+    background: rgb(var(--bg-surface));
+    box-shadow: none;
+  }
+
+  html[data-theme='calm'] .graph-node-active {
+    border-color: rgb(var(--text-primary) / 0.82);
+    box-shadow: none;
+  }
+
+  /* Solid amber pin, punched out of the canvas. No blur, so no bloom. */
+  html[data-theme='calm'] .graph-node-active::after {
+    content: '';
+    position: absolute;
+    top: -0.33rem;
+    left: -0.33rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 999px;
+    background: rgb(var(--accent-primary));
+    box-shadow: 0 0 0 3px rgb(var(--bg-app));
+  }
+
+  html[data-theme='calm'] .graph-node-route { border-color: rgb(var(--accent-primary) / 0.55); }
+  html[data-theme='calm'] .graph-node-completed,
+  html[data-theme='calm'] .graph-node-unlocked { border-color: rgb(var(--accent-secondary) / 0.5); }
+
+  /* Desaturating an already low-saturation palette turns it muddy, so unexplored
+     and paused nodes recede via dashed edges and softer text instead. */
+  html[data-theme='calm'] .graph-node-blocked {
+    border-style: dashed;
+    border-color: rgb(var(--text-primary) / 0.2);
+    background: rgb(var(--bg-surface-2) / 0.6);
+    filter: none;
+  }
+
+  html[data-theme='calm'] .graph-node-blocked .graph-node-content { color: rgb(var(--text-muted)); }
+
+  html[data-theme='calm'] .graph-node-blocked:hover,
+  html[data-theme='calm'] .graph-node-blocked.graph-node-selected {
+    border-color: rgb(var(--text-primary) / 0.42);
+    background: rgb(var(--bg-surface));
+    filter: none;
+  }
+
+  html[data-theme='calm'] .graph-node-paused {
+    border-style: dashed;
+    border-color: rgb(var(--text-primary) / 0.24);
+    filter: none;
+  }
+
+  html[data-theme='calm'] .graph-node-abandoned {
+    border-color: rgb(var(--text-primary) / 0.14);
+    opacity: 0.55;
+    filter: none;
+  }
+
+  html[data-theme='calm'] .graph-node-abandoned .graph-node-content { text-decoration: line-through; }
+
+  /* Milestones keep the node silhouette; clay edge and flag carry the meaning. */
+  html[data-theme='calm'] .graph-node-milestone {
+    border-width: 1px;
+    border-left: 3px solid rgb(var(--graph-milestone-color) / 0.85);
+    border-block-color: rgb(var(--graph-milestone-color) / 0.4);
+    border-inline-end-color: rgb(var(--graph-milestone-color) / 0.4);
+    padding-inline: 1.15rem;
+  }
+
+  /* Base rules hardcode sky/amber/emerald-400 hex, which read as borrowed from a
+     dark theme on paper. Remap onto the calm palette; clay stays for milestones. */
+  html[data-theme='calm'] .graph-node-type {
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: none;
+  }
+
+  html[data-theme='calm'] .graph-node-type-question { color: rgb(var(--text-primary) / 0.78); }
+  html[data-theme='calm'] .graph-node-type-solution { color: rgb(var(--accent-primary)); }
+  html[data-theme='calm'] .graph-node-type-result { color: rgb(var(--accent-secondary)); }
+
+  /* Badges lose their heavy pill weight; hierarchy comes from the serif titles
+     and whitespace elsewhere in the theme. */
+  html[data-theme='calm'] .graph-state-badge {
+    gap: 0.34rem;
+    padding: 0.2rem 0.5rem 0.2rem 0.4rem;
+    border-radius: 0.4rem;
+    background: rgb(var(--text-primary) / 0.045);
+    color: rgb(var(--text-secondary));
+    font-weight: 500;
+  }
+
+  html[data-theme='calm'] .graph-state-active {
+    background: rgb(var(--accent-primary) / 0.12);
+    color: rgb(139 100 38);
+  }
+
+  html[data-theme='calm'] .graph-state-unlocked,
+  html[data-theme='calm'] .graph-state-completed {
+    background: rgb(var(--accent-secondary) / 0.12);
+    color: rgb(var(--accent-secondary));
+  }
+
+  html[data-theme='calm'] .graph-state-available {
+    background: rgb(var(--accent-primary) / 0.1);
+    color: rgb(139 100 38);
+  }
+
+  html[data-theme='calm'] .route-choice-badge,
+  html[data-theme='calm'] .graph-milestone-badge {
+    border-radius: 0.4rem;
+    font-weight: 500;
+  }
+
+  html[data-theme='calm'] .graph-node-content {
+    color: rgb(var(--text-primary) / 0.88);
+    text-wrap: pretty;
+
+  }
+
+  html[data-theme='calm'] .graph-node-footer { border-top-color: rgb(var(--text-primary) / 0.08); }
+
+  html[data-theme='calm'] .graph-advance-button,
+  html[data-theme='calm'] .graph-branch-toggle {
+    border: 1px solid rgb(var(--text-primary) / 0.12);
+    border-radius: 0.55rem;
+    background: transparent;
+    color: rgb(var(--text-secondary));
+    font-weight: 500;
+  }
+
+  html[data-theme='calm'] .graph-advance-button:hover,
+  html[data-theme='calm'] .graph-branch-toggle:hover {
+    border-color: rgb(var(--accent-primary) / 0.5);
+    background: rgb(var(--accent-primary) / 0.07);
+    color: rgb(139 100 38);
+  }
+
+  html[data-theme='calm'] .task-graph .react-flow__edge-path {
+    stroke: rgb(var(--text-primary) / 0.22);
+    stroke-width: 1.5;
+  }
+
+  /* A steady drawn line rather than marching dashes. */
+  html[data-theme='calm'] .task-graph .react-flow__edge.graph-edge-route .react-flow__edge-path {
+    stroke: rgb(var(--graph-route-color));
+    stroke-width: 2.25;
+    stroke-dasharray: none;
+    opacity: 1;
+  }
+
+  html[data-theme='calm'] .task-graph .react-flow__edge.graph-edge-complete .react-flow__edge-path {
+    stroke: rgb(var(--accent-secondary) / 0.75);
+    stroke-width: 2;
+  }
+
+  html[data-theme='calm'] .task-graph .react-flow__edge.graph-edge-blocked .react-flow__edge-path {
+    stroke: rgb(var(--text-primary) / 0.18);
+    stroke-dasharray: 2 6;
+    opacity: 1;
+  }
+
+  html[data-theme='calm'] .task-graph .react-flow__arrowhead polyline {
+    stroke: rgb(var(--text-primary) / 0.28);
+    fill: rgb(var(--text-primary) / 0.28);
+  }
+
+  html[data-theme='calm'] .graph-handle {
+    width: 8px !important;
+    height: 8px !important;
+    border: 1px solid rgb(var(--bg-surface)) !important;
+    background: rgb(var(--text-primary) / 0.34) !important;
+  }
+
+  html[data-theme='calm'] .graph-node-active .graph-handle,
+  html[data-theme='calm'] .graph-node-route .graph-handle {
+    background: rgb(var(--accent-primary)) !important;
+  }
+
+  html[data-theme='calm'] .graph-branch-summary {
+    border-radius: 1.15rem;
+    border-color: rgb(var(--text-primary) / 0.2);
+    background: rgb(var(--bg-surface-2) / 0.72);
+    box-shadow: none;
+  }
+
+  html[data-theme='calm'] .graph-minimap-panel,
+  html[data-theme='calm'] .graph-minimap-toggle {
+    border-color: rgb(var(--text-primary) / 0.1);
+    border-radius: 1.1rem;
+    background: rgb(var(--bg-surface) / 0.96);
+    box-shadow: 0 8px 24px rgba(24, 35, 31, 0.06);
+  }
+
+  html[data-theme='calm'] .task-graph .react-flow__controls,
+  html[data-theme='calm'] .task-graph .react-flow__controls-button {
+    border-color: rgb(var(--text-primary) / 0.1);
+    background: rgb(var(--bg-surface) / 0.96);
+  }
+
+  /* Calm previously had a single button floating alone at top right, and no way
+     to focus the route or fit the map. Lay the toolbar out like the other themes
+     but with a plain count line instead of a titled header block. */
+  html[data-theme='calm'] .graph-toolbar {
+    top: 1rem;
+    right: 1rem;
+    left: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    pointer-events: none;
+  }
+
+  html[data-theme='calm'] .graph-toolbar-actions {
+    display: flex;
+    gap: 0.4rem;
+    pointer-events: auto;
+  }
+
+  html[data-theme='calm'] .graph-paper-readout {
+    display: block;
+    color: rgb(var(--text-muted));
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+  }
+
+  html[data-theme='calm'] .graph-paper-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid rgb(var(--text-primary) / 0.12);
+    border-radius: 0.7rem;
+    padding: 0.5rem 0.7rem;
+    background: rgb(var(--bg-surface) / 0.92);
+    color: rgb(var(--text-secondary));
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  html[data-theme='calm'] .graph-paper-action:hover:not(:disabled) {
+    border-color: rgb(var(--accent-primary) / 0.55);
+    color: rgb(139 100 38);
+  }
+
+  html[data-theme='calm'] .graph-paper-action:disabled { opacity: 0.42; }
+
+  /* Reveal-on-route-change animation is a scale pop; calm just fades. */
+  html[data-theme='calm'] .graph-node-transitioning { animation-name: calm-node-reveal; }
+
+  @keyframes calm-node-reveal {
+    from { opacity: 0.55; }
+    to { opacity: 1; }
+  }
+
+  @media (max-width: 767px) {
+    html[data-theme='calm'] .graph-paper-readout { display: none; }
+    html[data-theme='calm'] .graph-toolbar { justify-content: flex-end; }
+    html[data-theme='calm'] .graph-toolbar-actions button span { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html[data-theme='calm'] .graph-node,
+    html[data-theme='calm'] .graph-advance-button,
+    html[data-theme='calm'] .graph-branch-toggle,
+    html[data-theme='calm'] .graph-paper-action { transition: none; }
+  }
+
   @keyframes game-road-travel { to { stroke-dashoffset: -38; } }
 
   html[data-theme='game'] .diagnostic-panel::before {
