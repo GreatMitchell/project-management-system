@@ -83,6 +83,6 @@ export function resolveCurrentRoute(nodes: PraxisNode[], connections: NodeConnec
 }
 
 export function calculateRouteProgress(routeNodeIds: string[], nodes: PraxisNode[]) {
-  const routeSet = new Set(routeNodeIds); const effective = nodes.filter((node) => routeSet.has(node.id) && node.status !== 'abandoned'); const completed = effective.filter((node) => node.status === 'completed').length
+  const routeSet = new Set(routeNodeIds); const effective = nodes.filter((node) => routeSet.has(node.id) && node.status !== null && node.status !== 'abandoned'); const completed = effective.filter((node) => node.status === 'completed').length
   return { completed, total: effective.length, percent: effective.length ? Math.round((completed / effective.length) * 100) : 0 }
 }

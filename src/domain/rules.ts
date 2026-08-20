@@ -29,7 +29,7 @@ export function canTransition(from: ProjectStatus, to: ProjectStatus) {
 }
 
 export function calculateProgress(nodes: PraxisNode[]) {
-  const effective = nodes.filter((node) => node.status !== 'abandoned')
+  const effective = nodes.filter((node) => node.status !== null && node.status !== 'abandoned')
   const completed = effective.filter((node) => node.status === 'completed').length
   return { completed, total: effective.length, percent: effective.length ? Math.round((completed / effective.length) * 100) : 0 }
 }
