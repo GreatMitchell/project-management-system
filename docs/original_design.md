@@ -145,3 +145,43 @@ graph TD
   App.jsx
   main.jsx
 ```
+
+---
+
+# 修 bug
+
+尝试打开普通项目时报错
+
+```
+Unexpected Application Error!
+Cannot read properties of undefined (reading 'icon')
+TypeError: Cannot read properties of undefined (reading 'icon')
+    at http://localhost:5173/src/features/projects/ProjectDetailPage.tsx:528:49
+    at Array.map (<anonymous>)
+    at ProjectDetailPage (http://localhost:5173/src/features/projects/ProjectDetailPage.tsx:525:27)
+    at renderWithHooks (http://localhost:5173/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:11596:26)
+    at updateFunctionComponent (http://localhost:5173/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:14630:28)
+    at beginWork (http://localhost:5173/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:15972:22)
+    at beginWork$1 (http://localhost:5173/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:19806:22)
+    at performUnitOfWork (http://localhost:5173/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:19251:20)
+    at workLoopSync (http://localhost:5173/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:19190:13)
+    at renderRootSync (http://localhost:5173/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:19169:15)
+```
+
+尝试进入科研项目时报错
+
+```
+Unexpected Application Error!
+require is not defined
+ReferenceError: require is not defined
+    at ProjectDetailPage (https://node.taila150a8.ts.net/src/features/projects/ProjectDetailPage.tsx:86:41)
+    at renderWithHooks (https://node.taila150a8.ts.net/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:11596:26)
+    at updateFunctionComponent (https://node.taila150a8.ts.net/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:14630:28)
+    at beginWork (https://node.taila150a8.ts.net/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:15972:22)
+    at beginWork$1 (https://node.taila150a8.ts.net/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:19806:22)
+    at performUnitOfWork (https://node.taila150a8.ts.net/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:19251:20)
+    at workLoopSync (https://node.taila150a8.ts.net/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:19190:13)
+    at renderRootSync (https://node.taila150a8.ts.net/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:19169:15)
+    at recoverFromConcurrentError (https://node.taila150a8.ts.net/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:18786:28)
+    at performConcurrentWorkOnRoot (https://node.taila150a8.ts.net/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:18734:30)
+```

@@ -13,9 +13,11 @@ export function ProjectForm({ open, project, onClose, onSubmit }: Props) {
     <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
       <label className="field"><span>项目名称</span><input autoFocus {...register('title')} placeholder="例如：理解并搭建个人知识系统" />{errors.title && <small>{errors.title.message}</small>}</label>
       <label className="field"><span>现实触发</span><textarea rows={5} {...register('trigger')} placeholder="是什么问题、需求或好奇促使你开始？" />{errors.trigger && <small>{errors.trigger.message}</small>}</label>
-      {!project && <label className="field"><span>项目类型</span><select {...register('type')}>{projectTypes.map((value) => <option key={value} value={value}>{projectTypeLabels[value]}</option>)}</select><small className="text-text-secondary">普通项目使用有向无环图，科研项目允许任意有向图</small></label>}
+      {!project && <label className="field"><span>项目类型</span><select {...register('type')}>{projectTypes.map((value) => <option key={value} value={value}>{projectTypeLabels[value]}</option>)}</select><small className="text-text-secondary"> </small></label>}
       {project && <label className="field"><span>当前状态</span><select {...register('status')}>{Object.entries(statusLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>}
       <div className="flex justify-end gap-3 pt-2"><button type="button" className="button-secondary" onClick={onClose}>取消</button><button className="button-primary" disabled={isSubmitting}>{isSubmitting ? '保存中…' : project ? '保存修正' : '创建项目'}</button></div>
     </form>
   </Modal>
 }
+
+// 普通项目使用有向无环图，科研项目允许任意有向图
