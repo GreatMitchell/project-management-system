@@ -1,4 +1,4 @@
-import type { NodeStatus, PraxisNode, ProjectStatus } from './types'
+import type { EdgeType, NodeStatus, NodeType, PraxisNode, ProjectStatus, ProjectType, VulnerabilityStatus } from './types'
 
 export const statusLabels: Record<ProjectStatus, string> = {
   exploring: '探索中',
@@ -39,3 +39,37 @@ export function nextNodePosition(nodes: PraxisNode[]) {
 }
 
 export const nodeStatusLabels: Record<NodeStatus, string> = statusLabels
+
+export const nodeTypeLabels: Record<NodeType, string> = {
+  question: '问题',
+  solution: '方案',
+  result: '结果',
+  assumption: '假设',
+  vulnerability: '缺陷',
+}
+
+export const vulnerabilityStatusLabels: Record<VulnerabilityStatus, string> = {
+  unexplored: '待探索',
+  patched: '已被填',
+  open: '待攻克',
+  conquered: '已攻克',
+}
+
+export const edgeTypeLabels: Record<EdgeType, string> = {
+  exposes: '暴露',
+  patches: '填补',
+  inherits: '继承',
+  weakens: '弱化',
+}
+
+export const projectTypeLabels: Record<ProjectType, string> = {
+  general: '普通项目',
+  research: '科研项目',
+}
+
+export function calculateResearchProgress(nodes: PraxisNode[]) {
+  const vulnerabilities = nodes.filter((node) => node.type === 'vulnerability')
+  const open = vulnerabilities.filter((node) => node.vulnerabilityStatus === 'open').length
+  const conquered = vulnerabilities.filter((node) => node.vulnerabilityStatus === 'conquered').length
+  return { open, conquered, total: vulnerabilities.length }
+}

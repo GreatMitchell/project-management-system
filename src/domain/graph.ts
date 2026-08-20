@@ -32,7 +32,38 @@ export function validateConnectionSet(nodes: PraxisNode[], connections: NodeConn
   if (nodes.some((node) => visit(node.id))) throw new Error('该连接会形成环，任务图只允许向前发展')
 }
 
+export function validateResearchConnectionSet(nodes: PraxisNode[], connections: NodeConnection[]) {
+  const nodeById = new Map(nodes.map((node) => [node.id, node])); const keys = new Set<string>()
+  for (const connection of connections) {
+    const source = nodeById.get(connection.sourceNodeId); const target = nodeById.get(connection.targetNodeId)
+    if (!source || !target || source.projectId !== connection.projectId || target.projectId !== connection.projectId) throw new Error('连接包含不存在或不属于该项目的节点')
+    if (source.id === target.id) throw new Error('节点不能连接到自身')
+    const key = `${connection.projectId}:${source.id}:${target.id}`; if (keys.has(key)) throw new Error('两个节点之间已经存在连接'); keys.add(key)
+  }
+}
+
 export function getIncomingConnections(nodeId: string, connections: NodeConnection[]) { return connections.filter((item) => item.targetNodeId === nodeId) }
+
+export function resolveFocusedSubgraph(
+  nodes: PraxisNode[], 
+  connections: NodeConnection[], 
+  focusedNodeIds: string[]
+): CurrentRoute {
+  if (!focusedNodeIds.length) return { nodeIds: [], connectionIds: [], complete: false, needsChoiceNodeId: null, invalid: false }
+  
+  const focusedSet = new Set(focusedNodeIds);
+  const highlightedConnections = connections.filter(conn => 
+    focusedSet.has(conn.sourceNodeId) || focusedSet.has(conn.targetNodeId)
+  );
+  
+  return {
+    nodeIds: focusedNodeIds,
+    connectionIds: highlightedConnections.map(c => c.id),
+    complete: true,
+    needsChoiceNodeId: null,
+    invalid: false
+  };
+}
 
 export function resolveCurrentRoute(nodes: PraxisNode[], connections: NodeConnection[], activeNodeId: string | null): CurrentRoute {
   if (!activeNodeId) return { nodeIds: [], connectionIds: [], complete: false, needsChoiceNodeId: null, invalid: false }
