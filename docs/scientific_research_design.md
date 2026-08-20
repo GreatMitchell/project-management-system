@@ -76,3 +76,41 @@
 选中某节点时，该节点的“据点情报”面板中，取消“继续推进”、“取消追踪”和“创建支线“按钮，保留“设为里程碑”、“编辑”和“删除”按钮；“设为当前目标”按钮改为“设为重点关注”，单击后该节点以及该节点的所有入边和出边高亮，且“设为重点关注”变为“取消重点关注”。只能删除非重点关注的节点，且单击删除按钮后同样弹出确认窗口，节点删除后所有相关边全部级联删除。
 
 原本连接两个节点以新增边的功能保留，且现在允许出现环，但不允许出现自环（自己连接自己）。每新增一条边都询问边的类型：暴露、填补、继承或弱化。无需为边准备附加日志。允许在路线图中选中边，然后修改边的类型。双击以删除边的功能保留。
+
+--- 
+
+# 修 bug 
+
+尝试进入已存在新类型节点（约束/缺陷）的科研项目时，报错
+
+```
+Cannot read properties of undefined (reading 'label')
+TypeError: Cannot read properties of undefined (reading 'label')
+    at TaskGraphNode (http://localhost:5173/src/features/nodes/TaskGraphNode.tsx:30:81)
+    at renderWithHooks (http://localhost:5173/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:11596:26)
+    at mountIndeterminateComponent (http://localhost:5173/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:14974:21)
+    at beginWork (http://localhost:5173/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:15962:22)
+    at beginWork$1 (http://localhost:5173/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:19806:22)
+    at performUnitOfWork (http://localhost:5173/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:19251:20)
+    at workLoopSync (http://localhost:5173/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:19190:13)
+    at renderRootSync (http://localhost:5173/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:19169:15)
+    at recoverFromConcurrentError (http://localhost:5173/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:18786:28)
+    at performConcurrentWorkOnRoot (http://localhost:5173/node_modules/.vite/deps/chunk-NXESFFTV.js?v=3128ef87:18734:30)
+```
+
+## 修复结果
+
+问题原因是 `TaskGraphNode.tsx` 的 `typeMeta` 仍然只包含普通项目的三种节点类型，科研项目加载 `assumption` 或 `vulnerability` 节点时无法取得 `label` 和 `icon`。
+
+已完成以下修复：
+
+- 为 `assumption` 添加“假设”标签和 `HelpCircle` 图标
+- 为 `vulnerability` 添加“缺陷”标签和 `ShieldAlert` 图标
+- 更新技术视图节点编号：`ASM`、`VUL`
+- 更新游戏视图节点编号：`A`、`V`
+
+验证结果：
+
+- TypeScript 类型检查通过
+- 相关文件无 linter 错误
+- 31 个单元测试全部通过
