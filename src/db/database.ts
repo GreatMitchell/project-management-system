@@ -10,6 +10,12 @@ const storesV3 = {
   milestones: 'id, projectId, &nodeId, result, updatedAt', reviews: 'id, projectId, trigger, createdAt', persistence: 'id',
 }
 
+const storesV5 = {
+  projects: 'id, status, type, activeNodeId, updatedAt', nodes: 'id, projectId, type, [projectId+position], status, updatedAt',
+  nodeConnections: 'id, projectId, sourceNodeId, targetNodeId, isPreferred, &[projectId+sourceNodeId+targetNodeId]',
+  milestones: 'id, projectId, &nodeId, result, updatedAt', reviews: 'id, projectId, trigger, createdAt', persistence: 'id',
+}
+
 export class PraxisDatabase extends Dexie {
   projects!: EntityTable<Project, 'id'>; nodes!: EntityTable<PraxisNode, 'id'>; nodeConnections!: EntityTable<NodeConnection, 'id'>
   milestones!: EntityTable<Milestone, 'id'>; reviews!: EntityTable<Review, 'id'>; persistence!: EntityTable<PersistenceRecord, 'id'>
@@ -30,6 +36,10 @@ export class PraxisDatabase extends Dexie {
       for (const node of nodes) { const items = byProject.get(node.projectId) ?? []; items.push(node); byProject.set(node.projectId, items) }
       for (const project of projects) { const latest = [...(byProject.get(project.id) ?? [])].sort((a, b) => b.position - a.position)[0]; await transaction.table<Project, string>('projects').update(project.id, { activeNodeId: latest?.id ?? null }) }
       await transaction.table<NodeConnection, string>('nodeConnections').toCollection().modify({ isPreferred: false })
+    })
+    this.version(5).stores(storesV5).upgrade(async (transaction) => {
+      const projects = await transaction.table<Project, string>('projects').toArray()
+      for (const project of projects) { await transaction.table<Project, string>('projects').update(project.id, { type: 'general' as const, focusedNodeIds: undefined }) }
     })
   }
 }

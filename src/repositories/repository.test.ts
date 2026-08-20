@@ -4,7 +4,7 @@ import type { BackupDataV1, BackupDataV2 } from '../domain/types'
 import { repository } from './repository'
 beforeEach(async () => { await db.delete(); await db.open() })
 const input = (content: string) => ({ type: 'question' as const, content, status: 'advancing' as const, log: '' })
-async function base() { const project = await repository.createProject({ title: '项目', trigger: '需求', status: 'exploring' }); const first = (await repository.saveNode(project.id, input('起点')))!; const second = (await repository.saveNode(project.id, input('推进'), undefined, { mode: 'advance', predecessorNodeId: first.id }))!; return { project, first, second } }
+async function base() { const project = await repository.createProject({ title: '项目', trigger: '需求', status: 'exploring', type: 'general' }); const first = (await repository.saveNode(project.id, input('起点')))!; const second = (await repository.saveNode(project.id, input('推进'), undefined, { mode: 'advance', predecessorNodeId: first.id }))!; return { project, first, second } }
 
 describe('当前路线 repository', () => {
   it('首节点自动成为目标，推进时原子前移', async () => { const { project, second } = await base(); expect((await repository.getBundle(project.id))?.project.activeNodeId).toBe(second.id) })
