@@ -57,7 +57,7 @@ export function AppShell() {
               <Route size={22} />
             </span>
             <div className="sidebar-brand-text">
-              <strong className="sidebar-brand-text font-serif text-xl tracking-wide text-sidebar-fg">践途</strong>
+              <strong className="sidebar-brand-text font-serif text-xl tracking-wide text-sidebar-fg">刻度</strong>
               <p className="sidebar-brand-text text-[10px] uppercase tracking-[.22em] text-sidebar-fg/55">Praxis Path</p>
             </div>
           </div>
