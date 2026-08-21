@@ -1,4 +1,4 @@
-import { BaseEdge, EdgeLabelRenderer, getBezierPath, type Edge, type EdgeProps } from '@xyflow/react'
+import { BaseEdge, EdgeLabelRenderer, getBezierPath, getSmoothStepPath, type Edge, type EdgeProps } from '@xyflow/react'
 import type { EdgeType } from '../../domain/types'
 import { edgeTypeLabels } from '../../domain/rules'
 
@@ -11,7 +11,10 @@ export interface RouteMapEdgeData extends Record<string, unknown> {
 export type RouteMapEdge = Edge<RouteMapEdgeData, 'routeMap'>
 
 export function RouteMapEdge({ id, sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition, markerEnd, style, data }: EdgeProps<RouteMapEdge>) {
-  const [path, labelX, labelY] = getBezierPath({ sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition })
+  const isBackEdge = sourceX > targetX + 24
+  const [path, labelX, labelY] = isBackEdge
+    ? getSmoothStepPath({ sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition, borderRadius: 18, offset: 42 })
+    : getBezierPath({ sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition })
   
   const edgeLabel = data?.edgeType ? edgeTypeLabels[data.edgeType] : null
 
