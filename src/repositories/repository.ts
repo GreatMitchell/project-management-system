@@ -35,6 +35,8 @@ export const repository = {
 
   async saveNode(projectId: string, input: NodeInput, nodeId?: string, options: SaveNodeOptions = {}) {
     const clean = nodeInputSchema.parse(input); const timestamp = now()
+    const currentProject = await db.projects.get(projectId); if (!currentProject) throw new Error('项目不存在')
+    if (currentProject.type === 'general' && (clean.type === 'assumption' || clean.type === 'vulnerability')) throw new Error('普通项目不支持假设或缺陷节点')
     if (nodeId) { await db.nodes.update(nodeId, { ...clean, updatedAt: timestamp }); await db.projects.update(projectId, { updatedAt: timestamp }); return db.nodes.get(nodeId) }
     const [project, nodes] = await Promise.all([db.projects.get(projectId), db.nodes.where('projectId').equals(projectId).toArray()]); if (!project) throw new Error('项目不存在')
     if (project.type === 'research' && options.mode === 'advance') throw new Error('科研项目不支持继续推进模式')
