@@ -13,8 +13,10 @@ export type VulnerabilityStatus = (typeof vulnerabilityStatuses)[number];
 export type ProjectType = (typeof projectTypes)[number];
 export type ValidationResult = (typeof validationResults)[number];
 export type ReviewTrigger = (typeof reviewTriggers)[number]
+export const graphPositionSchema = z.object({ x: z.number().finite(), y: z.number().finite() })
+export type GraphPosition = z.infer<typeof graphPositionSchema>
 export interface Project { id: string; title: string; trigger: string; status: ProjectStatus; type: ProjectType; activeNodeId: string | null; focusedNodeIds: string[]; createdAt: string; updatedAt: string }
-export interface PraxisNode { id: string; projectId: string; type: NodeType; content: string; status: NodeStatus | null; vulnerabilityStatus?: VulnerabilityStatus; log: string; position: number; createdAt: string; updatedAt: string }
+export interface PraxisNode { id: string; projectId: string; type: NodeType; content: string; status: NodeStatus | null; vulnerabilityStatus?: VulnerabilityStatus; log: string; position: number; graphPosition?: GraphPosition; createdAt: string; updatedAt: string }
 export interface NodeConnection { id: string; projectId: string; sourceNodeId: string; targetNodeId: string; edgeType?: EdgeType; isPreferred: boolean; createdAt: string }
 export interface Milestone { id: string; projectId: string; nodeId: string; title: string; method: string; criteria: string; result: ValidationResult | null; feeling: string; validatedAt: string | null; createdAt: string; updatedAt: string }
 export interface Review { id: string; projectId: string; trigger: ReviewTrigger; health: string; execution: string; systemAdjustment: string; createdAt: string; updatedAt: string }

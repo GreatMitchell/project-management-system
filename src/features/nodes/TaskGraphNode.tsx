@@ -4,10 +4,6 @@ import type { Milestone, PraxisNode } from '../../domain/types'
 import { statusLabels, statusStyles } from '../../domain/rules'
 import type { GraphVisualPresentation } from './graphVisualState'
 
-export const graphNodeWidth = 336
-export const graphNodeHeight = 220
-export const techGraphNodeHeight = 236
-
 export interface TaskGraphNodeData extends Record<string, unknown> { node: PraxisNode; milestone?: Milestone; selected: boolean; active: boolean; onRoute: boolean; presentation: GraphVisualPresentation; transitionIndex: number; transitioning: boolean; collapsibleBranches: { id: string; count: number; collapsed: boolean }[]; onSelect: (node: PraxisNode) => void; onAdvance: (node: PraxisNode) => void; onToggleBranch: (id: string) => void }
 export type TaskFlowNode = Node<TaskGraphNodeData, 'praxis'>
 const typeMeta = { question: { label: '问题', icon: CircleHelp }, solution: { label: '方案', icon: Lightbulb }, result: { label: '结果', icon: Target }, assumption: { label: '假设', icon: HelpCircle }, vulnerability: { label: '缺陷', icon: ShieldAlert } } as const
