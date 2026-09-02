@@ -5,6 +5,7 @@ import { ErrorBoundary } from './components/ErrorBoundary'
 import { ToastProvider } from './components/Toast'
 import { ThemeProvider } from './theme/ThemeProvider'
 import '@xyflow/react/dist/style.css'
+import 'katex/dist/katex.min.css'
 import './index.css'
 import './sidebar-collapse.css'
 
