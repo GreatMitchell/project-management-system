@@ -1,4 +1,4 @@
-import { ArchiveRestore, FolderKanban, Menu, PanelLeftClose, PanelLeftOpen, Route, Settings, X } from 'lucide-react'
+import { ArchiveRestore, Crosshair, FolderKanban, Menu, PanelLeftClose, PanelLeftOpen, Route, Settings, X } from 'lucide-react'
 import { AutoSnapshotController } from '../persistence/AutoSnapshotController'
 import { StartupRecoveryPrompt } from '../persistence/StartupRecoveryPrompt'
 import { useLayoutEffect, useState } from 'react'
@@ -6,6 +6,7 @@ import { NavLink, Outlet } from 'react-router-dom'
 
 const links = [
   { to: '/projects', label: '项目路线', icon: FolderKanban },
+  { to: '/focus', label: '核心聚焦', icon: Crosshair },
   { to: '/reviews', label: '审视记录', icon: ArchiveRestore },
   { to: '/settings', label: '数据设置', icon: Settings },
 ]

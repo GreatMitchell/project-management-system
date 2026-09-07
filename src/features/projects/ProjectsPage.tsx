@@ -24,11 +24,22 @@ export function ProjectsPage() {
       (filter === 'all' || project.status === filter) &&
       `${project.title} ${project.trigger}`.toLowerCase().includes(query.toLowerCase()),
   )
+  const pinned = visible.filter((project) => project.pinnedAt).sort((a, b) => (b.pinnedAt ?? '').localeCompare(a.pinnedAt ?? ''))
+  const unpinned = visible.filter((project) => !project.pinnedAt)
 
   const create = async (input: ProjectInput) => {
     await repository.createProject(input)
     setFormOpen(false)
     notify('项目已创建，路线从这里开始')
+  }
+
+  const togglePin = async (projectId: string, isPinned: boolean) => {
+    try {
+      await repository.toggleProjectPin(projectId)
+      notify(isPinned ? '已取消置顶' : '已置顶，项目将固定在列表顶部')
+    } catch (error) {
+      notify(error instanceof Error ? error.message : '无法更新置顶', 'error')
+    }
   }
 
   return (
@@ -63,16 +74,60 @@ export function ProjectsPage() {
       </section>
 
       {visible.length ? (
-        <section className="mt-7 grid gap-5 md:grid-cols-2 2xl:grid-cols-3">
-          {visible.map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              nodes={nodes.filter((node) => node.projectId === project.id)}
-              milestones={milestones.filter((item) => item.projectId === project.id)}
-            />
-          ))}
-        </section>
+        pinned.length ? (
+          <>
+            <section className="mt-7">
+              <div className="pinned-divider">
+                <span className="theme-label-default">置顶</span>
+                <span className="tech-only">PINNED</span>
+                <span className="game-only">高优先级</span>
+              </div>
+              <div className="mt-4 grid gap-5 md:grid-cols-2 2xl:grid-cols-3">
+                {pinned.map((project) => (
+                  <ProjectCard
+                    key={project.id}
+                    project={project}
+                    nodes={nodes.filter((node) => node.projectId === project.id)}
+                    milestones={milestones.filter((item) => item.projectId === project.id)}
+                    onTogglePin={togglePin}
+                  />
+                ))}
+              </div>
+            </section>
+            {unpinned.length > 0 && (
+              <section className="mt-10">
+                <div className="pinned-divider">
+                  <span className="theme-label-default">全部项目</span>
+                  <span className="tech-only">ALL MODULES</span>
+                  <span className="game-only">其余委托</span>
+                </div>
+                <div className="mt-4 grid gap-5 md:grid-cols-2 2xl:grid-cols-3">
+                  {unpinned.map((project) => (
+                    <ProjectCard
+                      key={project.id}
+                      project={project}
+                      nodes={nodes.filter((node) => node.projectId === project.id)}
+                      milestones={milestones.filter((item) => item.projectId === project.id)}
+                      onTogglePin={togglePin}
+                    />
+                  ))}
+                </div>
+              </section>
+            )}
+          </>
+        ) : (
+          <section className="mt-7 grid gap-5 md:grid-cols-2 2xl:grid-cols-3">
+            {visible.map((project) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                nodes={nodes.filter((node) => node.projectId === project.id)}
+                milestones={milestones.filter((item) => item.projectId === project.id)}
+                onTogglePin={togglePin}
+              />
+            ))}
+          </section>
+        )
       ) : (
         <EmptyState hasProjects={Boolean(projects.length)} onCreate={() => setFormOpen(true)} />
       )}

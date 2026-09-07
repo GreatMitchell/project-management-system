@@ -2,6 +2,7 @@ import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { AppShell } from './components/AppShell'
 import { ProjectsPage } from './features/projects/ProjectsPage'
 import { ProjectDetailPage } from './features/projects/ProjectDetailPage'
+import { FocusPage } from './features/focus/FocusPage'
 import { ReviewsPage } from './features/reviews/ReviewsPage'
 import { SettingsPage } from './features/settings/SettingsPage'
 
@@ -10,6 +11,7 @@ const router = createBrowserRouter([
     { index: true, element: <Navigate to="/projects" replace /> },
     { path: '/projects', element: <ProjectsPage /> },
     { path: '/projects/:projectId', element: <ProjectDetailPage /> },
+    { path: '/focus', element: <FocusPage /> },
     { path: '/reviews', element: <ReviewsPage /> },
     { path: '/settings', element: <SettingsPage /> },
     { path: '*', element: <Navigate to="/projects" replace /> },

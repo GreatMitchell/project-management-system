@@ -41,6 +41,10 @@ export class PraxisDatabase extends Dexie {
       const projects = await transaction.table<Project, string>('projects').toArray()
       for (const project of projects) { await transaction.table<Project, string>('projects').update(project.id, { type: 'general' as const, focusedNodeIds: [], activeNodeId: project.activeNodeId ?? null }) }
     })
+    this.version(6).stores(storesV5).upgrade(async (transaction) => {
+      const projects = await transaction.table<Project, string>('projects').toArray()
+      for (const project of projects) { if (project.pinnedAt === undefined) await transaction.table<Project, string>('projects').update(project.id, { pinnedAt: null }) }
+    })
   }
 }
 

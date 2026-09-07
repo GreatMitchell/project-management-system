@@ -1,30 +1,42 @@
-import { ArrowUpRight, CircleDot, Milestone as MilestoneIcon } from 'lucide-react'
+import { ArrowUpRight, CircleDot, Milestone as MilestoneIcon, Pin } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { calculateProgress, calculateResearchProgress, statusLabels, statusStyles } from '../../domain/rules'
 import type { Milestone, PraxisNode, Project } from '../../domain/types'
 
-export function ProjectCard({ project, nodes, milestones }: { project: Project; nodes: PraxisNode[]; milestones: Milestone[] }) {
+interface Props { project: Project; nodes: PraxisNode[]; milestones: Milestone[]; onTogglePin: (projectId: string, pinned: boolean) => void }
+
+export function ProjectCard({ project, nodes, milestones, onTogglePin }: Props) {
   const progress = calculateProgress(nodes)
   const researchProgress = project.type === 'research' ? calculateResearchProgress(nodes) : null
   const passed = milestones.filter((item) => item.result === 'passed').length
   const questCode = `QUEST-${project.id.slice(-4).toUpperCase()}`
+  const pinned = Boolean(project.pinnedAt)
 
   return (
-    <Link
-      to={`/projects/${project.id}`}
-      className="project-card group surface-card flex min-h-72 flex-col p-6 transition duration-300 hover:-translate-y-1 hover:border-lineStrong/45 hover:bg-surface"
-    >
-      <div className="project-card-header relative z-[1] flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <span className="tech-module-label" aria-hidden="true">PROJECT / {project.id.slice(-4).toUpperCase()}</span>
-          <span className="game-module-label" aria-hidden="true">{questCode}</span>
-          <span className={`status-badge ${statusStyles[project.status]}`}>
-            <CircleDot size={12} />
-            {statusLabels[project.status]}
-          </span>
+    <div className="project-card-slot relative h-full">
+      <Link
+        to={`/projects/${project.id}`}
+        className={`project-card group surface-card flex h-full min-h-72 flex-col p-6 transition duration-300 hover:-translate-y-1 hover:border-lineStrong/45 hover:bg-surface ${pinned ? 'project-card-pinned' : ''}`}
+      >
+        <div className="project-card-header relative z-[1] flex items-center justify-between pr-9">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="tech-module-label" aria-hidden="true">PROJECT / {project.id.slice(-4).toUpperCase()}</span>
+            <span className="game-module-label" aria-hidden="true">{questCode}</span>
+            <span className={`status-badge ${statusStyles[project.status]}`}>
+              <CircleDot size={12} />
+              {statusLabels[project.status]}
+            </span>
+            {pinned && (
+              <span className="project-pin-badge">
+                <Pin size={11} />
+                <span className="theme-label-default">置顶</span>
+                <span className="tech-only">PINNED</span>
+                <span className="game-only">高优先级契约</span>
+              </span>
+            )}
+          </div>
+          <ArrowUpRight className="project-card-link text-text-secondary transition group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-accent-primary" size={20} />
         </div>
-        <ArrowUpRight className="project-card-link text-text-secondary transition group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-accent-primary" size={20} />
-      </div>
 
       <div className="relative z-[1] mt-7 flex items-start justify-between gap-4">
         <h2 className="font-serif text-2xl font-semibold leading-snug text-text-primary">{project.title}</h2>
@@ -43,6 +55,17 @@ export function ProjectCard({ project, nodes, milestones }: { project: Project; 
           <span className="project-reward rounded-full bg-accent-soft px-2 py-1 text-[10px] font-medium text-accent-primary">{project.type === 'research' ? <><span className="theme-label-default">已攻克 {researchProgress?.conquered ?? 0}</span><span className="tech-only">CONQUERED {(researchProgress?.conquered ?? 0).toString().padStart(2, '0')}</span><span className="game-only">{researchProgress?.conquered ?? 0} VULNS CLEARED</span></> : <><span className="theme-label-default">+{progress.completed} EXP</span><span className="tech-only">RESOLVED {progress.completed.toString().padStart(2, '0')}</span><span className="game-only">{progress.completed} STEPS CLEARED</span></>}</span>
         </div>
       </div>
-    </Link>
+      </Link>
+      <button
+        type="button"
+        className={`project-pin-toggle absolute right-4 top-4 z-10 ${pinned ? 'project-pin-toggle-active' : ''}`}
+        aria-pressed={pinned}
+        aria-label={`${pinned ? '取消置顶' : '置顶'}：${project.title}`}
+        title={pinned ? '取消置顶' : '置顶'}
+        onClick={() => onTogglePin(project.id, pinned)}
+      >
+        <Pin size={15} />
+      </button>
+    </div>
   )
 }
