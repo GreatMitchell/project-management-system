@@ -45,6 +45,14 @@ export class PraxisDatabase extends Dexie {
       const projects = await transaction.table<Project, string>('projects').toArray()
       for (const project of projects) { if (project.pinnedAt === undefined) await transaction.table<Project, string>('projects').update(project.id, { pinnedAt: null }) }
     })
+    this.version(7).stores(storesV5).upgrade(async (transaction) => {
+      const projects = await transaction.table<Project, string>('projects').toArray()
+      // 曾经普通项目用 focusedNodeIds 承载“核心”标记，这里迁移到 coreNodeIds；focusedNodeIds 恢复为科研专属
+      for (const project of projects) {
+        const mergedCore = project.type === 'general' ? project.focusedNodeIds ?? [] : []
+        await transaction.table<Project, string>('projects').update(project.id, { coreNodeIds: mergedCore, focusedNodeIds: project.type === 'research' ? project.focusedNodeIds ?? [] : [] })
+      }
+    })
   }
 }
 

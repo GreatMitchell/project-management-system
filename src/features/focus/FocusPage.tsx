@@ -20,8 +20,8 @@ export function FocusPage() {
     const projects = await db.projects.toArray()
     const out: FocusRow[] = []
     for (const project of projects) {
-      if (!project.focusedNodeIds?.length) continue
-      const nodes = await db.nodes.bulkGet(project.focusedNodeIds)
+      if (!project.coreNodeIds?.length) continue
+      const nodes = await db.nodes.bulkGet(project.coreNodeIds)
       for (const node of nodes) if (node) out.push({ project, node })
     }
     return out.sort((a, b) => b.node.updatedAt.localeCompare(a.node.updatedAt))
@@ -34,7 +34,7 @@ export function FocusPage() {
 
   const unmark = async (row: FocusRow) => {
     try {
-      await repository.toggleFocusedNode(row.project.id, row.node.id)
+      await repository.toggleCoreNode(row.project.id, row.node.id)
       notify('已取消核心')
     } catch (error) {
       notify(error instanceof Error ? error.message : '无法更新核心标记', 'error')

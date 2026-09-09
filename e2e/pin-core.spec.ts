@@ -21,6 +21,9 @@ test('项目置顶独立分组与取消置顶', async ({ page }) => {
 
   await page.getByRole('link', { name: /置顶验证甲/ }).click()
   await page.getByRole('button', { name: '取消置顶' }).click()
+  // 等待取消置顶的写入完成（toast 在 await repository.toggleProjectPin 之后弹出）再跳转，
+  // 否则立即 goto 会在 IndexedDB 事务提交前卸载页面，重载后置顶状态回退
+  await expect(page.getByText('已取消置顶')).toBeVisible()
   await page.goto('/projects')
   await expect(page.locator('.project-card-pinned')).toHaveCount(0)
   await expect(page.locator('.pinned-divider')).toHaveCount(0)
@@ -50,6 +53,12 @@ test('核心节点跨项目聚焦、行内编辑与深链定位', async ({ page 
   await page.getByLabel('节点内容').fill('需要聚焦的关键问题')
   await page.getByRole('button', { name: '保存节点' }).click()
   await page.locator('.graph-intel-panel').getByRole('button', { name: '设为核心' }).click()
+  // 拉长节点链，让深链目标（链首的核心节点）偏离初始全图视野中心，聚焦断言才有区分度
+  for (const content of ['延伸方案一', '延伸方案二', '延伸方案三']) {
+    await page.locator('.graph-intel-panel').getByRole('button', { name: '继续推进' }).click()
+    await page.getByLabel('节点内容').fill(content)
+    await page.getByRole('button', { name: '保存节点' }).click()
+  }
 
   await page.getByRole('link', { name: '核心聚焦', exact: true }).click()
   const row = page.locator('.focus-table tbody tr')
@@ -70,6 +79,7 @@ test('核心节点跨项目聚焦、行内编辑与深链定位', async ({ page 
   await expect(page).toHaveURL(/\/projects\/[^/]+\?node=/)
   await expect(page.locator('.graph-node-selected')).toHaveCount(1)
   await expect(page.locator('.graph-intel-panel')).toContainText('已在核心表更新内容')
+  await expectViewportFocusedOn(page, '已在核心表更新内容')
 
   await page.getByRole('link', { name: '核心聚焦', exact: true }).click()
   await page.getByRole('button', { name: /取消核心/ }).click()
@@ -100,6 +110,83 @@ test('已完结项目的核心默认隐藏可切换显示', async ({ page }) => 
   await expect(page.locator('.focus-table tbody tr')).toContainText('完结前的关键问题')
 })
 
+test('搜索节点并定位选中', async ({ page }) => {
+  await page.goto('/projects')
+  await page.getByRole('button', { name: '开启新项目', exact: true }).click()
+  await page.getByLabel('项目名称').fill('搜索验证')
+  await page.getByLabel('现实触发').fill('验证节点搜索')
+  await page.getByRole('button', { name: '创建项目' }).click()
+  await page.getByRole('link', { name: /搜索验证/ }).click()
+  await page.getByRole('button', { name: '添加节点' }).hover()
+  await page.getByRole('button', { name: '问题节点', exact: true }).click()
+  await page.getByLabel('节点内容').fill('起点问题正文')
+  await page.getByRole('button', { name: '保存节点' }).click()
+  // 建立五节点链，让目标节点（第 4 个）偏离初始全图视野中心，聚焦断言才有区分度
+  for (const content of ['垫层方案一', '垫层方案二', '深处的目标方案', '垫层方案四']) {
+    await page.locator('.graph-intel-panel').getByRole('button', { name: '继续推进' }).click()
+    await page.getByLabel('节点内容').fill(content)
+    await page.getByRole('button', { name: '保存节点' }).click()
+  }
+
+  await page.getByRole('button', { name: '搜索节点' }).first().click()
+  await page.getByRole('textbox', { name: '搜索节点' }).fill('目标方案')
+  await page.getByRole('dialog').getByRole('button', { name: /目标方案/ }).click()
+  await expect(page.locator('.graph-node-selected')).toHaveCount(1)
+  await expect(page.locator('.graph-intel-panel')).toContainText('深处的目标方案')
+  await expectViewportFocusedOn(page, '深处的目标方案')
+})
+
+test('单击路线图空白处一次即收起节点面板', async ({ page }) => {
+  await page.goto('/projects')
+  await page.getByRole('button', { name: '开启新项目', exact: true }).click()
+  await page.getByLabel('项目名称').fill('收起面板验证')
+  await page.getByLabel('现实触发').fill('验证单击空白收起')
+  await page.getByRole('button', { name: '创建项目' }).click()
+  await page.getByRole('link', { name: /收起面板验证/ }).click()
+  await page.getByRole('button', { name: '添加节点' }).hover()
+  await page.getByRole('button', { name: '问题节点', exact: true }).click()
+  await page.getByLabel('节点内容').fill('待收起的节点')
+  await page.getByRole('button', { name: '保存节点' }).click()
+  await expect(page.locator('.graph-intel-panel')).toContainText('待收起的节点')
+  await expect(page).toHaveURL(/\/projects\/[^/]+\?node=/)
+
+  // 等保存节点后的聚焦动画（约 500ms）结束再点击画布左上角的空白区域（避开节点、小地图与缩放控件）：
+  // 动画期间节点会在画布上移动，中途点击可能命中移动中的节点而非空白。单击后面板应收起
+  //（回归：曾被路由参数竞态弹回旧选中，需要双击才收起）。
+  await page.waitForTimeout(800)
+  const paneBox = await page.locator('.react-flow__pane').boundingBox()
+  await page.mouse.click(paneBox!.x + 48, paneBox!.y + 48)
+
+  await expect(page.locator('.graph-intel-panel')).toContainText('选择节点或连接以查看详情')
+  await expect(page).not.toHaveURL(/node=/)
+})
+
+test('科研重点关注不进入核心表而核心标记进入', async ({ page }) => {
+  await page.goto('/projects')
+  await page.getByRole('button', { name: '开启新项目', exact: true }).click()
+  await page.getByLabel('项目名称').fill('科研双标记')
+  await page.getByLabel('现实触发').fill('验证重点关注与核心分离')
+  await page.getByLabel('项目类型').selectOption('research')
+  await page.getByRole('button', { name: '创建项目' }).click()
+  await page.getByRole('link', { name: /科研双标记/ }).click()
+  await page.getByRole('button', { name: '添加节点' }).hover()
+  await page.getByRole('button', { name: '问题节点', exact: true }).click()
+  await page.getByLabel('节点内容').fill('研究中的关键缺陷')
+  await page.getByRole('button', { name: '保存节点' }).click()
+  await page.locator('.graph-intel-panel').getByRole('button', { name: '设为重点关注' }).click()
+
+  await page.getByRole('link', { name: '核心聚焦', exact: true }).click()
+  await expect(page.getByText('还没有核心节点')).toBeVisible()
+
+  await page.getByRole('link', { name: '项目路线', exact: true }).click()
+  await page.getByRole('link', { name: /科研双标记/ }).click()
+  await page.locator('.graph-node-content', { hasText: '研究中的关键缺陷' }).click()
+  await page.locator('.graph-intel-panel').getByRole('button', { name: '设为核心' }).click()
+  await page.getByRole('link', { name: '核心聚焦', exact: true }).click()
+  await expect(page.locator('.focus-table tbody tr')).toHaveCount(1)
+  await expect(page.locator('.focus-table tbody tr')).toContainText('研究中的关键缺陷')
+})
+
 async function createProject(page: import('@playwright/test').Page, title: string, trigger: string) {
   await page.getByRole('button', { name: '开启新项目', exact: true }).click()
   await expect(page.getByLabel('项目名称')).toBeVisible()
@@ -109,4 +196,20 @@ async function createProject(page: import('@playwright/test').Page, title: strin
   await page.getByLabel('现实触发').fill(trigger)
   await page.getByRole('button', { name: '创建项目' }).click()
   await expect(page.getByRole('link', { name: new RegExp(title) })).toBeVisible()
+}
+
+// 断言路线图视野已聚焦到指定节点：节点中心应接近路线图容器中心（fitView 单节点聚焦的结果）
+async function expectViewportFocusedOn(page: import('@playwright/test').Page, text: string) {
+  const graph = page.locator('.task-graph')
+  await expect
+    .poll(async () => {
+      const graphBox = await graph.boundingBox()
+      const nodeBox = await page.locator('.react-flow__node').filter({ hasText: text }).first().boundingBox()
+      if (!graphBox || !nodeBox) return Number.NaN
+      return Math.hypot(
+        nodeBox.x + nodeBox.width / 2 - (graphBox.x + graphBox.width / 2),
+        nodeBox.y + nodeBox.height / 2 - (graphBox.y + graphBox.height / 2),
+      )
+    })
+    .toBeLessThan(120)
 }

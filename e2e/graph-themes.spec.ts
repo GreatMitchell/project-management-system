@@ -71,12 +71,12 @@ test('游戏主题节点文字区域互不重叠', async ({ page }) => {
   expect(regions.content.bottom).toBeLessThanOrEqual(regions.footer.top)
 })
 
-test('冷静主题补齐聚焦路线、适应全图与路线重组按钮', async ({ page }) => {
+test('冷静主题补齐搜索节点、适应全图与路线重组按钮', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('praxis-path-theme', 'calm'))
   await createGraph(page, '冷静工具栏按钮')
   const actions = page.locator('.graph-paper-action:visible')
   await expect(actions).toHaveCount(3)
-  await expect(actions.filter({ hasText: '聚焦路线' })).toBeEnabled()
+  await expect(actions.filter({ hasText: '搜索节点' })).toBeEnabled()
   await expect(actions.filter({ hasText: '适应全图' })).toBeEnabled()
   await expect(page.getByRole('button', { name: '路线重组' })).toBeEnabled()
   await expect(page.locator('.graph-paper-readout')).toBeVisible()
