@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:viewer": "vite build --config vite.viewer.config.ts",
+    "build:share-template": "npm run build:viewer && node scripts/copy-share-template.mjs",
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -56,6 +58,7 @@
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5",
+    "vite-plugin-singlefile": "^2.3.3",
     "vitest": "^2.1.8"
   }
 }

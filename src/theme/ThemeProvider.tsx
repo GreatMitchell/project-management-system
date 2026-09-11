@@ -22,13 +22,14 @@ function getInitialTheme(): ThemeId {
   return resolveTheme(window.localStorage.getItem(themeStorageKey))
 }
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeId>(getInitialTheme)
+// initialTheme 供只读分享页锁定主题：不读写访客的 localStorage 偏好。
+export function ThemeProvider({ children, initialTheme }: { children: ReactNode; initialTheme?: ThemeId }) {
+  const [theme, setThemeState] = useState<ThemeId>(() => initialTheme ?? getInitialTheme())
 
   useEffect(() => {
     applyTheme(theme)
-    window.localStorage.setItem(themeStorageKey, theme)
-  }, [theme])
+    if (initialTheme === undefined) window.localStorage.setItem(themeStorageKey, theme)
+  }, [initialTheme, theme])
 
   const value = useMemo<ThemeContextValue>(() => ({
     theme,

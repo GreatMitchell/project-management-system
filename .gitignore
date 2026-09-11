@@ -1,5 +1,7 @@
 node_modules
 dist
+dist-share
+public/share
 coverage
 playwright-report
 test-results
