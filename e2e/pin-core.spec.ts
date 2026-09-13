@@ -187,6 +187,75 @@ test('科研重点关注不进入核心表而核心标记进入', async ({ page 
   await expect(page.locator('.focus-table tbody tr')).toContainText('研究中的关键缺陷')
 })
 
+test('科研项目定位目标弹出重点关注列表并跳转', async ({ page }) => {
+  await page.goto('/projects')
+  await page.getByRole('button', { name: '开启新项目', exact: true }).click()
+  await page.getByLabel('项目名称').fill('定位目标验证')
+  await page.getByLabel('现实触发').fill('验证重点关注定位')
+  await page.getByLabel('项目类型').selectOption('research')
+  await page.getByRole('button', { name: '创建项目' }).click()
+  await page.getByRole('link', { name: /定位目标验证/ }).click()
+  await page.getByRole('button', { name: '添加节点' }).hover()
+  await page.getByRole('button', { name: '问题节点', exact: true }).click()
+  await page.getByLabel('节点内容').fill('重点关注缺陷')
+  await page.getByRole('button', { name: '保存节点' }).click()
+
+  // 无重点关注时按钮禁用
+  await expect(page.getByRole('button', { name: '定位目标' })).toBeDisabled()
+
+  // 拉长节点链，让重点目标（链首）偏离初始全图视野中心，聚焦断言才有区分度
+  for (const content of ['垫层缺陷一', '垫层缺陷二', '垫层缺陷三']) {
+    await page.getByRole('button', { name: '添加节点' }).hover()
+    await page.getByRole('button', { name: '问题节点', exact: true }).click()
+    await page.getByLabel('节点内容').fill(content)
+    await page.getByRole('button', { name: '保存节点' }).click()
+  }
+
+  await page.locator('.graph-node-content', { hasText: '重点关注缺陷' }).click()
+  await page.locator('.graph-intel-panel').getByRole('button', { name: '设为重点关注' }).click()
+  await expect(page.locator('.graph-node-focused')).toHaveCount(1)
+  await expect(page.getByRole('button', { name: '定位目标' })).toBeEnabled()
+
+  await page.getByRole('button', { name: '定位目标' }).click()
+  await expect(page.getByRole('dialog')).toContainText('定位重点关注节点')
+  await page.getByRole('textbox', { name: '搜索节点' }).fill('重点关注')
+  await expect(page.getByRole('dialog')).toContainText('重点关注缺陷')
+  await expect(page.getByRole('dialog')).not.toContainText('垫层缺陷一')
+  await page.getByRole('dialog').getByRole('button', { name: /重点关注缺陷/ }).click()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expect(page.locator('.graph-node-selected')).toHaveCount(1)
+  await expect(page.locator('.graph-intel-panel')).toContainText('重点关注缺陷')
+  await expectViewportFocusedOn(page, '重点关注缺陷')
+  await expect(page.locator('.graph-node-focused')).toHaveCount(1)
+})
+
+test('普通项目定位目标直接聚焦当前目标', async ({ page }) => {
+  await page.goto('/projects')
+  await createProject(page, '定位普通验证', '验证普通定位')
+  await page.getByRole('link', { name: /定位普通验证/ }).click()
+  await page.getByRole('button', { name: '添加节点' }).hover()
+  await page.getByRole('button', { name: '问题节点', exact: true }).click()
+  await page.getByLabel('节点内容').fill('链头问题')
+  await page.getByRole('button', { name: '保存节点' }).click()
+  for (const content of ['垫层方案一', '垫层方案二', '链尾目标方案']) {
+    await page.locator('.graph-intel-panel').getByRole('button', { name: '继续推进' }).click()
+    await page.getByLabel('节点内容').fill(content)
+    await page.getByRole('button', { name: '保存节点' }).click()
+  }
+
+  // 先等保存节点触发的链尾聚焦动画（420ms 延迟 + ~520ms 动画）结束，再适应全图，
+  // 否则排队的聚焦会覆盖适应全图的结果，链头节点仍在视口外且位置不稳定，无法点击
+  await page.waitForTimeout(1100)
+  await page.getByRole('button', { name: '适应全图' }).click()
+  await page.locator('.graph-node-content', { hasText: '链头问题' }).click()
+  await page.getByRole('button', { name: '定位目标' }).click()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expectViewportFocusedOn(page, '链尾目标方案')
+  // 定位只移动视野，不改变选中状态
+  await expect(page.locator('.graph-node-selected')).toHaveCount(1)
+  await expect(page.locator('.graph-intel-panel')).toContainText('链头问题')
+})
+
 async function createProject(page: import('@playwright/test').Page, title: string, trigger: string) {
   await page.getByRole('button', { name: '开启新项目', exact: true }).click()
   await expect(page.getByLabel('项目名称')).toBeVisible()

@@ -4,18 +4,18 @@ import { Modal } from '../../components/Modal'
 import type { PraxisNode } from '../../domain/types'
 import { markdownToPlainText } from './markdown'
 
-interface Props { open: boolean; nodes: PraxisNode[]; onClose: () => void; onSelect: (node: PraxisNode) => void }
+interface Props { open: boolean; nodes: PraxisNode[]; onClose: () => void; onSelect: (node: PraxisNode) => void; title?: string; description?: string }
 
 const typeLabels: Record<PraxisNode['type'], string> = { question: '问题', solution: '方案', result: '结果', assumption: '假设', vulnerability: '缺陷' }
 
-export function NodeSearchDialog({ open, nodes, onClose, onSelect }: Props) {
+export function NodeSearchDialog({ open, nodes, onClose, onSelect, title, description }: Props) {
   const [query, setQuery] = useState('')
   useEffect(() => { if (open) setQuery('') }, [open])
   const keyword = query.trim().toLowerCase()
   const results = useMemo(() => (keyword ? nodes.filter((node) => node.content.toLowerCase().includes(keyword) || node.log.toLowerCase().includes(keyword)) : nodes), [keyword, nodes])
 
   return (
-    <Modal open={open} title="搜索节点" description="输入关键字，按节点内容或附加日志匹配，不区分大小写" onClose={onClose} width="max-w-xl">
+    <Modal open={open} title={title ?? '搜索节点'} description={description ?? '输入关键字，按节点内容或附加日志匹配，不区分大小写'} onClose={onClose} width="max-w-xl">
       <label className="search-box w-full">
         <Search size={17} />
         <input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索节点内容或附加日志" aria-label="搜索节点" />
