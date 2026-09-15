@@ -466,6 +466,50 @@
     @apply m-0 text-right;
   }
 
+  .markdown-editor-actions {
+    @apply flex items-center gap-2;
+  }
+
+  .markdown-editor-expand {
+    @apply inline-flex items-center gap-1.5 rounded-md border border-line/15 bg-surface2 px-2.5 py-1 text-xs text-text-secondary transition hover:border-lineStrong/60 hover:text-text-primary;
+  }
+
+  .markdown-editor-field textarea {
+    @apply max-h-[50vh] resize-none overflow-y-auto;
+  }
+
+  .markdown-preview:focus {
+    outline: none;
+  }
+
+  .markdown-editor-field.editor-fullscreen {
+    @apply fixed inset-3 z-[70] flex flex-col overflow-hidden rounded-2xl border border-line/20 bg-surface p-5 shadow-card;
+  }
+
+  .markdown-editor-field.editor-fullscreen .markdown-editor-heading {
+    @apply mb-0 shrink-0;
+  }
+
+  .markdown-editor-field.editor-fullscreen .markdown-editor-label {
+    @apply text-base;
+  }
+
+  .markdown-editor-field.editor-fullscreen .markdown-editor-panes {
+    @apply flex min-h-0 flex-1;
+  }
+
+  .markdown-editor-field.editor-fullscreen textarea {
+    @apply max-h-none flex-1 p-5 text-base leading-8;
+  }
+
+  .markdown-editor-field.editor-fullscreen .markdown-editor-panes .markdown-preview {
+    @apply max-h-none min-h-0 flex-1 overflow-y-auto;
+  }
+
+  .markdown-editor-field.editor-fullscreen .markdown-editor-meta {
+    @apply shrink-0;
+  }
+
   .markdown-content {
     min-width: 0;
     max-width: 100%;
