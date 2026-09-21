@@ -33,7 +33,7 @@ export function AppShell() {
       <StartupRecoveryPrompt />
 
       <button
-        className="fixed left-4 top-4 z-40 rounded-2xl border border-line/20 bg-sidebar/95 p-2.5 text-sidebar-fg shadow-glow lg:hidden"
+        className="fixed left-4 top-4 z-30 rounded-2xl border border-line/20 bg-sidebar/95 p-2.5 text-sidebar-fg shadow-glow lg:hidden"
         onClick={() => setOpen(true)}
         aria-label="打开导航"
       >
@@ -42,14 +42,14 @@ export function AppShell() {
 
       {open && (
         <button
-          className="fixed inset-0 z-40 bg-overlay/55 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-30 bg-overlay/55 backdrop-blur-sm lg:hidden"
           aria-label="关闭导航遮罩"
           onClick={() => setOpen(false)}
         />
       )}
 
       <aside
-        className={`app-sidebar fixed inset-y-0 left-0 z-50 flex w-72 flex-col px-5 py-7 shadow-card transition-transform duration-300 lg:translate-x-0 ${open ? 'translate-x-0' : '-translate-x-full'} ${collapsed ? 'app-sidebar-collapsed' : ''}`}
+        className={`app-sidebar fixed inset-y-0 left-0 z-40 flex w-72 flex-col px-5 py-7 shadow-card transition-transform duration-300 lg:translate-x-0 ${open ? 'translate-x-0' : '-translate-x-full'} ${collapsed ? 'app-sidebar-collapsed' : ''}`}
       >
         <div className="sidebar-system-label tech-only" aria-hidden="true"><span>SYSTEM / PRAXIS</span><span>LOCAL NODE · ONLINE</span></div>
         <div className="sidebar-header flex items-center justify-between px-2">

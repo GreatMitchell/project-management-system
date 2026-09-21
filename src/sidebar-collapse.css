@@ -156,6 +156,18 @@
   html[data-sidebar='collapsed'] .task-graph-layout:has(.graph-intel-panel:not(.graph-intel-panel-empty)) .graph-minimap-toggle {
     right: 21.4rem;
   }
+
+  /* Fullscreen must stay fixed: the `position: relative` anchor above (unlayered)
+     outranks the layered `.task-graph-fullscreen` rule in index.css, so re-assert
+     it here with higher specificity. z-45 sits above the sidebar (z-40, AppShell)
+     and below Modal (z-50), so dialogs opened inside fullscreen still layer on
+     top. The intel panel and minimap get no fullscreen exception: the floating
+     panel and its minimap dodge above apply unchanged, matching the
+     non-fullscreen collapsed layout. */
+  html[data-sidebar='collapsed'] .task-graph-layout.task-graph-fullscreen {
+    position: fixed;
+    z-index: 45;
+  }
 }
 
 @media (min-width: 1024px) {

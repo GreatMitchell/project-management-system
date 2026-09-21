@@ -55,6 +55,13 @@ export const vulnerabilityStatusLabels: Record<VulnerabilityStatus, string> = {
   conquered: '已攻克',
 }
 
+export const vulnerabilityStatusStyles: Record<VulnerabilityStatus, string> = {
+  unexplored: 'border-slate-400/30 bg-slate-500/12 text-slate-300',
+  patched: 'border-sky-400/30 bg-sky-500/12 text-sky-300',
+  open: 'border-amber-400/30 bg-amber-500/12 text-amber-300',
+  conquered: 'border-emerald-400/30 bg-emerald-500/12 text-emerald-300',
+}
+
 export const edgeTypeLabels: Record<EdgeType, string> = {
   exposes: '暴露',
   patches: '填补',
@@ -71,5 +78,6 @@ export function calculateResearchProgress(nodes: PraxisNode[]) {
   const vulnerabilities = nodes.filter((node) => node.type === 'vulnerability')
   const open = vulnerabilities.filter((node) => node.vulnerabilityStatus === 'open').length
   const conquered = vulnerabilities.filter((node) => node.vulnerabilityStatus === 'conquered').length
-  return { open, conquered, total: vulnerabilities.length }
+  // total 是全部缺陷节点数（空态守卫用）；counted 才是进度分母：只有待攻克与已攻克计入进度
+  return { open, conquered, total: vulnerabilities.length, counted: open + conquered }
 }

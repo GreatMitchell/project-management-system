@@ -49,7 +49,8 @@ async function createProject(page: Page, title: string, trigger: string) {
 const shareDirFor = (workerIndex: number) => join(tmpdir(), `praxis-share-e2e-${workerIndex}`)
 
 async function generateShare(page: Page, passphrase?: string) {
-  await page.getByRole('button', { name: '分享' }).click()
+  // exact：情报面板新增的连接跳转按钮以节点正文为名（如「分享链路的…」），子串匹配会歧义
+  await page.getByRole('button', { name: '分享', exact: true }).click()
   await expect(page.getByRole('dialog')).toContainText('生成只读分享页')
   if (passphrase) {
     await page.getByPlaceholder('设置口令').fill(passphrase)
@@ -100,6 +101,20 @@ test('无口令分享：只读渲染、内容范围与深链', async ({ page }) 
   await expect(page.locator('.graph-node-selected')).toHaveCount(1)
   await page.locator('.graph-node').first().click()
   await expect(page).toHaveURL(new RegExp(`node=${nodeIds[0]}`))
+  await rm(filePath, { force: true })
+})
+
+test('分享页全屏：覆盖层内没有添加节点入口', async ({ page }) => {
+  await seedProject(page)
+  const { fileUrl, filePath } = await generateShare(page)
+  await page.goto(fileUrl)
+  await page.waitForSelector('.graph-node')
+  await page.getByRole('button', { name: '全屏', exact: true }).click()
+  const fullscreenLayout = page.locator('.task-graph-fullscreen')
+  await expect(fullscreenLayout).toBeVisible()
+  await expect(fullscreenLayout.getByRole('button', { name: '添加节点' })).toHaveCount(0)
+  await page.keyboard.press('Escape')
+  await expect(page.locator('.task-graph-fullscreen')).toHaveCount(0)
   await rm(filePath, { force: true })
 })
 

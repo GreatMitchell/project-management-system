@@ -130,7 +130,7 @@ function ReadyView({ data }: { data: ShareData }) {
       </div>
       <div className="relative z-[1] mt-8 border-t border-line/15 pt-6">
         {project.type === 'research' && researchProgress ? <>
-          <div className="mb-2 flex justify-between text-xs text-text-secondary"><span>缺陷研究进度</span><span>{researchProgress.total > 0 ? `${researchProgress.conquered} / ${researchProgress.total} 已攻克` : '暂无缺陷节点'}</span></div>
+          <div className="mb-2 flex justify-between text-xs text-text-secondary"><span>缺陷研究进度</span><span>{researchProgress.total > 0 ? `${researchProgress.conquered} / ${researchProgress.counted} 已攻克` : '暂无缺陷节点'}</span></div>
           <div className="grid grid-cols-2 gap-3">
             <div className="rounded-lg border border-amber-400/25 bg-amber-500/10 px-3 py-2"><p className="text-xs text-amber-300">待攻克</p><p className="mt-1 font-serif text-2xl text-amber-400">{researchProgress.open}</p></div>
             <div className="rounded-lg border border-emerald-400/25 bg-emerald-500/10 px-3 py-2"><p className="text-xs text-emerald-300">已攻克</p><p className="mt-1 font-serif text-2xl text-emerald-400">{researchProgress.conquered}</p></div>

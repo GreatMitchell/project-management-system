@@ -157,6 +157,63 @@ test('窄屏默认收起路线导航图', async ({ page }) => {
   await expect(page.locator('.task-graph')).toBeVisible()
 })
 
+test('三主题下路线边都比普通边更突出且全屏可用', async ({ page }) => {
+  await createRoutedGraphWithBranch(page, '边层级与全屏项目')
+  for (const theme of ['calm', 'tech', 'game'] as const) {
+    await page.goto('/projects')
+    await page.evaluate((value) => localStorage.setItem('praxis-path-theme', value), theme)
+    await page.reload()
+    await page.getByRole('link', { name: new RegExp('边层级与全屏项目') }).click()
+    await expect(page.locator('.react-flow__edge.graph-edge-route')).toHaveCount(1)
+    await expect(page.locator('.react-flow__edge.graph-edge-blocked')).toHaveCount(1)
+    const routePath = page.locator('.react-flow__edge.graph-edge-route .react-flow__edge-path').first()
+    const blockedPath = page.locator('.react-flow__edge.graph-edge-blocked .react-flow__edge-path').first()
+    // 支线节点可能与父节点同一行，边几何 bbox 高度为零会让 toBeVisible 失败，
+    // 因此用路径长度确认边已按真实坐标绘制，再比较计算样式。
+    const blockedLength = await blockedPath.evaluate((element) => (element as SVGPathElement).getTotalLength())
+    expect(blockedLength, `${theme} 普通边应按真实坐标绘制`).toBeGreaterThan(0)
+    const routeWidth = parseFloat(await routePath.evaluate((element) => getComputedStyle(element).strokeWidth))
+    const blockedWidth = parseFloat(await blockedPath.evaluate((element) => getComputedStyle(element).strokeWidth))
+    expect(routeWidth, `${theme} 路线边应比普通边更宽`).toBeGreaterThan(blockedWidth)
+    if (theme !== 'calm') {
+      const routeOpacity = parseFloat(await routePath.evaluate((element) => getComputedStyle(element).opacity))
+      const blockedOpacity = parseFloat(await blockedPath.evaluate((element) => getComputedStyle(element).opacity))
+      expect(blockedOpacity, `${theme} 普通边应比路线边更淡`).toBeLessThan(routeOpacity)
+    }
+    await page.getByRole('button', { name: '全屏', exact: true }).click()
+    await expect(page.locator('.task-graph-fullscreen')).toBeVisible()
+    const noHorizontalOverflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)
+    expect(noHorizontalOverflow, `${theme} 全屏不应出现横向溢出`).toBe(true)
+    await page.keyboard.press('Escape')
+    await expect(page.locator('.task-graph-fullscreen')).toHaveCount(0)
+  }
+})
+
+async function createRoutedGraphWithBranch(page: import('@playwright/test').Page, title: string) {
+  await page.goto('/projects')
+  await page.getByRole('button', { name: '开启新项目', exact: true }).click()
+  await page.getByLabel('项目名称').fill(title)
+  await page.getByLabel('现实触发').fill('验证边样式层级')
+  await page.getByRole('button', { name: '创建项目' }).click()
+  await page.getByRole('link', { name: new RegExp(title) }).click()
+  await page.getByRole('button', { name: '添加节点' }).hover()
+  // hover 弹层与按钮之间有空隙，直接派发 click 绕开命中竞态
+  await page.getByRole('button', { name: '问题节点', exact: true }).dispatchEvent('click')
+  await page.getByLabel('节点内容').fill('边层级起点')
+  await page.getByRole('button', { name: '保存节点' }).click()
+  // 首个节点保存后自动成为当前目标并进入当前路线，无需「设为当前目标」
+  await page.getByRole('button', { name: '继续推进' }).last().click()
+  await page.getByLabel('节点内容').fill('边层级终点')
+  await page.getByRole('button', { name: '保存节点' }).click()
+  await expect(page.locator('.graph-node-content', { hasText: '边层级终点' })).toBeVisible()
+  await page.getByRole('button', { name: '创建支线' }).click()
+  await page.getByLabel('节点内容').fill('边层级支线')
+  await page.getByRole('button', { name: '保存节点' }).click()
+  await expect(page.locator('.react-flow__edge.graph-edge-route')).toHaveCount(1)
+  await expect(page.locator('.react-flow__edge.graph-edge-blocked')).toHaveCount(1)
+}
+
+
 async function createBranchingGraph(page: import('@playwright/test').Page, title: string) {
   await page.goto('/projects')
   await page.getByRole('button', { name: '开启新项目', exact: true }).click()
