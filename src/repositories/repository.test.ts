@@ -29,3 +29,56 @@ describe('置顶与核心节点', () => {
   it('v3 备份保留置顶，缺失或旧版本置顶归一化为空', async () => { const { project } = await base(); await repository.toggleProjectPin(project.id); const pinnedAt = (await repository.getBundle(project.id))!.project.pinnedAt!; const backup = await repository.exportData(); await repository.importData(backup, 'replace'); expect((await repository.getBundle(project.id))!.project.pinnedAt).toBe(pinnedAt); const stripped: typeof backup = JSON.parse(JSON.stringify(backup)); delete (stripped.projects[0] as Partial<(typeof stripped.projects)[number]>).pinnedAt; await repository.importData(stripped, 'replace'); expect((await repository.getBundle(project.id))!.project.pinnedAt).toBeNull(); const v1 = { version: 1, exportedAt: '', projects: backup.projects.map((item) => { const copy = { ...item } as Partial<typeof item>; delete copy.activeNodeId; delete copy.pinnedAt; delete copy.focusedNodeIds; delete copy.coreNodeIds; return copy }), nodes: backup.nodes, milestones: [], reviews: [] }; await repository.importData(v1, 'replace'); expect((await repository.getBundle(project.id))!.project.pinnedAt).toBeNull() })
   it('合并时期的 v3 备份把普通项目的重点关注迁移为核心标记', async () => { const { project, first } = await base(); const legacyBackup = { version: 3 as const, exportedAt: '', projects: [{ ...project, coreNodeIds: undefined, focusedNodeIds: [first.id] }], nodes: (await repository.exportData()).nodes, connections: [], milestones: [], reviews: [] }; await repository.importData(legacyBackup, 'replace'); const imported = (await repository.getBundle(project.id))!.project; expect(imported.coreNodeIds).toEqual([first.id]); expect(imported.focusedNodeIds).toEqual([]) })
 })
+
+describe('修改连接对象', () => {
+  it('科研边换对象保留边类型', async () => {
+    const project = await repository.createProject({ title: '科研', trigger: '换对象', status: 'exploring', type: 'research' })
+    const a = (await repository.saveNode(project.id, input('A')))!
+    const b = (await repository.saveNode(project.id, input('B'), undefined, { mode: 'branch', predecessorNodeId: a.id }))!
+    const c = (await repository.saveNode(project.id, input('C')))!
+    const edge = await repository.createConnection(project.id, b.id, c.id, 'patches')
+    await repository.updateConnectionEndpoints(edge.id, a.id, c.id)
+    const updated = (await repository.getBundle(project.id))!.connections.find((item) => item.id === edge.id)!
+    expect(updated).toMatchObject({ sourceNodeId: a.id, targetNodeId: c.id, edgeType: 'patches', isPreferred: false })
+  })
+
+  it('拒绝换到已有同向连接的节点，原样端点为幂等操作', async () => {
+    const { project, first } = await base()
+    const x = (await repository.saveNode(project.id, input('X')))!
+    const y = (await repository.saveNode(project.id, input('Y')))!
+    await repository.createConnection(project.id, x.id, first.id)
+    const ey = await repository.createConnection(project.id, y.id, first.id)
+    await expect(repository.updateConnectionEndpoints(ey.id, x.id, first.id)).rejects.toThrow('已经存在连接')
+    await repository.updateConnectionEndpoints(ey.id, y.id, first.id)
+    expect((await repository.getBundle(project.id))!.connections).toHaveLength(3)
+  })
+
+  it('普通项目拒绝会成环的端点修改', async () => {
+    const { project, first, second } = await base()
+    const x = (await repository.saveNode(project.id, input('X')))!
+    await repository.createConnection(project.id, x.id, first.id)
+    const branch = (await repository.saveNode(project.id, input('支线'), undefined, { mode: 'branch', predecessorNodeId: first.id }))!
+    // 支线边 first→branch 不在当前路线上；改为 second→x 会构成 x→first→second→x 的环
+    const branchEdge = (await repository.getBundle(project.id))!.connections.find((item) => item.sourceNodeId === first.id && item.targetNodeId === branch.id)!
+    await expect(repository.updateConnectionEndpoints(branchEdge.id, second.id, x.id)).rejects.toThrow('环')
+  })
+
+  it('保护当前路线边不被改端点', async () => {
+    const { project, second } = await base()
+    const route = (await repository.getBundle(project.id))!.connections[0]
+    const x = (await repository.saveNode(project.id, input('X')))!
+    await expect(repository.updateConnectionEndpoints(route.id, x.id, second.id)).rejects.toThrow('当前路线')
+  })
+
+  it('换端点后重置首选前驱标记', async () => {
+    const { project, first, second } = await base()
+    const branch = (await repository.saveNode(project.id, input('支线'), undefined, { mode: 'branch', predecessorNodeId: first.id }))!
+    const edge = await repository.createConnection(project.id, branch.id, second.id)
+    await repository.setActiveRoute(project.id, second.id, [edge.id])
+    await repository.clearActiveRoute(project.id)
+    const z = (await repository.saveNode(project.id, input('Z')))!
+    await repository.updateConnectionEndpoints(edge.id, branch.id, z.id)
+    const updated = (await repository.getBundle(project.id))!.connections.find((item) => item.id === edge.id)!
+    expect(updated).toMatchObject({ targetNodeId: z.id, isPreferred: false })
+  })
+})

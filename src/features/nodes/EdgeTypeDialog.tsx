@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Modal } from '../../components/Modal'
 import { edgeTypeLabels } from '../../domain/rules'
 import type { EdgeType } from '../../domain/types'
@@ -13,6 +13,8 @@ interface Props {
 export function EdgeTypeDialog({ open, currentEdgeType, onClose, onConfirm }: Props) {
   const [selectedType, setSelectedType] = useState<EdgeType | undefined>(currentEdgeType)
   const [saving, setSaving] = useState(false)
+  // 组件常驻挂载，open 时同步一次当前类型，避免编辑不同边时残留上一次的选择
+  useEffect(() => { if (open) setSelectedType(currentEdgeType) }, [open, currentEdgeType])
 
   const submit = async () => {
     setSaving(true)

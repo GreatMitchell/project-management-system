@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test'
+﻿import { expect, test, type Page } from '@playwright/test'
 
 test('路线图可以进入页面内全屏并用 Esc 退出', async ({ page }) => {
   await createGeneralGraph(page, '全屏体验项目')
@@ -131,9 +131,10 @@ test('情报面板展示连入连出与边类型并支持双向跳转', async ({
 
   await selectGraphNode(page, '科研起点')
   const panel = page.locator('.graph-intel-panel')
+  await panel.getByRole('button', { name: /连接管理/ }).click()
   await expect(panel).toContainText('连出 (1)')
   await expect(panel).toContainText('暂无连入连接')
-  await panel.getByRole('button', { name: /默认连接节点/ }).click()
+  await panel.getByRole('button', { name: '默认连接节点', exact: true }).click()
   await expect(panel).toContainText('连入 (1)')
   await expect(panel).toContainText('暂无连出连接')
 
@@ -142,11 +143,88 @@ test('情报面板展示连入连出与边类型并支持双向跳转', async ({
   await page.getByLabel('边类型').selectOption('exposes')
   await panel.getByRole('button', { name: /来源/ }).click()
   await expect(panel).toContainText('连出 (1)')
-  await expect(panel.getByRole('button', { name: /默认连接节点/ })).toContainText('暴露')
+  await expect(panel.getByRole('button', { name: '修改边类型（连出）：默认连接节点' })).toContainText('暴露')
 
-  await panel.getByRole('button', { name: /默认连接节点/ }).click()
+  await panel.getByRole('button', { name: '默认连接节点', exact: true }).click()
   await expect(panel).toContainText('连入 (1)')
-  await expect(panel.getByRole('button', { name: /科研起点/ })).toContainText('暴露')
+  await expect(panel.getByRole('button', { name: '修改边类型（连入）：科研起点' })).toContainText('暴露')
+
+  // 面板内修改边类型：徽标打开边类型对话框，确认后行内徽标更新
+  await panel.getByRole('button', { name: '修改边类型（连入）：科研起点' }).click()
+  await page.getByRole('dialog').getByRole('button', { name: /弱化/ }).click()
+  await page.getByRole('button', { name: '确认', exact: true }).click()
+  // 用 first()：边面板与面板内各改过一次边类型，负载高时两条同文案 toast 会同时存在
+  await expect(page.getByText('边类型已更新').first()).toBeVisible()
+  await expect(panel.getByRole('button', { name: '修改边类型（连入）：科研起点' })).toContainText('弱化')
+})
+
+test('情报面板可新增连接（含科研项目边类型）', async ({ page }) => {
+  await createResearchProject(page, '面板新增项目')
+  await addNode(page, '问题节点', '面板新增起点')
+  await addNode(page, '方案节点', '面板新增终点')
+  await expect(page.locator('.react-flow__edge')).toHaveCount(1)
+
+  await selectGraphNode(page, '面板新增起点')
+  const panel = page.locator('.graph-intel-panel')
+  await panel.getByRole('button', { name: /连接管理/ }).click()
+  await expect(panel).toContainText('暂无连入连接')
+
+  // 新增连入：选择对方节点后科研项目会继续弹出边类型对话框
+  await panel.getByRole('button', { name: '新增连入' }).click()
+  const dialog = page.getByRole('dialog')
+  await expect(dialog).toContainText('添加连入连接')
+  await dialog.getByRole('button', { name: /面板新增终点/ }).click()
+  await expect(page.getByRole('heading', { name: '选择边类型' })).toBeVisible()
+  await page.getByRole('button', { name: /填补/ }).click()
+  await page.getByRole('button', { name: '确认', exact: true }).click()
+  await expect(page.getByText('节点连接已建立')).toBeVisible()
+  await expect(page.locator('.react-flow__edge')).toHaveCount(2)
+  await expect(panel).toContainText('连入 (1)')
+  await expect(panel.getByRole('button', { name: '修改边类型（连入）：面板新增终点' })).toContainText('填补')
+})
+
+test('情报面板支持换连接对象、删除边并过滤会成环的候选', async ({ page }) => {
+  await createGeneralGraph(page, '面板改连项目')
+  await addNode(page, '方案节点', '面板链中段')
+  await page.locator('.react-flow__pane').dispatchEvent('click')
+  await addNode(page, '问题节点', '面板孤立节点')
+  await page.locator('.react-flow__pane').dispatchEvent('click')
+  await addNode(page, '问题节点', '面板末梢节点')
+  // 图结构：可读任务节点正文 → 面板链中段；面板孤立节点与面板末梢节点独立
+
+  await selectGraphNode(page, '面板孤立节点')
+  const panel = page.locator('.graph-intel-panel')
+  await panel.getByRole('button', { name: /连接管理/ }).click()
+
+  // 先建连入：链中段 → 孤立节点
+  await panel.getByRole('button', { name: '新增连入' }).click()
+  const dialog = page.getByRole('dialog')
+  await dialog.getByRole('button', { name: /面板链中段/ }).click()
+  await expect(page.getByText('节点连接已建立')).toBeVisible()
+  await expect(panel).toContainText('连入 (1)')
+
+  // 新增连出：链上两个节点已能到达孤立节点（可读任务节点正文 → 面板链中段 → 孤立节点），选它们会成环，只能选末梢节点
+  await panel.getByRole('button', { name: '新增连出' }).click()
+  await expect(dialog).toContainText('面板末梢节点')
+  await expect(dialog).not.toContainText('可读任务节点正文')
+  await expect(dialog).not.toContainText('面板链中段')
+  await dialog.getByRole('button', { name: /面板末梢节点/ }).click()
+  // 用 first()：本测试连建两条连接，负载高时两条同文案 toast 会同时存在
+  await expect(page.getByText('节点连接已建立').first()).toBeVisible()
+  await expect(panel).toContainText('连出 (1)')
+
+  // 换连接对象：把连入的来源从链中段换到链头（被替换的旧边不参与过滤，链头此刻是合法来源）
+  await panel.getByRole('button', { name: '更换来源节点：面板链中段' }).click()
+  await expect(page.getByRole('dialog')).toContainText('修改连入对象')
+  await dialog.getByRole('button', { name: /可读任务节点正文/ }).click()
+  await expect(page.getByText('连接对象已更新')).toBeVisible()
+  await expect(panel.getByRole('button', { name: '可读任务节点正文', exact: true })).toBeVisible()
+
+  // 删除这条连入边后图上剩两条边：可读任务节点正文 → 面板链中段、孤立节点 → 末梢节点
+  await panel.getByRole('button', { name: '删除连入边：可读任务节点正文' }).click()
+  await expect(page.getByText('节点连接已断开')).toBeVisible()
+  await expect(panel).toContainText('暂无连入连接')
+  await expect(page.locator('.react-flow__edge')).toHaveCount(2)
 })
 
 async function createGeneralGraph(page: Page, title: string) {
