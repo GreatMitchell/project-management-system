@@ -1,6 +1,8 @@
 import { expect, test } from '@playwright/test'
 
-for (const theme of ['calm', 'tech', 'game'] as const) {
+const routeColors = { calm: '197 145 63', tech: '79 209 255', game: '255 184 77', golden: '232 181 74' } as const
+
+for (const theme of ['calm', 'tech', 'game', 'golden'] as const) {
   test(`${theme} 路线图主题变量与减少动画`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.addInitScript((value) => localStorage.setItem('praxis-path-theme', value), theme)
@@ -8,7 +10,7 @@ for (const theme of ['calm', 'tech', 'game'] as const) {
     await expect(page.locator('html')).toHaveAttribute('data-theme', theme)
     await expect(page.locator('.task-graph')).toBeVisible()
     const routeColor = await page.locator('.task-graph').evaluate((element) => getComputedStyle(element).getPropertyValue('--graph-route-color').trim())
-    expect(routeColor).toBe(theme === 'calm' ? '197 145 63' : theme === 'tech' ? '79 209 255' : '255 184 77')
+    expect(routeColor).toBe(routeColors[theme])
     await expect(page.locator('.graph-node-active')).toHaveCount(1)
     await expect(page.locator('.graph-node-transitioning')).toHaveCount(0)
     await expect(page.getByRole('button', { name: '路线重组' })).toBeEnabled()

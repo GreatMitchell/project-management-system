@@ -38,7 +38,7 @@ export const sharedReviewSchema = z.object({
   systemAdjustment: z.string(), createdAt: timestampSchema, updatedAt: timestampSchema,
 })
 
-const shareThemeIds = ['calm', 'tech', 'game'] as const satisfies readonly ThemeId[]
+const shareThemeIds = ['calm', 'tech', 'game', 'golden'] as const satisfies readonly ThemeId[]
 
 export const shareOptionsSchema = z.object({ includeMilestones: z.boolean(), includeReviews: z.boolean(), theme: z.enum(shareThemeIds) })
 

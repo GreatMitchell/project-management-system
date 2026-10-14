@@ -200,6 +200,73 @@
     --milestone-chip-hover: rgba(255, 184, 77, 0.18);
   }
 
+  html[data-theme='golden'] {
+    --font-body: "Inter", "Noto Sans SC", system-ui, sans-serif;
+    --font-display: "Noto Serif SC", "Source Han Serif SC", Georgia, "Times New Roman", serif;
+
+    --color-ink: 242 232 213;
+    --color-paper: 20 16 10;
+    --color-moss: 208 170 100;
+    --color-clay: 201 128 61;
+    --color-amber: 232 181 74;
+
+    /* 黑漆底：更深更暖的近黑，金色是打在漆面上的光，不是霓虹 */
+    --bg-app: 20 16 10;
+    --bg-surface: 33 27 17;
+    --bg-surface-2: 28 23 14;
+    --bg-panel: 39 32 20;
+    --bg-sidebar: 15 12 7;
+    --bg-overlay: 13 10 5;
+
+    --text-primary: 242 232 213;
+    --text-secondary: 201 186 152;
+    --text-muted: 148 133 104;
+    --text-inverse: 26 21 12;
+    --sidebar-fg: 243 233 211;
+    --milestone-fg: 253 246 227;
+    --milestone-muted: rgba(250, 240, 214, 0.66);
+
+    --accent-primary: 232 181 74;
+    --accent-secondary: 243 223 166;
+    --accent-soft: 60 47 22;
+
+    --border-soft: 128 106 68;
+    --border-strong: 232 181 74;
+    --success-rgb: 111 190 141;
+    --warning-rgb: 217 164 65;
+    --danger-rgb: 226 99 95;
+
+    --focus-ring: 232 181 74;
+    --focus-offset: 20 16 10;
+    /* 阴影是烛光下的重影与金板自重，去掉外扩光晕 */
+    --shadow-soft: 0 18px 44px rgba(9, 6, 2, 0.5);
+    --shadow-card: 0 24px 60px rgba(7, 4, 1, 0.58);
+    --shadow-glow: 0 0 0 1px rgba(232, 181, 74, 0.1), inset 0 1px 0 rgba(255, 242, 205, 0.1);
+    /* 庄重的器物收小圆角：金板切边感 */
+    --radius-card: 0.75rem;
+    --radius-pill: 999px;
+
+    /* 全局底纹：顶部烛台暖光 + 一道斜掠漆面反光 + 底部余烬，黑漆面上不铺网格 */
+    --bg-pattern: radial-gradient(ellipse 90% 55% at 50% -8%, rgba(232, 181, 74, 0.08), transparent 60%), linear-gradient(112deg, transparent 44%, rgba(243, 223, 166, 0.018) 50%, transparent 56%), radial-gradient(ellipse 70% 45% at 88% 108%, rgba(201, 128, 61, 0.05), transparent 62%);
+    --bg-pattern-size: auto, auto, auto;
+    --surface-edge: inset 0 1px 0 rgba(255, 242, 205, 0.08), inset 0 0 0 1px rgba(232, 181, 74, 0.045);
+    --card-highlight: linear-gradient(180deg, rgba(247, 231, 184, 0.13), rgba(232, 181, 74, 0.035) 34%, rgba(255, 255, 255, 0) 58%);
+    --button-primary-text: 26 21 12;
+    --sidebar-active-bg: linear-gradient(90deg, rgba(232, 181, 74, 0.13), rgba(201, 128, 61, 0.04));
+    --sidebar-active-ring: rgba(232, 181, 74, 0.12);
+    --sidebar-hover-bg: rgba(232, 181, 74, 0.07);
+    --sidebar-panel-bg: linear-gradient(180deg, rgba(232, 181, 74, 0.07), rgba(243, 223, 166, 0.02));
+    --sidebar-panel-border: rgba(232, 181, 74, 0.14);
+    --detail-rail: rgba(232, 181, 74, 0.22);
+    --detail-rail-glow: rgba(243, 223, 166, 0.14);
+    --node-card-pattern: linear-gradient(180deg, rgba(247, 231, 184, 0.05), transparent 30%), linear-gradient(115deg, transparent 34%, rgba(243, 223, 166, 0.035) 48%, transparent 62%);
+    --review-card-pattern: linear-gradient(180deg, rgba(232, 181, 74, 0.08), rgba(243, 223, 166, 0.015) 46%, rgba(255, 255, 255, 0));
+    --milestone-panel-bg: linear-gradient(180deg, rgba(24, 18, 10, 0.97), rgba(15, 11, 5, 0.94)), radial-gradient(circle at 50% 0%, rgba(232, 181, 74, 0.13), transparent 34%);
+    --milestone-panel-border: rgba(232, 181, 74, 0.18);
+    --milestone-chip-bg: rgba(232, 181, 74, 0.09);
+    --milestone-chip-hover: rgba(232, 181, 74, 0.16);
+  }
+
   * {
     @apply box-border;
   }
@@ -209,7 +276,8 @@
   }
 
   html[data-theme='tech'],
-  html[data-theme='game'] {
+  html[data-theme='game'],
+  html[data-theme='golden'] {
     color-scheme: dark;
   }
 
@@ -2394,6 +2462,782 @@
 
   html[data-theme='game'] .review-card::before {
     background: linear-gradient(90deg, rgb(var(--accent-secondary) / 0.055), transparent 55%), repeating-linear-gradient(0deg, transparent 0 10px, rgb(var(--text-primary) / 0.018) 10px 11px);
+  }
+
+  /* ===== Golden（金色辉煌）：黑漆鎏金 / 双金线装裱 · 八角铭牌 · 烛光高光 · 衬线镌刻 ===== */
+
+  html[data-theme='golden'] .surface-card {
+    border-color: rgb(148 120 72 / 0.34);
+    background: linear-gradient(180deg, rgb(37 30 19 / 0.97), rgb(30 24 15 / 0.97));
+    box-shadow: 0 18px 44px rgba(9, 6, 2, 0.4), var(--surface-edge);
+  }
+
+  /* 顶缘鎏金倒角：光斑偏左上掠过，像烛光打在金板棱边 */
+  html[data-theme='golden'] .surface-card::before {
+    background:
+      linear-gradient(100deg, transparent 3%, rgb(232 181 74 / 0.58) 22%, rgb(255 248 220 / 0.75) 36%, rgb(232 181 74 / 0.42) 56%, rgb(201 128 61 / 0.26) 76%, transparent 94%) top left / 100% 2px no-repeat,
+      var(--card-highlight);
+  }
+
+  /* 内衬金线细框：证书式双线装裱（外线即卡片描边） */
+  html[data-theme='golden'] .surface-card::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    inset: 0.45rem;
+    z-index: 0;
+    border: 1px solid rgb(232 181 74 / 0.22);
+  }
+
+  html[data-theme='golden'] .surface-panel {
+    border-color: rgb(148 120 72 / 0.26);
+    background: linear-gradient(180deg, rgb(41 33 21 / 0.94), rgb(33 26 16 / 0.94));
+    box-shadow: inset 0 1px 0 rgb(255 240 200 / 0.045), 0 12px 32px rgba(9, 6, 2, 0.3);
+  }
+
+  /* 金器铭文用衬线：鎏金感必须渗透到操作层，不只停留在标题 */
+  html[data-theme='golden'] .button-primary,
+  html[data-theme='golden'] .button-secondary,
+  html[data-theme='golden'] .icon-button {
+    border-radius: 0.4rem;
+  }
+
+  html[data-theme='golden'] .button-primary,
+  html[data-theme='golden'] .button-secondary {
+    font-family: var(--font-display);
+    letter-spacing: 0.06em;
+  }
+
+  html[data-theme='golden'] .button-secondary {
+    font-weight: 600;
+  }
+
+  /* 小铭牌：状态徽章与节点小按钮同样镌刻 */
+  html[data-theme='golden'] .status-badge,
+  html[data-theme='golden'] .graph-state-badge,
+  html[data-theme='golden'] .graph-milestone-badge,
+  html[data-theme='golden'] .graph-advance-button,
+  html[data-theme='golden'] .graph-branch-toggle {
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+
+  /* 主按钮 = 金锭：五段金属渐变（亮金→深金）+ 顶面镜面高光 + 底部青铜倒角棱线 */
+  html[data-theme='golden'] .button-primary {
+    border: 1px solid rgb(122 90 34);
+    background: linear-gradient(180deg, #fbf3cd 0%, #f5d879 24%, #e3ae3e 52%, #c08a2b 80%, #9a6c1f 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 253, 240, 0.8),
+      inset 0 -1px 0 rgba(94, 64, 20, 0.55),
+      0 2px 0 rgba(96, 68, 24, 0.42),
+      0 10px 22px rgba(9, 6, 2, 0.38);
+    font-weight: 600;
+    transition: filter 220ms ease, box-shadow 220ms ease;
+  }
+
+  /* 金器不动，只反光：悬停增亮，按压下沉 1px */
+  html[data-theme='golden'] .button-primary:hover:not(:disabled) {
+    filter: brightness(1.06);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 252, 236, 0.85),
+      inset 0 -1px 0 rgba(94, 64, 20, 0.5),
+      0 2px 0 rgba(96, 68, 24, 0.42),
+      0 12px 26px rgba(232, 181, 74, 0.2);
+  }
+
+  html[data-theme='golden'] .button-primary:active {
+    transform: translateY(1px);
+    filter: brightness(0.96);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 252, 236, 0.5),
+      inset 0 -1px 0 rgba(94, 64, 20, 0.4),
+      0 1px 0 rgba(96, 68, 24, 0.38);
+  }
+
+  /* 次级按钮 = 青铜面板配细金边 */
+  html[data-theme='golden'] .button-secondary,
+  html[data-theme='golden'] .icon-button {
+    border-color: rgb(201 164 89 / 0.26);
+    background: linear-gradient(180deg, rgb(43 35 21 / 0.92), rgb(30 24 14 / 0.92));
+    box-shadow: inset 0 1px 0 rgba(255, 240, 200, 0.07), inset 0 -1px 0 rgba(9, 6, 2, 0.36);
+  }
+
+  html[data-theme='golden'] .project-card {
+    isolation: isolate;
+    border-color: rgb(148 120 72 / 0.32);
+    background: linear-gradient(180deg, rgb(38 31 20 / 0.98), rgb(29 23 14 / 0.98));
+    box-shadow: 0 20px 46px rgba(9, 6, 2, 0.42), inset 0 1px 0 rgb(255 242 205 / 0.06);
+  }
+
+  html[data-theme='golden'] .project-card::before {
+    inset: 0.5rem;
+    border: 1px solid rgb(232 181 74 / 0.24);
+    background: none;
+  }
+
+  /* 左缘鎏金书脊：悬停时金脊舒展，卡片本身纹丝不动 */
+  html[data-theme='golden'] .project-card::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    inset: 0 auto 0 0;
+    z-index: 2;
+    width: 3px;
+    background: linear-gradient(180deg, transparent 4%, #f6e4ad 18%, #e8b54a 46%, #b9832f 88%, transparent 98%);
+    opacity: 0.45;
+    transform: scaleY(0.4);
+    transition: opacity 260ms ease, transform 340ms ease;
+  }
+
+  html[data-theme='golden'] .project-card:hover {
+    transform: none;
+    border-color: rgb(201 164 89 / 0.55);
+    box-shadow: 0 22px 52px rgba(9, 6, 2, 0.5), 0 0 22px rgb(232 181 74 / 0.07), inset 0 1px 0 rgb(255 242 205 / 0.08);
+  }
+
+  html[data-theme='golden'] .project-card:hover::before {
+    border-color: rgb(232 181 74 / 0.42);
+  }
+
+  html[data-theme='golden'] .project-card:hover::after {
+    opacity: 0.95;
+    transform: scaleY(0.85);
+  }
+
+  html[data-theme='golden'] .project-card-header {
+    min-height: 2.2rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgb(201 164 89 / 0.2);
+  }
+
+  html[data-theme='golden'] .project-card-link {
+    border: 1px solid rgb(232 181 74 / 0.24);
+    border-radius: 0.4rem;
+    padding: 0.3rem;
+  }
+
+  html[data-theme='golden'] .project-card-pinned {
+    border-color: rgb(232 181 74 / 0.55);
+    box-shadow: 0 20px 46px rgba(9, 6, 2, 0.42), 0 0 20px rgb(232 181 74 / 0.1), inset 0 1px 0 rgb(255 242 205 / 0.07);
+  }
+
+  html[data-theme='golden'] .project-card-pinned::after {
+    opacity: 0.9;
+    transform: scaleY(0.85);
+  }
+
+  html[data-theme='golden'] .project-pin-badge,
+  html[data-theme='golden'] .project-pin-toggle-active {
+    border-color: rgb(243 223 166 / 0.4);
+    color: rgb(243 223 166);
+  }
+
+  html[data-theme='golden'] .metric-value {
+    color: rgb(243 223 166);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  html[data-theme='golden'] .progress-track {
+    background: rgb(16 12 7 / 0.7);
+    box-shadow: inset 0 1px 3px rgba(6, 4, 1, 0.6), inset 0 0 0 1px rgb(232 181 74 / 0.08);
+  }
+
+  /* 金属进度条：青铜起、金身、香槟尾，顶面一道镜光 */
+  html[data-theme='golden'] .progress-fill {
+    position: relative;
+    background: linear-gradient(90deg, rgb(185 131 47), rgb(232 181 74) 42%, rgb(246 228 173) 86%);
+    box-shadow: inset 0 1px 0 rgba(255, 250, 232, 0.5), inset 0 -1px 0 rgba(94, 64, 20, 0.4), 0 0 10px rgb(232 181 74 / 0.13);
+  }
+
+  html[data-theme='golden'] .progress-fill::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 34%, rgba(255, 251, 235, 0.38) 50%, transparent 66%);
+    background-size: 240% 100%;
+    animation: golden-sheen 5.4s ease-in-out infinite;
+  }
+
+  @keyframes golden-sheen {
+    from { background-position: 200% 0; }
+    to { background-position: -100% 0; }
+  }
+
+  html[data-theme='golden'] .node-card {
+    --node-accent: var(--accent-primary);
+    overflow: visible;
+    border-left-color: rgb(var(--node-accent) / 0.55);
+  }
+
+  html[data-theme='golden'] .node-card-question {
+    --node-accent: 201 128 61;
+  }
+
+  html[data-theme='golden'] .node-card-solution {
+    --node-accent: 232 181 74;
+  }
+
+  html[data-theme='golden'] .node-card-result {
+    --node-accent: 111 190 141;
+  }
+
+  html[data-theme='golden'] .node-card::before {
+    background: linear-gradient(180deg, rgb(246 228 173 / 0.7), rgb(232 181 74 / 0.4) 34%, rgb(185 131 47 / 0.28) 78%, transparent) left top / 2px 5rem no-repeat;
+  }
+
+  html[data-theme='golden'] .node-marker {
+    border: 1px solid rgb(var(--node-accent) / 0.6);
+    color: rgb(var(--node-accent));
+    background: rgb(var(--bg-panel) / 0.98);
+    box-shadow: 0 0 10px rgb(var(--node-accent) / 0.12);
+  }
+
+  html[data-theme='golden'] .detail-timeline::before {
+    width: 2px;
+    background: linear-gradient(180deg, rgb(243 223 166 / 0.55), rgb(232 181 74 / 0.3) 42%, rgb(185 131 47 / 0.16));
+    box-shadow: 0 0 8px rgb(232 181 74 / 0.1);
+  }
+
+  html[data-theme='golden'] .validation-terminal {
+    border-radius: 0.6rem;
+    border-color: rgb(201 164 89 / 0.26);
+    background: rgb(15 12 7 / 0.96);
+    box-shadow: 0 18px 44px rgba(8, 5, 2, 0.5), inset 0 1px 0 rgb(232 181 74 / 0.08);
+  }
+
+  html[data-theme='golden'] .validation-terminal::before {
+    background:
+      linear-gradient(100deg, transparent 4%, rgb(232 181 74 / 0.55) 24%, rgb(255 248 220 / 0.4) 40%, rgb(201 128 61 / 0.3) 68%, transparent 92%) top left / 100% 2px no-repeat,
+      radial-gradient(circle at 86% 8%, rgb(232 181 74 / 0.07), transparent 32%);
+    opacity: 1;
+  }
+
+  html[data-theme='golden'] .milestone-chip {
+    border: 1px solid rgb(232 181 74 / 0.2);
+    border-radius: 0.35rem;
+  }
+
+  /* 通知铭牌：黑漆小牌，成功勾线改鎏金，金色体系内不留冷绿 */
+  html[data-theme='golden'] .toast-card {
+    border-radius: 0.5rem;
+    font-family: var(--font-display);
+  }
+
+  html[data-theme='golden'] .toast-success,
+  html[data-theme='golden'] .toast-info {
+    border-color: rgb(232 181 74 / 0.38);
+    background: linear-gradient(180deg, rgb(41 33 21 / 0.96), rgb(28 22 13 / 0.96));
+    box-shadow: 0 14px 36px rgba(7, 4, 1, 0.55), inset 0 1px 0 rgb(255 240 200 / 0.08);
+  }
+
+  html[data-theme='golden'] .toast-success .toast-icon {
+    color: rgb(232 181 74);
+  }
+
+  html[data-theme='golden'] .diagnostic-panel {
+    background: rgb(var(--bg-surface-2) / 0.96);
+  }
+
+  html[data-theme='golden'] .app-sidebar {
+    background: linear-gradient(90deg, transparent calc(100% - 1px), rgb(232 181 74 / 0.16) calc(100% - 1px)), linear-gradient(180deg, rgb(16 12 7 / 0.99), rgb(13 10 5 / 0.97));
+  }
+
+  /* 侧栏铭牌：衬线镌刻“鎏金册”，替代科技风英文代号 */
+  html[data-theme='golden'] .app-sidebar nav::before {
+    content: '鎏 金 册';
+    display: block;
+    margin: 0 0.75rem 0.75rem;
+    padding-bottom: 0.55rem;
+    border-bottom: 1px solid rgb(232 181 74 / 0.2);
+    color: rgb(243 233 211 / 0.52);
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    letter-spacing: 0.5em;
+  }
+
+  html[data-theme='golden'] .sidebar-link {
+    border-radius: 0.35rem;
+    border-left: 2px solid transparent;
+  }
+
+  html[data-theme='golden'] .sidebar-link-active {
+    border-left-color: rgb(232 181 74);
+    box-shadow: inset 0 1px 0 rgba(255, 240, 200, 0.06), inset 14px 0 26px rgb(232 181 74 / 0.05);
+  }
+
+  html[data-theme='golden'] .page-header {
+    position: relative;
+    border-bottom-color: rgb(201 164 89 / 0.22);
+  }
+
+  /* 页脚铭刻：衬线“鎏金纪事”压金线，像书卷扉页 */
+  html[data-theme='golden'] .page-header::after {
+    content: '鎏金纪事';
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    padding: 0 0 0.45rem 0.9rem;
+    border-bottom: 1px solid rgb(232 181 74 / 0.5);
+    color: rgb(232 181 74 / 0.55);
+    font-family: var(--font-display);
+    font-size: 0.62rem;
+    letter-spacing: 0.42em;
+  }
+
+  /* 眉题与标题：衬线镌刻排印 */
+  html[data-theme='golden'] .eyebrow {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.4em;
+  }
+
+  html[data-theme='golden'] .page-title {
+    font-weight: 600;
+    letter-spacing: 0.035em;
+  }
+
+  html[data-theme='golden'] .control-bar {
+    padding: 0.7rem;
+    border: 1px solid rgb(201 164 89 / 0.16);
+    border-radius: 0.55rem;
+    background: linear-gradient(180deg, rgb(34 27 17 / 0.78), rgb(27 21 13 / 0.78));
+    box-shadow: inset 0 1px 0 rgb(255 240 200 / 0.05);
+  }
+
+  html[data-theme='golden'] .filter-chip-active {
+    border-color: rgb(232 181 74 / 0.5);
+    background: linear-gradient(180deg, rgb(232 181 74 / 0.18), rgb(232 181 74 / 0.1));
+    color: rgb(246 228 173);
+    box-shadow: inset 0 1px 0 rgb(255 248 220 / 0.18);
+  }
+
+  html[data-theme='golden'] .search-box:focus-within {
+    border-color: rgb(232 181 74 / 0.55);
+    box-shadow: 0 0 0 1px rgb(232 181 74 / 0.12), inset 0 1px 0 rgb(255 240 200 / 0.06);
+  }
+
+  html[data-theme='golden'] .project-detail-hero {
+    background: radial-gradient(ellipse at 82% -12%, rgb(232 181 74 / 0.08), transparent 44%), linear-gradient(180deg, rgb(38 31 20 / 0.97), rgb(31 25 15 / 0.97));
+  }
+
+  /* 英雄卡：内衬金线框 + 四角金铆钉，替代取景框角标 */
+  html[data-theme='golden'] .project-detail-hero::after {
+    inset: 0.55rem;
+    border: 1px solid rgb(232 181 74 / 0.26);
+    background:
+      linear-gradient(rgb(243 223 166 / 0.68), rgb(243 223 166 / 0.68)) left top / 5px 5px no-repeat,
+      linear-gradient(rgb(243 223 166 / 0.68), rgb(243 223 166 / 0.68)) right top / 5px 5px no-repeat,
+      linear-gradient(rgb(243 223 166 / 0.68), rgb(243 223 166 / 0.68)) left bottom / 5px 5px no-repeat,
+      linear-gradient(rgb(243 223 166 / 0.68), rgb(243 223 166 / 0.68)) right bottom / 5px 5px no-repeat;
+  }
+
+  html[data-theme='golden'] .review-card {
+    border-radius: 0.5rem;
+    border-left: 2px solid rgb(243 223 166 / 0.55);
+    background: rgb(39 32 20 / 0.72);
+  }
+
+  html[data-theme='golden'] .markdown-content pre {
+    border-color: rgb(var(--accent-primary) / 0.2);
+  }
+
+  @media (max-width: 639px) {
+    html[data-theme='golden'] .page-header::after {
+      content: none;
+    }
+
+    html[data-theme='golden'] .control-bar {
+      margin-inline: -0.25rem;
+      padding: 0.6rem;
+    }
+  }
+
+  html[data-theme='golden'] .task-graph {
+    --graph-grid-color: 146 122 74;
+    --graph-route-color: 232 181 74;
+    --graph-complete-color: 243 223 166;
+    --graph-active-color: 232 181 74;
+    --graph-milestone-color: 201 128 61;
+    --graph-blocked-color: 154 130 96;
+    --graph-blocked-opacity: 0.58;
+    /* 八角金板铭牌切角 */
+    --graph-node-clip: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 15px), 0 15px);
+    --graph-milestone-clip: polygon(5% 0, 95% 0, 100% 16%, 100% 84%, 95% 100%, 5% 100%, 0 84%, 0 16%);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgb(201 164 89 / 0.34);
+    border-radius: 0.65rem;
+    background-color: rgb(17 13 8 / 0.98);
+    /* 黑漆画布：顶部光源 + 俯射日光放射纹 + 极淡大格参照（去掉细网格的仪表感） */
+    background-image:
+      radial-gradient(ellipse 60% 30% at 50% -6%, rgb(232 181 74 / 0.14), transparent 70%),
+      repeating-conic-gradient(from 250deg at 50% -14%, rgb(232 181 74 / 0.1) 0deg 1.2deg, transparent 1.2deg 6deg),
+      linear-gradient(rgb(146 122 74 / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(146 122 74 / 0.05) 1px, transparent 1px);
+    background-size: auto, auto, 128px 128px, 128px 128px;
+    box-shadow: inset 0 0 0 1px rgb(255 236 190 / 0.03), inset 0 0 80px rgb(6 4 1 / 0.4), 0 18px 46px rgba(7, 4, 1, 0.36);
+  }
+
+  /* 画布装裱：内衬金线框外再压一道细线，双线装裱；四角金铆钉 */
+  html[data-theme='golden'] .task-graph::before {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    inset: 0.55rem;
+    z-index: 3;
+    border: 1px solid rgb(243 223 166 / 0.42);
+    outline: 1px solid rgb(232 181 74 / 0.14);
+    outline-offset: 2px;
+    background:
+      linear-gradient(rgb(243 223 166 / 0.72), rgb(243 223 166 / 0.72)) left top / 7px 7px no-repeat,
+      linear-gradient(rgb(243 223 166 / 0.72), rgb(243 223 166 / 0.72)) right top / 7px 7px no-repeat,
+      linear-gradient(rgb(243 223 166 / 0.72), rgb(243 223 166 / 0.72)) left bottom / 7px 7px no-repeat,
+      linear-gradient(rgb(243 223 166 / 0.72), rgb(243 223 166 / 0.72)) right bottom / 7px 7px no-repeat;
+  }
+
+  /* 底部镌刻铭牌：水平居中、菱形分饰，替代斜置印章 */
+  html[data-theme='golden'] .task-graph::after {
+    content: '◆ 鎏金路线 ◆';
+    pointer-events: none;
+    position: absolute;
+    left: 50%;
+    bottom: 1.15rem;
+    z-index: 2;
+    transform: translateX(-50%);
+    color: rgb(232 181 74 / 0.55);
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5em;
+    white-space: nowrap;
+  }
+
+  html[data-theme='golden'] .task-graph .react-flow {
+    position: relative;
+    z-index: 2;
+  }
+
+  html[data-theme='golden'] .task-graph .react-flow__background {
+    opacity: 0.06;
+  }
+
+  html[data-theme='golden'] .graph-toolbar {
+    top: 1.1rem;
+    right: 1.1rem;
+    left: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    pointer-events: none;
+  }
+
+  html[data-theme='golden'] .graph-toolbar-actions {
+    display: flex;
+    gap: 0.4rem;
+    pointer-events: auto;
+  }
+
+  html[data-theme='golden'] .graph-paper-readout {
+    display: block;
+    color: rgb(var(--text-secondary) / 0.8);
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+  }
+
+  /* 工具条 = 青铜铭牌按钮：直边小切角 + 顶部受光棱线 + 衬线镌刻 */
+  html[data-theme='golden'] .graph-paper-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid rgb(201 164 89 / 0.34);
+    border-radius: 0.3rem;
+    padding: 0.5rem 0.7rem;
+    background: linear-gradient(180deg, rgb(44 36 22 / 0.94), rgb(30 24 14 / 0.94));
+    color: rgb(226 200 146 / 0.92);
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    box-shadow: inset 0 1px 0 rgb(255 240 200 / 0.14), inset 0 -1px 0 rgba(9, 6, 2, 0.4), 0 2px 6px rgba(7, 4, 1, 0.32);
+  }
+
+  html[data-theme='golden'] .graph-paper-action:hover:not(:disabled) {
+    border-color: rgb(232 181 74 / 0.6);
+    background: linear-gradient(180deg, rgb(232 181 74 / 0.14), rgb(232 181 74 / 0.06));
+    color: rgb(243 223 166);
+  }
+
+  html[data-theme='golden'] .graph-paper-action:disabled { opacity: 0.42; }
+
+  /* 节点 = 八角金板铭牌：顶面受光，斜掠一道金属反光；直边切角，不用圆角 */
+  html[data-theme='golden'] .graph-node {
+    --node-accent: var(--accent-primary);
+    overflow: visible;
+    border-radius: 3px;
+    border-color: rgb(var(--node-accent) / 0.38);
+    background:
+      radial-gradient(ellipse 135% 60% at 50% 122%, rgb(232 181 74 / 0.1), transparent 62%),
+      radial-gradient(ellipse 85% 55% at 32% 0%, rgb(255 240 200 / 0.05), transparent 56%),
+      linear-gradient(115deg, transparent 32%, rgb(243 223 166 / 0.035) 46%, transparent 60%),
+      linear-gradient(180deg, rgb(36 29 18 / 0.98), rgb(26 20 12 / 0.98));
+    box-shadow: 0 14px 34px rgba(7, 4, 1, 0.44), inset 0 1px 0 rgb(255 240 200 / 0.06);
+  }
+
+  /* 顶缘鎏金倒角：光斑偏左，与卡片同一受光方向 */
+  html[data-theme='golden'] .graph-node::before {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(100deg, transparent 4%, rgb(var(--node-accent) / 0.66) 24%, rgb(255 248 220 / 0.58) 40%, rgb(var(--node-accent) / 0.36) 60%, transparent 88%) top left / 100% 1px no-repeat;
+  }
+
+  html[data-theme='golden'] .graph-node > *:not(.graph-node-frame):not(.graph-handle) {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* 内衬金线小框：与八角切角平行的第二道香槟金亮线（基础 z-index:-1 会埋进节点底色，抬到内容层之下） */
+  html[data-theme='golden'] .graph-node-frame {
+    inset: 0.3rem;
+    z-index: 1;
+    background: none;
+    border: 1px solid rgb(243 223 166 / 0.44);
+    clip-path: polygon(7px 0, calc(100% - 7px) 0, 100% 7px, 100% calc(100% - 7px), calc(100% - 7px) 100%, 7px 100%, 0 calc(100% - 7px), 0 7px);
+  }
+
+  html[data-theme='golden'] .graph-node-route {
+    border-color: rgb(var(--graph-route-color) / 0.68);
+  }
+
+  html[data-theme='golden'] .graph-node-completed,
+  html[data-theme='golden'] .graph-node-unlocked {
+    border-color: rgb(var(--graph-complete-color) / 0.65);
+  }
+
+  html[data-theme='golden'] .graph-node-milestone {
+    border-color: rgb(var(--graph-milestone-color) / 0.72);
+  }
+
+  html[data-theme='golden'] .graph-node-choice {
+    border-color: rgb(var(--warning-rgb) / 0.8);
+  }
+
+  html[data-theme='golden'] .graph-node-kind-question { --node-accent: 201 128 61; }
+  html[data-theme='golden'] .graph-node-kind-solution { --node-accent: 232 181 74; }
+  html[data-theme='golden'] .graph-node-kind-result { --node-accent: 111 190 141; }
+
+  /* 庄重的器物不跳动：悬停只让金线亮起、烛光加深 */
+  html[data-theme='golden'] .graph-node:hover,
+  html[data-theme='golden'] .graph-node-selected {
+    transform: none;
+    border-color: rgb(var(--node-accent) / 0.6);
+    box-shadow: 0 16px 38px rgba(7, 4, 1, 0.52), 0 0 0 1px rgb(var(--node-accent) / 0.16), inset 0 1px 0 rgb(255 240 200 / 0.08);
+  }
+
+  html[data-theme='golden'] .graph-node:hover .graph-node-frame,
+  html[data-theme='golden'] .graph-node-selected .graph-node-frame {
+    border-color: rgb(243 223 166 / 0.52);
+  }
+
+  /* 当前目标 = 烛光聚焦：金框加身、内框通体鎏金，不用霓虹外扩环 */
+  html[data-theme='golden'] .graph-node-active,
+  html[data-theme='golden'] .graph-node-focused,
+  html[data-theme='golden'] .graph-node-active:hover,
+  html[data-theme='golden'] .graph-node-active.graph-node-selected,
+  html[data-theme='golden'] .graph-node-focused:hover,
+  html[data-theme='golden'] .graph-node-focused.graph-node-selected {
+    border-color: rgb(var(--graph-active-color));
+    border-width: 2px;
+    box-shadow: 0 18px 40px rgba(7, 4, 1, 0.55), 0 0 0 1px rgb(255 248 220 / 0.22), 0 5px 24px rgb(232 181 74 / 0.2);
+  }
+
+  html[data-theme='golden'] .graph-node-active .graph-node-frame,
+  html[data-theme='golden'] .graph-node-focused .graph-node-frame {
+    border-color: rgb(243 223 166 / 0.66);
+  }
+
+  html[data-theme='golden'] .graph-node-header {
+    justify-content: flex-start;
+    min-height: 1.6rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgb(var(--node-accent) / 0.16);
+  }
+
+  html[data-theme='golden'] .graph-node-type {
+    color: rgb(var(--node-accent));
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+  }
+
+  html[data-theme='golden'] .graph-state-badge,
+  html[data-theme='golden'] .route-choice-badge,
+  html[data-theme='golden'] .graph-milestone-badge {
+    border-radius: 0.25rem;
+  }
+
+  html[data-theme='golden'] .graph-node-content {
+    margin-top: 0.5rem;
+    color: rgb(var(--text-primary));
+    font-size: 16.5px;
+    line-height: 1.58;
+  }
+
+  html[data-theme='golden'] .graph-node-footer {
+    border-top-color: rgb(var(--node-accent) / 0.14);
+  }
+
+  html[data-theme='golden'] .graph-node-index {
+    color: rgb(var(--node-accent) / 0.6);
+    letter-spacing: 0.1em;
+  }
+
+  html[data-theme='golden'] .graph-advance-button,
+  html[data-theme='golden'] .graph-branch-toggle {
+    border: 1px solid rgb(var(--node-accent) / 0.22);
+    border-radius: 0.35rem;
+    color: rgb(var(--node-accent));
+    background: linear-gradient(180deg, rgb(var(--node-accent) / 0.1), rgb(var(--node-accent) / 0.05));
+  }
+
+  html[data-theme='golden'] .graph-handle {
+    width: 9px !important;
+    height: 9px !important;
+    border: 2px solid rgb(17 13 8) !important;
+    border-radius: 50%;
+    background: rgb(var(--node-accent, var(--accent-primary))) !important;
+    box-shadow: 0 0 6px rgb(var(--node-accent, var(--accent-primary)) / 0.35);
+  }
+
+  /* 鎏金嵌条：暗色凹槽床线 + 亮金主线 = 金属镶嵌的路线（复用既有 bed 路径，纯 CSS） */
+  html[data-theme='golden'] .game-road-bed {
+    display: block;
+    fill: none;
+    stroke: rgb(12 9 5 / 0.5);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 5;
+    pointer-events: none;
+  }
+
+  html[data-theme='golden'] .react-flow__edge.graph-edge-route .game-road-bed {
+    stroke: rgb(14 11 6 / 0.88);
+    stroke-width: 7;
+  }
+
+  html[data-theme='golden'] .react-flow__edge.graph-edge-complete .game-road-bed {
+    stroke: rgb(13 10 6 / 0.66);
+    stroke-width: 6;
+  }
+
+  html[data-theme='golden'] .react-flow__edge.graph-edge-blocked .game-road-bed,
+  html[data-theme='golden'] .react-flow__edge.graph-edge-abandoned .game-road-bed,
+  html[data-theme='golden'] .react-flow__edge.graph-edge-summary .game-road-bed {
+    display: none;
+  }
+
+  html[data-theme='golden'] .task-graph .react-flow__edge-path {
+    stroke: rgb(var(--graph-blocked-color) / 0.8);
+    stroke-width: 2;
+  }
+
+  html[data-theme='golden'] .task-graph .react-flow__edge.graph-edge-route .react-flow__edge-path {
+    stroke-width: 3.5;
+    filter: drop-shadow(0 1px 1px rgb(6 4 1 / 0.6)) drop-shadow(0 0 5px rgb(232 181 74 / 0.22));
+  }
+
+  html[data-theme='golden'] .task-graph .react-flow__edge.graph-edge-complete .react-flow__edge-path {
+    stroke-width: 2.75;
+    filter: drop-shadow(0 1px 1px rgb(6 4 1 / 0.5));
+  }
+
+  /* 支线边 = 点状錾痕 */
+  html[data-theme='golden'] .task-graph .react-flow__edge.graph-edge-blocked .react-flow__edge-path {
+    opacity: 0.8;
+    stroke-dasharray: 2 7;
+    stroke-linecap: round;
+  }
+
+  html[data-theme='golden'] .graph-branch-summary {
+    border-radius: 0.5rem;
+    border-color: rgb(var(--graph-blocked-color) / 0.55);
+    background: rgb(24 19 11 / 0.94);
+  }
+
+  html[data-theme='golden'] .graph-minimap-panel,
+  html[data-theme='golden'] .graph-minimap-toggle {
+    border-color: rgb(201 164 89 / 0.26);
+    background: rgb(20 15 8 / 0.94);
+    box-shadow: 0 16px 34px rgba(8, 5, 2, 0.46), inset 0 1px 0 rgb(255 240 200 / 0.05);
+  }
+
+  html[data-theme='golden'] .graph-minimap-title {
+    border-bottom: 1px solid rgb(232 181 74 / 0.14);
+    color: rgb(232 181 74 / 0.85);
+    font-family: var(--font-display);
+    letter-spacing: 0.14em;
+  }
+
+  html[data-theme='golden'] .graph-minimap-panel .react-flow__minimap {
+    background: rgb(14 10 5);
+  }
+
+  html[data-theme='golden'] .task-graph .react-flow__controls,
+  html[data-theme='golden'] .task-graph .react-flow__controls-button {
+    border-color: rgb(201 164 89 / 0.22);
+    background: rgb(24 18 10 / 0.96);
+    color: rgb(var(--text-primary));
+  }
+
+  html[data-theme='golden'] .graph-intel-panel {
+    border-radius: 0.65rem;
+    border-color: rgb(201 164 89 / 0.22);
+    background: linear-gradient(180deg, rgb(40 32 20 / 0.96), rgb(26 20 11 / 0.96));
+    box-shadow: 0 18px 40px rgba(8, 5, 2, 0.4), inset 0 1px 0 rgb(255 240 200 / 0.05);
+  }
+
+  @media (max-width: 767px) {
+    html[data-theme='golden'] .graph-toolbar {
+      top: 0.75rem;
+      right: 0.75rem;
+      left: 0.75rem;
+    }
+
+    html[data-theme='golden'] .graph-toolbar-actions button span {
+      display: none;
+    }
+
+    html[data-theme='golden'] .graph-paper-readout {
+      display: none;
+    }
+
+    html[data-theme='golden'] .task-graph::after {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html[data-theme='golden'] .project-card,
+    html[data-theme='golden'] .project-card::after,
+    html[data-theme='golden'] .project-card-link,
+    html[data-theme='golden'] .button-primary,
+    html[data-theme='golden'] .milestone-chip,
+    html[data-theme='golden'] .progress-fill,
+    html[data-theme='golden'] .graph-node,
+    html[data-theme='golden'] .graph-advance-button,
+    html[data-theme='golden'] .graph-branch-toggle {
+      transition: none;
+    }
+
+    html[data-theme='golden'] .progress-fill::after {
+      animation: none;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -40,6 +40,18 @@ export const themes: ThemeDefinition[] = [
       highlight: '#93ff85',
     },
   },
+  {
+    id: 'golden',
+    label: 'Golden',
+    description: '黑漆底鎏金镶嵌：双金线装裱、八角铭牌节点与衬线镌刻，烛光式光泽，庄重华贵。',
+    themeColor: '#14100a',
+    preview: {
+      background: '#14100a',
+      surface: '#211b11',
+      accent: '#e8b54a',
+      highlight: '#f3dfa6',
+    },
+  },
 ]
 
 export function isThemeId(value: string | null | undefined): value is ThemeId {
