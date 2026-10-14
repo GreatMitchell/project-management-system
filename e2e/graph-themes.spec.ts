@@ -1,8 +1,8 @@
 import { expect, test } from '@playwright/test'
 
-const routeColors = { calm: '197 145 63', tech: '79 209 255', game: '255 184 77', golden: '232 181 74' } as const
+const routeColors = { calm: '197 145 63', tech: '79 209 255', game: '255 184 77', golden: '232 181 74', guofeng: '171 58 48' } as const
 
-for (const theme of ['calm', 'tech', 'game', 'golden'] as const) {
+for (const theme of ['calm', 'tech', 'game', 'golden', 'guofeng'] as const) {
   test(`${theme} 路线图主题变量与减少动画`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.addInitScript((value) => localStorage.setItem('praxis-path-theme', value), theme)
@@ -114,7 +114,7 @@ test('桌面侧边栏可以收起并记住状态，同时将项目详情改为�
 })
 
 test('侧栏收起后品牌图标居中且各主题装饰文字不越界', async ({ page }) => {
-  for (const theme of ['calm', 'tech', 'game'] as const) {
+  for (const theme of ['calm', 'tech', 'game', 'guofeng'] as const) {
     await page.goto('/projects')
     await page.evaluate((value) => localStorage.setItem('praxis-path-theme', value), theme)
     await page.reload()
@@ -159,9 +159,9 @@ test('窄屏默认收起路线导航图', async ({ page }) => {
   await expect(page.locator('.task-graph')).toBeVisible()
 })
 
-test('三主题下路线边都比普通边更突出且全屏可用', async ({ page }) => {
+test('各主题下路线边都比普通边更突出且全屏可用', async ({ page }) => {
   await createRoutedGraphWithBranch(page, '边层级与全屏项目')
-  for (const theme of ['calm', 'tech', 'game'] as const) {
+  for (const theme of ['calm', 'tech', 'game', 'guofeng'] as const) {
     await page.goto('/projects')
     await page.evaluate((value) => localStorage.setItem('praxis-path-theme', value), theme)
     await page.reload()

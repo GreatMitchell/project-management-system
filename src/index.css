@@ -267,6 +267,75 @@
     --milestone-chip-hover: rgba(232, 181, 74, 0.16);
   }
 
+  html[data-theme='guofeng'] {
+    --font-body: "Inter", "Noto Sans SC", system-ui, sans-serif;
+    --font-display: "Noto Serif SC", "Source Han Serif SC", "STZhongsong", "STSong", "SimSun", Georgia, serif;
+    /* 楷体只给题签与印文（guofeng 专属槽位，别处不消费） */
+    --font-seal: "Kaiti SC", "STKaiti", "KaiTi", "TW-Kai", "Noto Serif SC", serif;
+
+    --color-ink: 44 39 33;
+    --color-paper: 240 236 227;
+    --color-moss: 62 118 84;
+    --color-clay: 171 58 48;
+    --color-amber: 174 124 44;
+
+    /* 宋版书页：暖纸与烟墨同一色族，不再混入冷绿黑；朱砂只作标点 */
+    --bg-app: 240 236 227;
+    --bg-surface: 252 249 243;
+    --bg-surface-2: 246 242 234;
+    --bg-panel: 254 252 247;
+    --bg-sidebar: 34 30 25;
+    --bg-overlay: 30 27 22;
+
+    --text-primary: 44 39 33;
+    --text-secondary: 99 90 79;
+    --text-muted: 139 130 118;
+    --text-inverse: 250 247 240;
+    --sidebar-fg: 240 235 225;
+    --milestone-fg: 248 244 236;
+    --milestone-muted: rgba(248, 244, 236, 0.62);
+
+    --accent-primary: 171 58 48;
+    --accent-secondary: 53 84 92;
+    --accent-soft: 243 228 219;
+
+    --border-soft: 62 55 47;
+    --border-strong: 171 58 48;
+    --success-rgb: 62 118 84;
+    --warning-rgb: 174 124 44;
+    --danger-rgb: 152 42 36;
+
+    --focus-ring: 171 58 48;
+    --focus-offset: 240 236 227;
+    /* 阴影是纸张叠压的柔影，不用光晕 */
+    --shadow-soft: 0 14px 36px rgba(56, 48, 39, 0.1);
+    --shadow-card: 0 22px 52px rgba(56, 48, 39, 0.13);
+    --shadow-glow: 0 0 0 1px rgba(62, 55, 47, 0.05);
+    /* 帖册方正：小圆角 */
+    --radius-card: 0.6rem;
+    --radius-pill: 999px;
+
+    /* 全局底纹：乌丝栏界行（竖）+ 顶部一抹黛青淡晕，其余留白 */
+    --bg-pattern: radial-gradient(ellipse 68% 34% at 22% -8%, rgba(53, 84, 92, 0.05), transparent 62%), linear-gradient(90deg, rgba(62, 55, 47, 0.04) 1px, transparent 1px);
+    --bg-pattern-size: auto, 56px 100%;
+    --surface-edge: inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 0 0 1px rgba(62, 55, 47, 0.04);
+    --card-highlight: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0) 52%);
+    --button-primary-text: 250 247 240;
+    --sidebar-active-bg: linear-gradient(90deg, rgba(171, 58, 48, 0.2), rgba(171, 58, 48, 0.04));
+    --sidebar-active-ring: rgba(171, 58, 48, 0.16);
+    --sidebar-hover-bg: rgba(240, 235, 225, 0.06);
+    --sidebar-panel-bg: linear-gradient(180deg, rgba(240, 235, 225, 0.05), rgba(240, 235, 225, 0.02));
+    --sidebar-panel-border: rgba(240, 235, 225, 0.1);
+    --detail-rail: rgba(62, 55, 47, 0.14);
+    --detail-rail-glow: rgba(171, 58, 48, 0.12);
+    --node-card-pattern: linear-gradient(180deg, rgba(255, 255, 255, 0.38), transparent 40%);
+    --review-card-pattern: linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0));
+    --milestone-panel-bg: linear-gradient(180deg, rgba(35, 31, 26, 0.97), rgba(28, 25, 20, 0.94)), radial-gradient(circle at 50% 0%, rgba(171, 58, 48, 0.13), transparent 38%);
+    --milestone-panel-border: rgba(171, 58, 48, 0.24);
+    --milestone-chip-bg: rgba(240, 235, 225, 0.07);
+    --milestone-chip-hover: rgba(240, 235, 225, 0.13);
+  }
+
   * {
     @apply box-border;
   }
@@ -3237,6 +3306,711 @@
 
     html[data-theme='golden'] .progress-fill::after {
       animation: none;
+    }
+  }
+
+  /* ===== GuFeng（中国古风）：宋版书页 · 朱砂点睛 =====
+     暖纸与烟墨同族；朱砂是印泥，只盖在要紧处——品牌印、卷尾藏印、路线边、当前目标、主按钮。
+     装饰文字用楷体（「日课」「持之有恒」，印文「行」）；悬停不位移，静气为本。 */
+
+  html[data-theme='guofeng'] .surface-card {
+    border-color: rgb(62 55 47 / 0.16);
+    background: linear-gradient(180deg, rgb(252 249 243 / 0.96), rgb(246 242 234 / 0.96));
+    box-shadow: 0 16px 40px rgba(56, 48, 39, 0.1), var(--surface-edge);
+  }
+
+  /* 顶缘装裱线：焦墨主线 + 一道淡墨细线，如书页天头的裱边 */
+  html[data-theme='guofeng'] .surface-card::before {
+    background:
+      linear-gradient(90deg, transparent 3%, rgb(44 39 33 / 0.48) 10%, rgb(44 39 33 / 0.48) 90%, transparent 97%) top left / 100% 1.5px no-repeat,
+      linear-gradient(90deg, transparent 9%, rgb(62 55 47 / 0.16) 17%, rgb(62 55 47 / 0.16) 83%, transparent 91%) left 3px top / 100% 1px no-repeat,
+      var(--card-highlight);
+  }
+
+  html[data-theme='guofeng'] .surface-panel {
+    border-color: rgb(62 55 47 / 0.14);
+    background: linear-gradient(180deg, rgb(254 252 247 / 0.94), rgb(248 244 236 / 0.94));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 10px 28px rgba(56, 48, 39, 0.07);
+  }
+
+  /* —— 按钮即印泥 —— */
+  html[data-theme='guofeng'] .button-primary,
+  html[data-theme='guofeng'] .button-secondary,
+  html[data-theme='guofeng'] .icon-button {
+    border-radius: 0.4rem;
+  }
+
+  html[data-theme='guofeng'] .button-primary,
+  html[data-theme='guofeng'] .button-secondary {
+    font-family: var(--font-display);
+    letter-spacing: 0.05em;
+  }
+
+  html[data-theme='guofeng'] .button-secondary {
+    font-weight: 600;
+  }
+
+  /* 主按钮 = 朱砂印泥：亚光实色，无硬棱无光晕 */
+  html[data-theme='guofeng'] .button-primary {
+    border: 1px solid rgb(122 38 31);
+    background: linear-gradient(180deg, #b84234 0%, #a4362a 48%, #933025 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 232, 224, 0.24),
+      0 8px 20px rgba(56, 48, 39, 0.16);
+    font-weight: 600;
+    transition: filter 200ms ease, box-shadow 200ms ease;
+  }
+
+  /* 印泥不移位：悬停只微微提亮，按压下沉 1px */
+  html[data-theme='guofeng'] .button-primary:hover:not(:disabled) {
+    transform: none;
+    filter: brightness(1.05);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 236, 230, 0.3),
+      0 10px 24px rgba(171, 58, 48, 0.2);
+  }
+
+  html[data-theme='guofeng'] .button-primary:active {
+    transform: translateY(1px);
+    filter: brightness(0.97);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 232, 224, 0.16),
+      0 4px 12px rgba(56, 48, 39, 0.14);
+  }
+
+  /* 次级按钮 = 纸面帖签 */
+  html[data-theme='guofeng'] .button-secondary,
+  html[data-theme='guofeng'] .icon-button {
+    border-color: rgb(62 55 47 / 0.22);
+    background: linear-gradient(180deg, rgb(252 249 243 / 0.95), rgb(246 242 234 / 0.95));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  }
+
+  /* 小签条：状态徽章与节点小按钮同样镌刻 */
+  html[data-theme='guofeng'] .status-badge,
+  html[data-theme='guofeng'] .graph-state-badge,
+  html[data-theme='guofeng'] .graph-milestone-badge,
+  html[data-theme='guofeng'] .graph-advance-button,
+  html[data-theme='guofeng'] .graph-branch-toggle {
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+
+  /* —— 项目卡：左缘朱砂书脊 —— */
+  html[data-theme='guofeng'] .project-card {
+    isolation: isolate;
+    border-color: rgb(62 55 47 / 0.17);
+    background: linear-gradient(180deg, rgb(252 249 243 / 0.97), rgb(246 242 234 / 0.97));
+    box-shadow: 0 18px 42px rgba(56, 48, 39, 0.1), inset 0 1px 0 rgb(255 255 255 / 0.55);
+  }
+
+  /* 只留纸面高光，撤掉内衬墨框：盒中盒显拥挤 */
+  html[data-theme='guofeng'] .project-card::before {
+    background: var(--card-highlight);
+  }
+
+  /* 悬停时书脊舒展，卡片本身纹丝不动 */
+  html[data-theme='guofeng'] .project-card::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    inset: 0 auto 0 0;
+    z-index: 2;
+    width: 3px;
+    background: linear-gradient(180deg, transparent 4%, rgb(184 66 52) 16%, rgb(171 58 48) 48%, rgb(143 44 35) 88%, transparent 98%);
+    opacity: 0.5;
+    transform: scaleY(0.45);
+    transition: opacity 260ms ease, transform 340ms ease;
+  }
+
+  html[data-theme='guofeng'] .project-card:hover {
+    transform: none;
+    border-color: rgb(62 55 47 / 0.3);
+    box-shadow: 0 20px 48px rgba(56, 48, 39, 0.13), inset 0 1px 0 rgb(255 255 255 / 0.6);
+  }
+
+  html[data-theme='guofeng'] .project-card:hover::after {
+    opacity: 0.95;
+    transform: scaleY(0.85);
+  }
+
+  html[data-theme='guofeng'] .project-card-header {
+    min-height: 2.2rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgb(62 55 47 / 0.14);
+  }
+
+  html[data-theme='guofeng'] .project-card-link {
+    border: 1px solid rgb(62 55 47 / 0.18);
+    border-radius: 0.35rem;
+    padding: 0.3rem;
+  }
+
+  html[data-theme='guofeng'] .project-card-pinned {
+    border-color: rgb(171 58 48 / 0.5);
+    box-shadow: 0 18px 42px rgba(56, 48, 39, 0.1), 0 0 0 1px rgb(171 58 48 / 0.12), inset 0 1px 0 rgb(255 255 255 / 0.5);
+  }
+
+  html[data-theme='guofeng'] .project-card-pinned::after {
+    opacity: 0.9;
+    transform: scaleY(0.85);
+  }
+
+  html[data-theme='guofeng'] .project-pin-badge,
+  html[data-theme='guofeng'] .project-pin-toggle-active {
+    border-color: rgb(171 58 48 / 0.45);
+    color: rgb(171 58 48);
+  }
+
+  html[data-theme='guofeng'] .metric-value {
+    color: rgb(44 39 33);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  html[data-theme='guofeng'] .progress-track {
+    background: rgb(62 55 47 / 0.12);
+    box-shadow: inset 0 1px 2px rgba(56, 48, 39, 0.12);
+  }
+
+  /* 墨色进度条：淡墨起、焦墨收，末端一点朱砂 */
+  html[data-theme='guofeng'] .progress-fill {
+    background: linear-gradient(90deg, rgb(158 149 137), rgb(58 51 43) 76%, rgb(171 58 48) 100%);
+  }
+
+  /* —— 明细页 —— */
+  html[data-theme='guofeng'] .node-card {
+    --node-accent: var(--accent-primary);
+    overflow: visible;
+    border-left-color: rgb(var(--node-accent) / 0.55);
+  }
+
+  html[data-theme='guofeng'] .node-card-question {
+    --node-accent: 171 58 48;
+  }
+
+  html[data-theme='guofeng'] .node-card-solution {
+    --node-accent: 53 84 92;
+  }
+
+  html[data-theme='guofeng'] .node-card-result {
+    --node-accent: 62 118 84;
+  }
+
+  html[data-theme='guofeng'] .node-card::before {
+    background: linear-gradient(180deg, rgb(44 39 33 / 0.46), rgb(var(--node-accent) / 0.38) 46%, rgb(var(--node-accent) / 0.2) 82%, transparent) left top / 2px 5rem no-repeat;
+  }
+
+  html[data-theme='guofeng'] .node-marker {
+    border: 1px solid rgb(var(--node-accent) / 0.55);
+    color: rgb(var(--node-accent));
+    background: rgb(var(--bg-panel) / 0.98);
+  }
+
+  html[data-theme='guofeng'] .detail-timeline::before {
+    width: 1.5px;
+    background: linear-gradient(180deg, rgb(171 58 48 / 0.3), rgb(62 55 47 / 0.26) 40%, rgb(62 55 47 / 0.1));
+    box-shadow: none;
+  }
+
+  /* 里程碑 = 碑拓墨面：朱砂压顶一线 */
+  html[data-theme='guofeng'] .validation-terminal {
+    border-radius: 0.55rem;
+    border-color: rgb(62 55 47 / 0.4);
+    background: rgb(33 29 24 / 0.97);
+    box-shadow: 0 16px 40px rgba(30, 26, 21, 0.3), inset 0 1px 0 rgb(240 235 225 / 0.06);
+  }
+
+  html[data-theme='guofeng'] .validation-terminal::before {
+    background:
+      linear-gradient(90deg, transparent 4%, rgb(171 58 48 / 0.6) 12%, rgb(171 58 48 / 0.6) 88%, transparent 96%) top left / 100% 1.5px no-repeat,
+      radial-gradient(circle at 88% 10%, rgb(171 58 48 / 0.07), transparent 34%);
+    opacity: 1;
+  }
+
+  html[data-theme='guofeng'] .milestone-chip {
+    border: 1px solid rgb(240 235 225 / 0.1);
+    border-radius: 0.35rem;
+    font-family: var(--font-display);
+  }
+
+  /* 通知 = 纸帖：成功以朱砂印为记 */
+  html[data-theme='guofeng'] .toast-card {
+    border-radius: 0.5rem;
+    font-family: var(--font-display);
+  }
+
+  html[data-theme='guofeng'] .toast-success,
+  html[data-theme='guofeng'] .toast-info {
+    border-color: rgb(171 58 48 / 0.32);
+    background: linear-gradient(180deg, rgb(252 249 243 / 0.98), rgb(246 242 234 / 0.98));
+    box-shadow: 0 14px 34px rgba(56, 48, 39, 0.16), inset 0 1px 0 rgb(255 255 255 / 0.55);
+  }
+
+  html[data-theme='guofeng'] .toast-success .toast-icon {
+    color: rgb(171 58 48);
+  }
+
+  html[data-theme='guofeng'] .diagnostic-panel {
+    background: rgb(var(--bg-surface-2) / 0.96);
+  }
+
+  /* —— 侧栏即函套：暖玄墨 + 一方品牌印 —— */
+  html[data-theme='guofeng'] .app-sidebar {
+    background:
+      linear-gradient(90deg, transparent calc(100% - 1px), rgb(171 58 48 / 0.24) calc(100% - 1px)),
+      linear-gradient(180deg, rgb(34 30 25 / 0.99), rgb(26 23 19 / 0.97));
+  }
+
+  /* 品牌章：朱砂方印，取代圆角胶囊 */
+  html[data-theme='guofeng'] .sidebar-header span.grid {
+    border-radius: 0.35rem;
+    background: linear-gradient(165deg, #b03a2e, #8f2c23);
+    box-shadow:
+      inset 0 0 0 1px rgb(250 247 240 / 0.22),
+      inset 0 1px 0 rgb(255 226 218 / 0.18),
+      0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  /* 导语题签：楷书「日课」，文人之于日日工夫 */
+  html[data-theme='guofeng'] .app-sidebar nav::before {
+    content: '日 课';
+    display: block;
+    margin: 0 0.75rem 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgb(240 235 225 / 0.14);
+    color: rgb(240 235 225 / 0.46);
+    font-family: var(--font-seal);
+    font-size: 0.72rem;
+    letter-spacing: 0.42em;
+  }
+
+  html[data-theme='guofeng'] .sidebar-link {
+    border-radius: 0.35rem;
+    border-left: 2px solid transparent;
+  }
+
+  html[data-theme='guofeng'] .sidebar-link-active {
+    border-left-color: rgb(171 58 48);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), inset 14px 0 26px rgb(171 58 48 / 0.08);
+  }
+
+  /* —— 页眉与页脚题名 —— */
+  html[data-theme='guofeng'] .page-header {
+    position: relative;
+    border-bottom-color: rgb(62 55 47 / 0.16);
+  }
+
+  /* 页脚题名：楷书「持之有恒」压墨线，册页扉页之谓 */
+  html[data-theme='guofeng'] .page-header::after {
+    content: '持之有恒';
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    padding: 0 0 0.42rem 0.9rem;
+    border-bottom: 1px solid rgb(171 58 48 / 0.5);
+    color: rgb(171 58 48 / 0.58);
+    font-family: var(--font-seal);
+    font-size: 0.68rem;
+    letter-spacing: 0.34em;
+  }
+
+  /* 眉题与标题：衬线镌刻排印 */
+  html[data-theme='guofeng'] .eyebrow {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.34em;
+  }
+
+  html[data-theme='guofeng'] .page-title {
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  html[data-theme='guofeng'] .control-bar {
+    padding: 0.7rem;
+    border: 1px solid rgb(62 55 47 / 0.12);
+    border-radius: 0.55rem;
+    background: linear-gradient(180deg, rgb(252 249 243 / 0.82), rgb(246 242 234 / 0.82));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+
+  html[data-theme='guofeng'] .filter-chip-active {
+    border-color: rgb(171 58 48 / 0.5);
+    background: linear-gradient(180deg, rgb(171 58 48 / 0.14), rgb(171 58 48 / 0.08));
+    color: rgb(171 58 48);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  }
+
+  html[data-theme='guofeng'] .search-box:focus-within {
+    border-color: rgb(171 58 48 / 0.55);
+    box-shadow: 0 0 0 1px rgb(171 58 48 / 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  }
+
+  /* —— 英雄卡：画心装裱，一道淡墨内框足矣 —— */
+  html[data-theme='guofeng'] .project-detail-hero {
+    background: radial-gradient(ellipse at 86% -14%, rgb(53 84 92 / 0.07), transparent 46%), linear-gradient(180deg, rgb(252 249 243 / 0.97), rgb(246 242 234 / 0.97));
+  }
+
+  html[data-theme='guofeng'] .project-detail-hero::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    inset: 0.5rem;
+    border: 1px solid rgb(62 55 47 / 0.1);
+  }
+
+  html[data-theme='guofeng'] .review-card {
+    border-radius: 0.5rem;
+    border-left: 2px solid rgb(171 58 48 / 0.5);
+    background: rgb(252 249 243 / 0.78);
+  }
+
+  html[data-theme='guofeng'] .markdown-content pre {
+    border-color: rgb(62 55 47 / 0.16);
+    border-radius: 0.4rem;
+  }
+
+  @media (max-width: 639px) {
+    html[data-theme='guofeng'] .page-header::after {
+      content: none;
+    }
+
+    html[data-theme='guofeng'] .control-bar {
+      margin-inline: -0.25rem;
+      padding: 0.6rem;
+    }
+  }
+
+  /* —— 画布即手卷：远山淡影 + 乌丝栏，双线装裱，卷尾藏印 —— */
+  html[data-theme='guofeng'] .task-graph {
+    --graph-grid-color: 118 108 96;
+    --graph-route-color: 171 58 48;
+    --graph-complete-color: 62 118 84;
+    --graph-active-color: 171 58 48;
+    --graph-milestone-color: 53 84 92;
+    --graph-blocked-color: 118 108 96;
+    --graph-blocked-opacity: 0.62;
+    /* 帖册方切小圆角；里程碑作碑形 */
+    --graph-node-clip: inset(0 round 5px);
+    --graph-milestone-clip: polygon(5% 0, 95% 0, 100% 16%, 100% 84%, 95% 100%, 5% 100%, 0 84%, 0 16%);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgb(62 55 47 / 0.22);
+    border-radius: 0.65rem;
+    background-color: rgb(244 240 232 / 0.98);
+    background-image:
+      radial-gradient(ellipse 72% 26% at 16% -6%, rgb(53 84 92 / 0.08), transparent 68%),
+      radial-gradient(ellipse 58% 22% at 74% -4%, rgb(44 39 33 / 0.06), transparent 70%),
+      linear-gradient(90deg, rgb(62 55 47 / 0.04) 1px, transparent 1px);
+    background-size: auto, auto, 48px 100%;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.4), inset 0 0 70px rgb(240 236 227 / 0.5), 0 16px 42px rgba(56, 48, 39, 0.12);
+  }
+
+  /* 装裱双线：焦墨主线，外压一道淡线 */
+  html[data-theme='guofeng'] .task-graph::before {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    inset: 0.55rem;
+    z-index: 3;
+    border: 1px solid rgb(44 39 33 / 0.3);
+    outline: 1px solid rgb(62 55 47 / 0.12);
+    outline-offset: 2px;
+  }
+
+  /* 卷尾藏印：白文「行」——Praxis 之「践行」，钤在画心右下 */
+  html[data-theme='guofeng'] .task-graph::after {
+    content: '行';
+    pointer-events: none;
+    position: absolute;
+    right: 1.4rem;
+    bottom: 1.3rem;
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    background:
+      radial-gradient(circle at 30% 26%, rgba(255, 235, 228, 0.13), transparent 54%),
+      linear-gradient(160deg, #b03a2e, #8f2c23);
+    box-shadow:
+      inset 0 0 0 1.5px rgb(250 247 240 / 0.82),
+      0 2px 8px rgba(56, 48, 39, 0.22);
+    color: rgb(250 247 240);
+    font-family: var(--font-seal);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1;
+    transform: rotate(2deg);
+  }
+
+  html[data-theme='guofeng'] .task-graph .react-flow {
+    position: relative;
+    z-index: 2;
+  }
+
+  html[data-theme='guofeng'] .task-graph .react-flow__background {
+    opacity: 0.05;
+  }
+
+  html[data-theme='guofeng'] .graph-toolbar {
+    top: 1.1rem;
+    right: 1.1rem;
+    left: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    pointer-events: none;
+  }
+
+  html[data-theme='guofeng'] .graph-toolbar-actions {
+    display: flex;
+    gap: 0.4rem;
+    pointer-events: auto;
+  }
+
+  html[data-theme='guofeng'] .graph-paper-readout {
+    display: block;
+    color: rgb(var(--text-secondary) / 0.85);
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+  }
+
+  /* 工具条 = 纸面帖签按钮 */
+  html[data-theme='guofeng'] .graph-paper-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid rgb(62 55 47 / 0.22);
+    border-radius: 0.35rem;
+    padding: 0.5rem 0.7rem;
+    background: linear-gradient(180deg, rgb(252 249 243 / 0.95), rgb(246 242 234 / 0.95));
+    color: rgb(99 90 79);
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 2px 6px rgba(56, 48, 39, 0.08);
+  }
+
+  html[data-theme='guofeng'] .graph-paper-action:hover:not(:disabled) {
+    border-color: rgb(171 58 48 / 0.55);
+    background: linear-gradient(180deg, rgb(171 58 48 / 0.1), rgb(171 58 48 / 0.05));
+    color: rgb(171 58 48);
+  }
+
+  html[data-theme='guofeng'] .graph-paper-action:disabled { opacity: 0.42; }
+
+  /* —— 节点即宣纸帖条：细墨边 + 左缘类型色，撤掉内框与顶线 —— */
+  html[data-theme='guofeng'] .graph-node {
+    --node-accent: var(--accent-primary);
+    overflow: visible;
+    border-radius: 5px;
+    border-color: rgb(62 55 47 / 0.22);
+    border-left-width: 3px;
+    border-left-color: rgb(var(--node-accent) / 0.55);
+    background: linear-gradient(180deg, rgb(252 249 243 / 0.98), rgb(246 242 234 / 0.98));
+    box-shadow: 0 12px 30px rgba(56, 48, 39, 0.12), inset 0 1px 0 rgb(255 255 255 / 0.6);
+  }
+
+  html[data-theme='guofeng'] .graph-node-frame {
+    background: none;
+  }
+
+  html[data-theme='guofeng'] .graph-node-route {
+    border-color: rgb(var(--graph-route-color) / 0.55);
+  }
+
+  html[data-theme='guofeng'] .graph-node-completed,
+  html[data-theme='guofeng'] .graph-node-unlocked {
+    border-color: rgb(var(--graph-complete-color) / 0.55);
+  }
+
+  html[data-theme='guofeng'] .graph-node-milestone {
+    border-color: rgb(var(--graph-milestone-color) / 0.6);
+  }
+
+  html[data-theme='guofeng'] .graph-node-choice {
+    border-color: rgb(var(--warning-rgb) / 0.8);
+  }
+
+  html[data-theme='guofeng'] .graph-node-kind-question { --node-accent: 171 58 48; }
+  html[data-theme='guofeng'] .graph-node-kind-solution { --node-accent: 53 84 92; }
+  html[data-theme='guofeng'] .graph-node-kind-result { --node-accent: 62 118 84; }
+
+  /* 文人静气：悬停只让墨线加身，不位移 */
+  html[data-theme='guofeng'] .graph-node:hover,
+  html[data-theme='guofeng'] .graph-node-selected {
+    transform: none;
+    border-color: rgb(var(--node-accent) / 0.5);
+    box-shadow: 0 14px 32px rgba(56, 48, 39, 0.14), 0 0 0 1px rgb(var(--node-accent) / 0.1), inset 0 1px 0 rgb(255 255 255 / 0.6);
+  }
+
+  /* 当前目标 = 朱砂点睛：印泥之晕，而非光晕 */
+  html[data-theme='guofeng'] .graph-node-active,
+  html[data-theme='guofeng'] .graph-node-focused,
+  html[data-theme='guofeng'] .graph-node-active:hover,
+  html[data-theme='guofeng'] .graph-node-active.graph-node-selected,
+  html[data-theme='guofeng'] .graph-node-focused:hover,
+  html[data-theme='guofeng'] .graph-node-focused.graph-node-selected {
+    border-color: rgb(var(--graph-active-color));
+    border-width: 1.5px;
+    border-left-width: 3px;
+    box-shadow:
+      0 12px 32px rgba(56, 48, 39, 0.14),
+      0 0 0 3px rgb(171 58 48 / 0.13),
+      inset 0 1px 0 rgb(255 255 255 / 0.6);
+  }
+
+  html[data-theme='guofeng'] .graph-node-header {
+    justify-content: flex-start;
+    min-height: 1.6rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgb(var(--node-accent) / 0.16);
+  }
+
+  html[data-theme='guofeng'] .graph-node-type {
+    color: rgb(var(--node-accent));
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+  }
+
+  html[data-theme='guofeng'] .graph-state-badge,
+  html[data-theme='guofeng'] .route-choice-badge,
+  html[data-theme='guofeng'] .graph-milestone-badge {
+    border-radius: 0.25rem;
+  }
+
+  html[data-theme='guofeng'] .graph-node-content {
+    margin-top: 0.5rem;
+    color: rgb(var(--text-primary));
+    font-size: 16px;
+    line-height: 1.58;
+  }
+
+  html[data-theme='guofeng'] .graph-node-footer {
+    border-top-color: rgb(var(--node-accent) / 0.14);
+  }
+
+  html[data-theme='guofeng'] .graph-node-index {
+    color: rgb(var(--node-accent) / 0.62);
+    letter-spacing: 0.1em;
+  }
+
+  html[data-theme='guofeng'] .graph-advance-button,
+  html[data-theme='guofeng'] .graph-branch-toggle {
+    border: 1px solid rgb(var(--node-accent) / 0.26);
+    border-radius: 0.35rem;
+    color: rgb(var(--node-accent));
+    background: linear-gradient(180deg, rgb(var(--node-accent) / 0.09), rgb(var(--node-accent) / 0.04));
+  }
+
+  html[data-theme='guofeng'] .graph-handle {
+    width: 9px !important;
+    height: 9px !important;
+    border: 2px solid rgb(252 249 243) !important;
+    border-radius: 50%;
+    background: rgb(var(--node-accent, var(--accent-primary))) !important;
+  }
+
+  /* —— 边即工笔线：主线朱砂，完成竹青，支线淡墨点划 —— */
+  html[data-theme='guofeng'] .task-graph .react-flow__edge-path {
+    stroke: rgb(118 108 96 / 0.6);
+    stroke-width: 1.75;
+  }
+
+  html[data-theme='guofeng'] .task-graph .react-flow__edge.graph-edge-route .react-flow__edge-path {
+    stroke: rgb(var(--graph-route-color));
+    stroke-width: 3;
+    opacity: 1;
+    filter: drop-shadow(0 1px 1px rgb(56 48 39 / 0.18));
+  }
+
+  html[data-theme='guofeng'] .task-graph .react-flow__edge.graph-edge-complete .react-flow__edge-path {
+    stroke-width: 2.25;
+    filter: drop-shadow(0 1px 1px rgb(56 48 39 / 0.12));
+  }
+
+  html[data-theme='guofeng'] .task-graph .react-flow__edge.graph-edge-blocked .react-flow__edge-path {
+    opacity: 0.55;
+    stroke-dasharray: 1.5 6;
+    stroke-linecap: round;
+  }
+
+  html[data-theme='guofeng'] .graph-branch-summary {
+    border-radius: 0.5rem;
+    border-color: rgb(118 108 96 / 0.5);
+    background: rgb(252 249 243 / 0.94);
+    font-family: var(--font-display);
+  }
+
+  html[data-theme='guofeng'] .graph-minimap-panel,
+  html[data-theme='guofeng'] .graph-minimap-toggle {
+    border-color: rgb(62 55 47 / 0.2);
+    background: rgb(252 249 243 / 0.94);
+    box-shadow: 0 14px 32px rgba(56, 48, 39, 0.12), inset 0 1px 0 rgb(255 255 255 / 0.5);
+  }
+
+  html[data-theme='guofeng'] .graph-minimap-title {
+    border-bottom: 1px solid rgb(62 55 47 / 0.14);
+    color: rgb(171 58 48);
+    font-family: var(--font-display);
+    letter-spacing: 0.14em;
+  }
+
+  html[data-theme='guofeng'] .graph-minimap-panel .react-flow__minimap {
+    background: rgb(240 236 227);
+  }
+
+  html[data-theme='guofeng'] .task-graph .react-flow__controls,
+  html[data-theme='guofeng'] .task-graph .react-flow__controls-button {
+    border-color: rgb(62 55 47 / 0.18);
+    background: rgb(252 249 243 / 0.96);
+    color: rgb(var(--text-primary));
+  }
+
+  html[data-theme='guofeng'] .graph-intel-panel {
+    border-radius: 0.65rem;
+    border-color: rgb(62 55 47 / 0.16);
+    background: linear-gradient(180deg, rgb(252 249 243 / 0.96), rgb(246 242 234 / 0.96));
+    box-shadow: 0 16px 38px rgba(56, 48, 39, 0.11), inset 0 1px 0 rgb(255 255 255 / 0.5);
+  }
+
+  @media (max-width: 767px) {
+    html[data-theme='guofeng'] .graph-toolbar {
+      top: 0.75rem;
+      right: 0.75rem;
+      left: 0.75rem;
+    }
+
+    html[data-theme='guofeng'] .graph-toolbar-actions button span {
+      display: none;
+    }
+
+    html[data-theme='guofeng'] .graph-paper-readout {
+      display: none;
+    }
+
+    html[data-theme='guofeng'] .task-graph::after {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html[data-theme='guofeng'] .project-card,
+    html[data-theme='guofeng'] .project-card::after,
+    html[data-theme='guofeng'] .project-card-link,
+    html[data-theme='guofeng'] .button-primary,
+    html[data-theme='guofeng'] .milestone-chip,
+    html[data-theme='guofeng'] .graph-node,
+    html[data-theme='guofeng'] .graph-advance-button,
+    html[data-theme='guofeng'] .graph-branch-toggle {
+      transition: none;
     }
   }
 

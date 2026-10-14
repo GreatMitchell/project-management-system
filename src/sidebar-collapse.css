@@ -61,6 +61,16 @@
     text-align: center;
   }
 
+  /* GuFeng's '日 课' seal label cannot fit the rail either; keep the mark single. */
+  html[data-theme='guofeng'][data-sidebar='collapsed'] .app-sidebar nav::before {
+    content: '日';
+    margin-left: 0;
+    margin-right: 0;
+    letter-spacing: 0;
+    overflow: hidden;
+    text-align: center;
+  }
+
   html[data-sidebar='collapsed'] .sidebar-link-label {
     display: none;
   }

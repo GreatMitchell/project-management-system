@@ -1,4 +1,4 @@
-export type ThemeId = 'calm' | 'tech' | 'game' | 'golden'
+export type ThemeId = 'calm' | 'tech' | 'game' | 'golden' | 'guofeng'
 
 export interface ThemeDefinition {
   id: ThemeId

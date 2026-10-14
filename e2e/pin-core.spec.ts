@@ -29,7 +29,7 @@ test('项目置顶独立分组与取消置顶', async ({ page }) => {
   await expect(page.locator('.pinned-divider')).toHaveCount(0)
 })
 
-for (const theme of ['calm', 'tech', 'game', 'golden'] as const) {
+for (const theme of ['calm', 'tech', 'game', 'golden', 'guofeng'] as const) {
   test(`${theme} 主题置顶卡片高亮`, async ({ page }) => {
     await page.addInitScript((value) => localStorage.setItem('praxis-path-theme', value), theme)
     await page.goto('/projects')

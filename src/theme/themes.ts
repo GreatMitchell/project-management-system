@@ -52,6 +52,18 @@ export const themes: ThemeDefinition[] = [
       highlight: '#f3dfa6',
     },
   },
+  {
+    id: 'guofeng',
+    label: 'GuFeng',
+    description: '宋版书页的暖纸烟墨：乌丝栏界行、装裱双线与楷书题签，朱砂只作印泥点睛。',
+    themeColor: '#221e19',
+    preview: {
+      background: '#f0ece3',
+      surface: '#fcf9f3',
+      accent: '#ab3a30',
+      highlight: '#35545c',
+    },
+  },
 ]
 
 export function isThemeId(value: string | null | undefined): value is ThemeId {
