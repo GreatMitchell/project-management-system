@@ -51,7 +51,7 @@ export function AppShell() {
       <aside
         className={`app-sidebar fixed inset-y-0 left-0 z-40 flex w-72 flex-col px-5 py-7 shadow-card transition-transform duration-300 lg:translate-x-0 ${open ? 'translate-x-0' : '-translate-x-full'} ${collapsed ? 'app-sidebar-collapsed' : ''}`}
       >
-        <div className="sidebar-system-label tech-only" aria-hidden="true"><span>SYSTEM / PRAXIS</span><span>LOCAL NODE · ONLINE</span></div>
+        <div className="sidebar-system-label tech-only" aria-hidden="true"><span>PRAXIS</span><span>REF. 04</span></div>
         <div className="sidebar-header flex items-center justify-between px-2">
           <div className="flex items-center gap-3">
             <span className="grid h-10 w-10 place-items-center rounded-2xl bg-accent-primary text-text-inverse shadow-glow">

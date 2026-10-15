@@ -75,66 +75,72 @@
   }
 
   html[data-theme='tech'] {
-    --font-body: "Segoe UI", "Inter", "Noto Sans SC", system-ui, sans-serif;
-    --font-display: "Segoe UI", "Inter", "Noto Sans SC", system-ui, sans-serif;
+    /* 光学工作台 · 精密刻度：科技感来自刻度与公差，不来自发光 */
+    --font-body: "Inter", "Segoe UI", "Noto Sans SC", system-ui, sans-serif;
+    --font-display: "Inter", "Segoe UI", "Noto Sans SC", system-ui, sans-serif;
 
-    --color-ink: 224 238 255;
-    --color-paper: 8 17 31;
-    --color-moss: 111 199 220;
-    --color-clay: 79 209 255;
-    --color-amber: 80 224 193;
+    --color-ink: 24 35 46;
+    --color-paper: 234 239 244;
+    --color-moss: 23 106 122;
+    --color-clay: 166 72 52;
+    --color-amber: 29 78 146;
 
-    --bg-app: 8 17 31;
-    --bg-surface: 15 27 45;
-    --bg-surface-2: 10 22 38;
-    --bg-panel: 11 24 41;
-    --bg-sidebar: 3 10 20;
-    --bg-overlay: 4 10 20;
+    /* 冷瓷白台面：与 Calm/GuFeng 的暖纸不同族，全程无纸感与暖光 */
+    --bg-app: 234 239 244;
+    --bg-surface: 249 251 252;
+    --bg-surface-2: 241 245 248;
+    --bg-panel: 253 254 255;
+    --bg-sidebar: 22 32 43;
+    --bg-overlay: 18 26 35;
 
-    --text-primary: 224 238 255;
-    --text-secondary: 147 184 212;
-    --text-muted: 110 140 166;
-    --text-inverse: 7 14 25;
-    --sidebar-fg: 226 244 255;
-    --milestone-fg: 235 248 255;
-    --milestone-muted: rgba(214, 233, 248, 0.64);
+    --text-primary: 24 35 46;
+    --text-secondary: 62 80 95;
+    --text-muted: 92 107 121;
+    --text-inverse: 238 244 249;
+    --sidebar-fg: 206 218 229;
+    --milestone-fg: 236 242 247;
+    --milestone-muted: rgba(230, 238, 245, 0.66);
 
-    --accent-primary: 79 209 255;
-    --accent-secondary: 126 247 200;
-    --accent-soft: 18 51 76;
+    --accent-primary: 29 78 146;
+    --accent-secondary: 23 106 122;
+    --accent-soft: 226 234 244;
 
-    --border-soft: 76 101 133;
-    --border-strong: 113 178 255;
-    --success-rgb: 16 185 129;
-    --warning-rgb: 56 189 248;
-    --danger-rgb: 244 63 94;
+    --border-soft: 172 184 195;
+    --border-strong: 29 78 146;
+    --success-rgb: 27 122 90;
+    --warning-rgb: 133 84 12;
+    --danger-rgb: 172 54 54;
 
-    --focus-ring: 79 209 255;
-    --focus-offset: 8 17 31;
-    --shadow-soft: 0 20px 50px rgba(3, 9, 19, 0.55);
-    --shadow-card: 0 24px 70px rgba(2, 10, 24, 0.65);
-    --shadow-glow: 0 0 0 1px rgba(79, 209, 255, 0.18), 0 0 28px rgba(79, 209, 255, 0.18);
-    --radius-card: 1.25rem;
+    --focus-ring: 29 78 146;
+    --focus-offset: 234 239 244;
+    /* 阴影是台面轻投影，禁用一切外扩辉光 */
+    --shadow-soft: 0 1px 2px rgba(24, 35, 46, 0.06), 0 10px 24px rgba(24, 35, 46, 0.08);
+    --shadow-card: 0 2px 4px rgba(24, 35, 46, 0.06), 0 18px 40px rgba(24, 35, 46, 0.1);
+    --shadow-glow: 0 0 0 1px rgba(29, 78, 146, 0.12);
+    /* 机械面板小圆角：五主题中最小 */
+    --radius-card: 0.5rem;
     --radius-pill: 999px;
 
-    --bg-pattern: radial-gradient(circle at 78% 6%, rgba(79, 209, 255, 0.16), transparent 26%), linear-gradient(rgba(79, 209, 255, 0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(79, 209, 255, 0.07) 1px, transparent 1px);
-    --bg-pattern-size: auto, 100% 30px, 30px 100%;
-    --surface-edge: inset 0 1px 0 rgba(199, 233, 255, 0.06), inset 0 0 0 1px rgba(79, 209, 255, 0.05);
-    --card-highlight: linear-gradient(180deg, rgba(79, 209, 255, 0.11), rgba(79, 209, 255, 0));
-    --button-primary-text: 6 14 24;
-    --sidebar-active-bg: linear-gradient(90deg, rgba(79, 209, 255, 0.20), rgba(79, 209, 255, 0.08));
-    --sidebar-active-ring: rgba(79, 209, 255, 0.18);
-    --sidebar-hover-bg: rgba(79, 209, 255, 0.08);
-    --sidebar-panel-bg: linear-gradient(180deg, rgba(79, 209, 255, 0.09), rgba(255, 255, 255, 0.03));
-    --sidebar-panel-border: rgba(79, 209, 255, 0.16);
-    --detail-rail: rgba(79, 209, 255, 0.22);
-    --detail-rail-glow: rgba(126, 247, 200, 0.18);
-    --node-card-pattern: linear-gradient(135deg, rgba(79, 209, 255, 0.12), rgba(126, 247, 200, 0.03) 38%, rgba(255,255,255,0) 68%), linear-gradient(90deg, rgba(79, 209, 255, 0.05) 1px, transparent 1px);
-    --review-card-pattern: linear-gradient(180deg, rgba(79,209,255,0.12), rgba(79,209,255,0) 45%), linear-gradient(90deg, rgba(79,209,255,0.05) 1px, transparent 1px);
-    --milestone-panel-bg: linear-gradient(180deg, rgba(4,16,31,0.97), rgba(5,13,24,0.93)), radial-gradient(circle at top right, rgba(79,209,255,0.12), transparent 34%);
-    --milestone-panel-border: rgba(79, 209, 255, 0.18);
-    --milestone-chip-bg: rgba(79, 209, 255, 0.10);
-    --milestone-chip-hover: rgba(79, 209, 255, 0.16);
+    /* 全局底纹：蓝图方格，透明度封顶 4.5% 保证长文录入可读 */
+    --bg-pattern: linear-gradient(rgba(24, 35, 46, 0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(24, 35, 46, 0.045) 1px, transparent 1px);
+    --bg-pattern-size: 100% 32px, 32px 100%;
+    --surface-edge: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    --card-highlight: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+    --button-primary-text: 250 252 255;
+    /* 侧栏是深色机身：面板内强调色亮一档，保证在暗底可辨 */
+    --sidebar-active-bg: linear-gradient(90deg, rgba(122, 158, 230, 0.22), rgba(122, 158, 230, 0.08));
+    --sidebar-active-ring: rgba(122, 158, 230, 0.4);
+    --sidebar-hover-bg: rgba(255, 255, 255, 0.06);
+    --sidebar-panel-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+    --sidebar-panel-border: rgba(255, 255, 255, 0.1);
+    --detail-rail: rgba(24, 35, 46, 0.14);
+    --detail-rail-glow: rgba(29, 78, 146, 0.12);
+    --node-card-pattern: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
+    --review-card-pattern: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+    --milestone-panel-bg: linear-gradient(180deg, rgba(22, 32, 43, 0.97), rgba(18, 27, 37, 0.94));
+    --milestone-panel-border: rgba(122, 158, 230, 0.28);
+    --milestone-chip-bg: rgba(236, 242, 247, 0.08);
+    --milestone-chip-hover: rgba(236, 242, 247, 0.14);
   }
 
   html[data-theme='game'] {
@@ -344,7 +350,7 @@
     color-scheme: light;
   }
 
-  html[data-theme='tech'],
+  /* tech 是浅色精密仪器台，与 calm/guofeng 同为 color-scheme: light（默认） */
   html[data-theme='game'],
   html[data-theme='golden'] {
     color-scheme: dark;
@@ -813,7 +819,7 @@
   .markdown-content-log { line-height: 1.65; }
   .graph-intel-panel .markdown-content { max-height: min(52vh, 34rem); overflow: auto; padding-right: 0.15rem; }
   html[data-theme='tech'] .markdown-content pre,
-  html[data-theme='tech'] .markdown-preview { border-radius: 0.45rem; box-shadow: inset 0 0 0 1px rgb(var(--accent-primary) / 0.045); }
+  html[data-theme='tech'] .markdown-preview { border-radius: 0.35rem; box-shadow: inset 0 0 0 1px rgb(var(--border-soft) / 0.35); }
   html[data-theme='game'] .markdown-content pre { border-color: rgb(var(--accent-primary) / 0.24); }
   html[data-theme='game'] .markdown-content h1,
   html[data-theme='game'] .markdown-content h2,
@@ -1021,68 +1027,66 @@
     display: inline;
   }
 
+  /* 蚀刻铭牌小字：等宽只留给编号与读数，不再承担大写标语 */
   html[data-theme='tech'] .tech-module-label {
     display: inline-flex;
     align-items: center;
-    color: rgb(var(--accent-primary) / 0.72);
+    color: rgb(var(--text-muted));
     font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
     font-size: 0.625rem;
     font-weight: 600;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.1em;
     line-height: 1;
     white-space: nowrap;
+    font-variant-numeric: tabular-nums;
   }
 
   html[data-theme='tech'] .surface-card {
-    border-color: rgb(var(--border-soft) / 0.34);
-    background: rgb(var(--bg-surface) / 0.94);
-    box-shadow: 0 18px 48px rgba(1, 7, 16, 0.42), var(--surface-edge);
+    border-color: rgb(var(--border-soft) / 0.45);
+    background: rgb(var(--bg-surface));
+    box-shadow: var(--shadow-card), var(--surface-edge);
   }
 
+  /* 顶缘刻度尺：小刻度 9px / 大刻度 45px，替代强调色渐变顶线 */
   html[data-theme='tech'] .surface-card::before {
-    background: linear-gradient(90deg, rgb(var(--accent-primary) / 0.44) 0 2.75rem, transparent 2.75rem) top left / 100% 1px no-repeat;
-    opacity: 0.78;
+    background:
+      repeating-linear-gradient(90deg, rgb(var(--accent-primary) / 0.75) 0 1px, transparent 1px 45px) top left / 100% 7px no-repeat,
+      repeating-linear-gradient(90deg, rgb(var(--border-soft) / 0.8) 0 1px, transparent 1px 9px) top left / 100% 4px no-repeat;
+    opacity: 1;
   }
 
+  /* 不设四角 L 角标：仪器面板的识别靠刻度与公差，不靠角框 */
   html[data-theme='tech'] .surface-card::after {
-    content: '';
-    pointer-events: none;
-    position: absolute;
-    inset: 0.7rem;
-    z-index: 0;
-    background:
-      linear-gradient(rgb(var(--accent-primary) / 0.42), rgb(var(--accent-primary) / 0.42)) left top / 9px 1px no-repeat,
-      linear-gradient(rgb(var(--accent-primary) / 0.42), rgb(var(--accent-primary) / 0.42)) left top / 1px 9px no-repeat,
-      linear-gradient(rgb(var(--border-soft) / 0.28), rgb(var(--border-soft) / 0.28)) right bottom / 9px 1px no-repeat,
-      linear-gradient(rgb(var(--border-soft) / 0.28), rgb(var(--border-soft) / 0.28)) right bottom / 1px 9px no-repeat;
-    opacity: 0.8;
+    content: none;
   }
 
   html[data-theme='tech'] .surface-panel {
-    border-color: rgb(var(--border-soft) / 0.28);
-    background: rgb(var(--bg-panel) / 0.92);
-    box-shadow: inset 0 1px 0 rgb(203 232 255 / 0.035), 0 14px 36px rgba(1, 7, 16, 0.28);
+    border-color: rgb(var(--border-soft) / 0.4);
+    background: rgb(var(--bg-panel) / 0.95);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 8px 20px rgba(24, 35, 46, 0.06);
   }
 
   html[data-theme='tech'] .project-card {
     isolation: isolate;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
   }
 
+  /* 悬停只提描边与发丝环，台面不位移 */
   html[data-theme='tech'] .project-card:hover {
-    transform: translateY(-2px);
-    border-color: rgb(var(--accent-primary) / 0.52);
-    box-shadow: 0 20px 54px rgba(1, 7, 16, 0.5), 0 0 0 1px rgb(var(--accent-primary) / 0.08), var(--surface-edge);
+    transform: none;
+    border-color: rgb(var(--accent-primary) / 0.5);
+    box-shadow: var(--shadow-card), 0 0 0 1px rgb(var(--accent-primary) / 0.14), var(--surface-edge);
   }
 
   html[data-theme='tech'] .project-card-header {
     min-height: 2.15rem;
     padding-bottom: 0.85rem;
-    border-bottom: 1px solid rgb(var(--border-soft) / 0.22);
+    border-bottom: 1px solid rgb(var(--border-soft) / 0.28);
   }
 
   html[data-theme='tech'] .project-card-link {
-    border: 1px solid rgb(var(--border-soft) / 0.28);
-    border-radius: 0.35rem;
+    border: 1px solid rgb(var(--border-soft) / 0.4);
+    border-radius: 0.3rem;
     padding: 0.3rem;
   }
 
@@ -1090,58 +1094,66 @@
   html[data-theme='tech'] .project-reward {
     border-radius: 0.3rem;
     font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.08em;
+    font-variant-numeric: tabular-nums;
   }
 
   html[data-theme='tech'] .project-card-metrics {
     font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
   }
 
   html[data-theme='tech'] .metric-value {
     color: rgb(var(--accent-primary));
     font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
   }
 
   html[data-theme='tech'] .project-card-pinned {
     border-color: rgb(var(--accent-primary) / 0.55);
-    box-shadow: 0 0 0 1px rgb(var(--accent-primary) / 0.2), 0 0 28px rgb(var(--accent-primary) / 0.16), var(--surface-edge);
+    box-shadow: var(--shadow-card), 0 0 0 1px rgb(var(--accent-primary) / 0.18), var(--surface-edge);
   }
 
   html[data-theme='tech'] .project-pin-badge {
     border-radius: 0.3rem;
     font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.1em;
+    font-variant-numeric: tabular-nums;
   }
 
   html[data-theme='tech'] .pinned-divider,
   html[data-theme='tech'] .focus-table th {
     font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.12em;
+    font-variant-numeric: tabular-nums;
   }
 
+  /* 进度条即刻度槽：游标刻线替代发光圆点 */
   html[data-theme='tech'] .progress-track {
     border-radius: 2px;
-    background: repeating-linear-gradient(90deg, rgb(var(--text-primary) / 0.1) 0 9px, transparent 9px 12px);
+    background-color: rgb(var(--text-primary) / 0.08);
+    background-image: repeating-linear-gradient(90deg, rgb(var(--text-primary) / 0.16) 0 1px, transparent 1px 10px);
   }
 
   html[data-theme='tech'] .progress-fill {
     position: relative;
-    border-radius: 2px;
-    background: linear-gradient(90deg, rgb(var(--accent-primary) / 0.62), rgb(var(--accent-primary)));
+    border-radius: 1px;
+    background: rgb(var(--accent-primary));
     box-shadow: none;
   }
 
   html[data-theme='tech'] .progress-fill::after {
     content: '';
     position: absolute;
-    top: 50%;
+    top: 0;
     right: 0;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: rgb(218 248 255);
-    box-shadow: 0 0 10px rgb(var(--accent-primary) / 0.85);
-    transform: translate(50%, -50%);
+    width: 2px;
+    height: 100%;
+    border-radius: 0;
+    background: rgb(var(--accent-secondary));
+    box-shadow: none;
+    transform: none;
   }
 
   html[data-theme='tech'] .node-surface {
@@ -1151,205 +1163,246 @@
   html[data-theme='tech'] .node-card {
     --node-accent: var(--accent-primary);
     overflow: visible;
-    border-left-color: rgb(var(--node-accent) / 0.58);
+    border-left: 2px solid rgb(var(--node-accent) / 0.7);
   }
 
   html[data-theme='tech'] .node-card-question {
-    --node-accent: 56 189 248;
+    --node-accent: 46 104 172;
   }
 
   html[data-theme='tech'] .node-card-solution {
-    --node-accent: 245 158 11;
+    --node-accent: 150 98 18;
   }
 
   html[data-theme='tech'] .node-card-result {
-    --node-accent: 52 211 153;
+    --node-accent: 27 122 90;
   }
 
+  /* 侧边刻度轨：等距刻度替代渐隐发光条 */
   html[data-theme='tech'] .node-card::before {
-    background: linear-gradient(180deg, rgb(var(--node-accent) / 0.64), transparent 72%) left top / 2px 5.5rem no-repeat;
+    background: repeating-linear-gradient(180deg, rgb(var(--node-accent) / 0.75) 0 2px, transparent 2px 7px) left top / 2px 5.5rem no-repeat;
+    opacity: 1;
   }
 
+  /* 键帽式徽章：替代旋转菱形与辉光 */
   html[data-theme='tech'] .node-marker {
-    border: 1px solid rgb(var(--node-accent) / 0.62);
+    border: 1px solid rgb(var(--node-accent) / 0.55);
     border-radius: 0.45rem;
     color: rgb(var(--node-accent));
-    background: rgb(var(--bg-panel) / 0.98);
-    box-shadow: 0 0 18px rgb(var(--node-accent) / 0.12);
-    transform: rotate(45deg);
+    background: rgb(var(--bg-panel));
+    box-shadow: none;
+    transform: none;
   }
 
   html[data-theme='tech'] .node-marker > svg {
-    transform: rotate(-45deg);
+    transform: none;
   }
 
   html[data-theme='tech'] .detail-timeline::before {
-    width: 2px;
-    background: linear-gradient(180deg, rgb(var(--accent-primary) / 0.52), rgb(var(--border-soft) / 0.18));
-    box-shadow: 0 0 12px rgb(var(--accent-primary) / 0.12);
+    width: 1.5px;
+    background: linear-gradient(180deg, rgb(var(--accent-primary) / 0.5), rgb(var(--border-soft) / 0.22));
+    box-shadow: none;
   }
 
+  /* 里程碑面板是深色台面（与全主题一致）：用亮一档的靛蓝作面板内强调 */
   html[data-theme='tech'] .validation-terminal {
-    border-radius: 0.8rem;
-    border-color: rgb(var(--accent-primary) / 0.32);
-    background: rgb(var(--bg-sidebar) / 0.96);
-    box-shadow: 0 20px 54px rgba(1, 7, 16, 0.48), inset 0 1px 0 rgb(var(--accent-primary) / 0.12);
+    border-radius: 0.5rem;
+    border-color: rgb(var(--sidebar-fg) / 0.16);
+    border-top: 2px solid rgb(122 158 230 / 0.9);
+    background: linear-gradient(180deg, rgb(26 37 50 / 0.98), rgb(20 29 40 / 0.98));
+    box-shadow: 0 16px 40px rgba(18, 26, 35, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
 
+  /* 双细线加刻度，替代辉光顶带与径向光 */
   html[data-theme='tech'] .validation-terminal::before {
-    background:
-      linear-gradient(90deg, rgb(var(--accent-primary) / 0.72) 0 30%, transparent 30%) top left / 100% 2px no-repeat,
-      radial-gradient(circle at 86% 8%, rgb(var(--accent-primary) / 0.1), transparent 32%);
+    background: repeating-linear-gradient(90deg, rgb(var(--sidebar-fg) / 0.3) 0 1px, transparent 1px 9px) top left / 100% 4px no-repeat;
     opacity: 1;
   }
 
   html[data-theme='tech'] .milestone-chip {
-    border: 1px solid rgb(var(--border-soft) / 0.18);
-    border-radius: 0.35rem;
+    border: 1px solid rgb(var(--sidebar-fg) / 0.18);
+    border-radius: 0.3rem;
     font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    font-variant-numeric: tabular-nums;
   }
 
   html[data-theme='tech'] .diagnostic-panel {
-    background: rgb(var(--bg-surface-2) / 0.96);
+    border-color: rgb(var(--border-soft) / 0.4);
+    background: rgb(var(--bg-surface-2) / 0.92);
   }
 
+  /* 侧栏即阳极氧化机身 */
   html[data-theme='tech'] .sidebar-system-label {
     display: flex;
     justify-content: space-between;
     margin: -0.25rem 0.5rem 1.25rem;
     padding-bottom: 0.65rem;
-    border-bottom: 1px solid rgb(var(--accent-primary) / 0.16);
-    color: rgb(var(--sidebar-fg) / 0.42);
+    border-bottom: 1px solid rgb(var(--sidebar-fg) / 0.14);
+    color: rgb(var(--sidebar-fg) / 0.62);
     font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
     font-size: 0.55rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
+    font-variant-numeric: tabular-nums;
   }
 
   html[data-theme='tech'] .app-sidebar {
-    background: linear-gradient(90deg, transparent calc(100% - 1px), rgb(var(--accent-primary) / 0.16) calc(100% - 1px)), linear-gradient(180deg, rgb(var(--bg-sidebar) / 0.99), rgb(var(--bg-sidebar) / 0.95));
+    background: linear-gradient(90deg, transparent calc(100% - 1px), rgb(var(--sidebar-fg) / 0.16) calc(100% - 1px)), linear-gradient(180deg, rgb(var(--bg-sidebar) / 0.99), rgb(18 27 37 / 0.98));
   }
 
   html[data-theme='tech'] .app-sidebar nav::before {
-    content: 'NAVIGATION / 04 MODULES';
+    content: 'MODULES / 04';
     display: block;
     margin: 0 0.75rem 0.75rem;
-    color: rgb(var(--sidebar-fg) / 0.34);
+    color: rgb(var(--sidebar-fg) / 0.62);
     font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
     font-size: 0.55rem;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.12em;
+    font-variant-numeric: tabular-nums;
   }
 
   html[data-theme='tech'] .sidebar-link {
-    border-radius: 0.45rem;
+    border-radius: 0.35rem;
     border-left: 2px solid transparent;
   }
 
   html[data-theme='tech'] .sidebar-link-active {
-    border-left-color: rgb(var(--accent-primary) / 0.85);
-    box-shadow: inset 12px 0 24px rgb(var(--accent-primary) / 0.05), 0 0 0 1px var(--sidebar-active-ring);
+    border-left-color: rgb(122 158 230 / 0.95);
+    box-shadow: inset 0 0 0 1px var(--sidebar-active-ring);
   }
 
   html[data-theme='tech'] .sidebar-quote {
-    border-radius: 0.55rem;
+    border-radius: 0.45rem;
   }
 
   html[data-theme='tech'] .page-header {
     position: relative;
-    border-bottom-color: rgb(var(--border-soft) / 0.28);
-  }
-
-  html[data-theme='tech'] .page-header::after {
-    content: 'WORKSPACE / PROJECT MATRIX';
-    position: absolute;
-    right: 0;
-    bottom: -1px;
-    padding: 0 0 0.4rem 0.8rem;
-    border-bottom: 1px solid rgb(var(--accent-primary) / 0.72);
-    color: rgb(var(--accent-primary) / 0.58);
-    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
-    font-size: 0.55rem;
-    letter-spacing: 0.14em;
+    border-bottom-color: rgb(var(--border-soft) / 0.4);
   }
 
   html[data-theme='tech'] .page-title {
-    letter-spacing: -0.035em;
+    letter-spacing: -0.02em;
   }
 
   html[data-theme='tech'] .eyebrow {
+    color: rgb(var(--text-muted));
     font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
-    letter-spacing: 0.18em;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
   }
 
   html[data-theme='tech'] .control-bar {
     padding: 0.75rem;
-    border: 1px solid rgb(var(--border-soft) / 0.22);
-    border-radius: 0.65rem;
-    background: rgb(var(--bg-surface-2) / 0.72);
-    box-shadow: inset 0 1px 0 rgb(203 232 255 / 0.03);
+    border: 1px solid rgb(var(--border-soft) / 0.4);
+    border-radius: 0.45rem;
+    background: rgb(var(--bg-surface) / 0.85);
+    box-shadow: 0 1px 2px rgba(24, 35, 46, 0.05);
   }
 
   html[data-theme='tech'] .filter-chip,
   html[data-theme='tech'] .search-box {
-    border-radius: 0.4rem;
+    border-radius: 0.35rem;
+    border-color: rgb(var(--border-soft) / 0.4);
   }
 
   html[data-theme='tech'] .filter-chip-active {
-    border-color: rgb(var(--accent-primary) / 0.48);
-    background: rgb(var(--accent-primary) / 0.13);
+    border-color: rgb(var(--accent-primary) / 0.55);
+    background: rgb(var(--accent-primary) / 0.1);
     color: rgb(var(--accent-primary));
-    box-shadow: inset 0 -1px 0 rgb(var(--accent-primary) / 0.34);
+    box-shadow: inset 0 -2px 0 rgb(var(--accent-primary) / 0.75);
   }
 
   html[data-theme='tech'] .search-box:focus-within {
-    border-color: rgb(var(--accent-primary) / 0.54);
-    box-shadow: 0 0 0 1px rgb(var(--accent-primary) / 0.08);
+    border-color: rgb(var(--accent-primary));
+    box-shadow: 0 0 0 1px rgb(var(--accent-primary) / 0.2);
   }
 
   html[data-theme='tech'] .project-detail-hero {
-    background: radial-gradient(circle at 88% 12%, rgb(var(--accent-primary) / 0.07), transparent 26%), rgb(var(--bg-surface) / 0.96);
+    border-color: rgb(var(--border-soft) / 0.45);
+    background: rgb(var(--bg-surface) / 0.96);
   }
 
+  /* hero 顶缘刻度尺 */
   html[data-theme='tech'] .project-detail-hero::after {
-    background: linear-gradient(rgb(var(--accent-primary) / 0.48), rgb(var(--accent-primary) / 0.48)) left top / 18px 1px no-repeat, linear-gradient(rgb(var(--accent-primary) / 0.48), rgb(var(--accent-primary) / 0.48)) left top / 1px 18px no-repeat, linear-gradient(rgb(var(--accent-primary) / 0.2), rgb(var(--accent-primary) / 0.2)) right bottom / 36px 1px no-repeat, linear-gradient(rgb(var(--accent-primary) / 0.2), rgb(var(--accent-primary) / 0.2)) right bottom / 1px 12px no-repeat;
+    background:
+      repeating-linear-gradient(90deg, rgb(var(--accent-primary) / 0.7) 0 1px, transparent 1px 45px) top left / 100% 7px no-repeat,
+      repeating-linear-gradient(90deg, rgb(var(--border-soft) / 0.75) 0 1px, transparent 1px 9px) top left / 100% 4px no-repeat;
   }
 
   html[data-theme='tech'] .project-detail-hero h1 {
     max-width: 46rem;
   }
 
+  /* 按键：悬停只提亮，按压下沉 1px */
   html[data-theme='tech'] .project-detail-hero select,
   html[data-theme='tech'] .button-primary,
   html[data-theme='tech'] .button-secondary,
   html[data-theme='tech'] .icon-button {
-    border-radius: 0.4rem;
+    border-radius: 0.35rem;
+    transform: none;
+  }
+
+  html[data-theme='tech'] .button-primary {
+    border: 1px solid rgb(var(--accent-primary) / 0.85);
+    background: rgb(var(--accent-primary));
+    box-shadow: 0 1px 2px rgba(24, 35, 46, 0.2);
+  }
+
+  html[data-theme='tech'] .button-primary:hover:not(:disabled) {
+    transform: none;
+    filter: brightness(1.08);
+    box-shadow: 0 2px 4px rgba(24, 35, 46, 0.22);
+  }
+
+  html[data-theme='tech'] .button-primary:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  html[data-theme='tech'] .button-secondary,
+  html[data-theme='tech'] .icon-button {
+    border-color: rgb(var(--border-soft) / 0.55);
+    background: rgb(var(--bg-panel));
+    box-shadow: 0 1px 2px rgba(24, 35, 46, 0.06);
+  }
+
+  /* 通知图标走语义色，保证浅色吐司上可辨 */
+  html[data-theme='tech'] .toast-success .toast-icon {
+    color: rgb(var(--success-rgb));
   }
 
   html[data-theme='tech'] .review-card {
     border-radius: 0.4rem;
-    border-left: 2px solid rgb(var(--accent-secondary) / 0.56);
-    background: rgb(var(--bg-panel) / 0.74);
+    border-left: 2px solid rgb(var(--accent-secondary) / 0.6);
+    background: rgb(var(--bg-panel) / 0.8);
   }
 
+  /* 审视卡顶缘短刻度 */
   html[data-theme='tech'] .review-card::before {
-    background: linear-gradient(90deg, rgb(var(--accent-secondary) / 0.06), transparent 58%);
+    background:
+      repeating-linear-gradient(90deg, rgb(var(--border-soft) / 0.5) 0 1px, transparent 1px 9px) top left / 4rem 4px no-repeat,
+      linear-gradient(90deg, rgb(var(--border-soft) / 0.35), rgb(var(--border-soft) / 0.35)) top left / 100% 1px no-repeat;
   }
 
+  /* 图谱即坐标台：蓝图方格台面，无扫描线、无径向光晕 */
   html[data-theme='tech'] .task-graph-layout { grid-template-columns: minmax(0, 1fr) 320px; }
   html[data-theme='tech'] .task-graph {
-    min-height: 620px; overflow: hidden; border: 1px solid rgb(var(--accent-primary) / 0.2); border-radius: 0.7rem; background-color: rgb(5 14 27 / 0.98);
-    background-image: radial-gradient(ellipse at 18% 18%, rgb(var(--accent-primary) / 0.095), transparent 28%), radial-gradient(ellipse at 78% 72%, rgb(var(--accent-secondary) / 0.045), transparent 24%), linear-gradient(rgb(var(--accent-primary) / 0.075) 1px, transparent 1px), linear-gradient(90deg, rgb(var(--accent-primary) / 0.075) 1px, transparent 1px), linear-gradient(rgb(var(--accent-primary) / 0.025) 1px, transparent 1px), linear-gradient(90deg, rgb(var(--accent-primary) / 0.025) 1px, transparent 1px);
-    background-size: auto, auto, 112px 112px, 112px 112px, 28px 28px, 28px 28px; box-shadow: inset 0 0 0 1px rgb(197 233 255 / 0.025), inset 0 0 90px rgb(0 5 14 / 0.62), 0 20px 52px rgba(1, 7, 16, 0.32);
+    min-height: 620px; overflow: hidden;
+    border: 1px solid rgb(var(--border-soft) / 0.55); border-radius: 0.55rem;
+    background-color: rgb(var(--bg-surface-2) / 0.55);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65), var(--shadow-soft);
   }
-  html[data-theme='tech'] .task-graph::before { content: ''; pointer-events: none; position: absolute; inset: 0.65rem; z-index: 3; border: 1px solid rgb(var(--accent-primary) / 0.08); background: linear-gradient(rgb(var(--accent-primary) / 0.58), rgb(var(--accent-primary) / 0.58)) left top / 3.5rem 1px no-repeat, linear-gradient(rgb(var(--accent-primary) / 0.58), rgb(var(--accent-primary) / 0.58)) left top / 1px 3.5rem no-repeat, linear-gradient(rgb(var(--accent-primary) / 0.25), rgb(var(--accent-primary) / 0.25)) right bottom / 3rem 1px no-repeat, linear-gradient(rgb(var(--accent-primary) / 0.25), rgb(var(--accent-primary) / 0.25)) right bottom / 1px 3rem no-repeat; }
-  html[data-theme='tech'] .task-graph::after { z-index: 3; opacity: 0.68; background: linear-gradient(180deg, transparent, rgb(var(--accent-primary) / 0.05), transparent); background-size: 100% 190px; }
+  /* 角部校准刻线 */
+  html[data-theme='tech'] .task-graph::before {
+    content: ''; pointer-events: none; position: absolute; inset: 0.55rem; z-index: 3;
+    background:
+      repeating-linear-gradient(90deg, rgb(var(--accent-primary) / 0.55) 0 1px, transparent 1px 8px) left top / 6rem 4px no-repeat,
+      repeating-linear-gradient(90deg, rgb(var(--border-soft) / 0.5) 0 1px, transparent 1px 8px) right bottom / 6rem 4px no-repeat;
+  }
   html[data-theme='tech'] .task-graph .react-flow { position: relative; z-index: 2; }
-  html[data-theme='tech'] .task-graph .react-flow__background { opacity: 0.22; }
+  html[data-theme='tech'] .task-graph .react-flow__background { opacity: 0.35; }
 
   @media (max-width: 639px) {
-    html[data-theme='tech'] .page-header::after {
-      content: none;
-    }
-
     html[data-theme='tech'] .control-bar {
       margin-inline: -0.25rem;
       padding: 0.6rem;
@@ -1683,15 +1736,15 @@
   }
 
   .task-graph { --graph-grid-color:82 103 93;--graph-route-color:197 145 63;--graph-complete-color:5 150 105;--graph-active-color:197 145 63;--graph-milestone-color:183 93 69;--graph-blocked-color:120 132 125;--graph-blocked-opacity:.72;--graph-node-clip:inset(0 round 1.15rem);--graph-milestone-clip:polygon(4% 0,96% 0,100% 18%,100% 82%,96% 100%,4% 100%,0 82%,0 18%);height:min(72vh,780px);min-height:560px;background-color:rgb(var(--bg-surface-2)/.78);background-image:radial-gradient(circle at 18% 20%,rgba(197,145,63,.08),transparent 30%),linear-gradient(rgba(24,35,31,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(24,35,31,.025) 1px,transparent 1px);background-size:auto,38px 38px,38px 38px}
-  html[data-theme='tech'] .task-graph {--graph-grid-color:79 209 255;--graph-route-color:79 209 255;--graph-complete-color:126 247 200;--graph-active-color:79 209 255;--graph-milestone-color:126 247 200;--graph-blocked-color:106 140 178;--graph-blocked-opacity:.58;--graph-node-clip:polygon(0 12px,12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%);--graph-milestone-clip:polygon(8% 0,92% 0,100% 22%,100% 78%,92% 100%,8% 100%,0 78%,0 22%);background-image:radial-gradient(circle at 72% 22%,rgba(79,209,255,.13),transparent 32%),linear-gradient(rgba(79,209,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(79,209,255,.06) 1px,transparent 1px);background-size:auto,32px 32px,32px 32px}
+  html[data-theme='tech'] .task-graph {--graph-grid-color:92 112 132;--graph-route-color:29 78 146;--graph-complete-color:39 112 82;--graph-active-color:29 78 146;--graph-milestone-color:166 72 52;--graph-blocked-color:92 106 120;--graph-blocked-opacity:.62;--graph-node-clip:none;--graph-milestone-clip:none;background-image:linear-gradient(rgba(92,112,132,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(92,112,132,.1) 1px,transparent 1px);background-size:32px 32px,32px 32px}
   html[data-theme='game'] .task-graph {--graph-grid-color:123 95 177;--graph-route-color:255 184 77;--graph-complete-color:147 255 133;--graph-active-color:255 184 77;--graph-milestone-color:255 132 82;--graph-blocked-color:164 134 216;--graph-blocked-opacity:.58;--graph-node-clip:polygon(3% 0,97% 0,100% 10%,100% 90%,97% 100%,3% 100%,0 90%,0 10%);--graph-milestone-clip:polygon(50% 0,95% 12%,100% 65%,82% 100%,18% 100%,0 65%,5% 12%);background-image:radial-gradient(ellipse at 20% 25%,rgba(255,184,77,.12),transparent 28%),radial-gradient(ellipse at 82% 70%,rgba(147,255,133,.07),transparent 22%),repeating-radial-gradient(circle at 30% 40%,transparent 0 24px,rgba(255,255,255,.018) 25px 26px)}
   .graph-toolbar{position:absolute;right:14px;top:14px;z-index:12}.graph-node{position:relative;width:336px;height:220px;isolation:isolate;padding:1.1rem 1.15rem;clip-path:var(--graph-node-clip)}.graph-node-frame{position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(135deg,rgb(var(--accent-primary)/.11),transparent 38%,rgb(var(--accent-secondary)/.05))}.graph-node:hover,.graph-node-selected{transform:translateY(-2px)}.graph-node-route{border-color:rgb(var(--graph-route-color)/.66)}.graph-node-blocked{opacity:var(--graph-blocked-opacity);filter:saturate(.68)}.graph-node-blocked:hover,.graph-node-blocked.graph-node-selected{opacity:.96;filter:none}.graph-node-paused{filter:saturate(.6)}.graph-node-abandoned{opacity:.6;filter:grayscale(.55)}.graph-node-completed,.graph-node-unlocked{border-color:rgb(var(--graph-complete-color)/.65)}.graph-node-milestone{clip-path:var(--graph-milestone-clip);border-width:2px;border-color:rgb(var(--graph-milestone-color)/.72);padding-inline:1.35rem}.graph-node-active,.graph-node-focused,.graph-node-active:hover,.graph-node-active.graph-node-selected,.graph-node-focused:hover,.graph-node-focused.graph-node-selected{border-color:rgb(var(--graph-active-color));border-width:2px;box-shadow:var(--shadow-soft),0 0 0 4px rgb(var(--graph-active-color)/.34),0 0 36px rgb(var(--graph-active-color)/.34)}
   .graph-node-header,.graph-node-footer{display:flex;align-items:center;justify-content:space-between;gap:.75rem}.graph-node-type{display:inline-flex;align-items:center;gap:.45rem;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.graph-node-type-question{color:#38bdf8}.graph-node-type-solution{color:#fbbf24}.graph-node-type-result{color:#34d399}.graph-node-state-row{display:flex;min-height:28px;align-items:center;gap:.45rem;margin-top:.55rem;overflow:hidden}.graph-state-badge{display:inline-flex;align-items:center;gap:.3rem;flex:none;border-radius:999px;padding:.25rem .55rem;font-size:.68rem;font-weight:700;background:rgb(var(--graph-blocked-color)/.12);color:rgb(var(--text-secondary))}.graph-state-active{background:rgb(var(--graph-active-color)/.18);color:rgb(var(--graph-active-color))}.graph-state-unlocked,.graph-state-completed{background:rgb(var(--graph-complete-color)/.15);color:rgb(var(--graph-complete-color))}.graph-state-available{background:rgb(var(--graph-route-color)/.15);color:rgb(var(--graph-route-color))}.graph-milestone-badge{display:inline-flex;min-width:0;max-width:132px;align-items:center;gap:.3rem;border-radius:999px;padding:.25rem .5rem;font-size:.65rem;font-weight:700;color:rgb(var(--graph-milestone-color));background:rgb(var(--graph-milestone-color)/.14)}.graph-node-content{height:76px;margin-top:.45rem;font-size:15.5px;line-height:1.62;-webkit-line-clamp:3}.graph-node-footer{border-top:1px solid rgb(var(--border-soft)/.15);padding-top:.58rem}.graph-node-actions{min-width:0;justify-content:flex-end;gap:.35rem}.graph-node-actions>button{min-width:0;white-space:nowrap}.graph-node-index{flex:none;font-size:.68rem;color:rgb(var(--text-muted))}.graph-advance-button,.graph-branch-toggle{display:inline-flex;align-items:center;gap:.3rem;border-radius:.6rem;padding:.38rem .5rem;font-size:.69rem;font-weight:700;color:rgb(var(--graph-route-color));background:rgb(var(--graph-route-color)/.1)}
 
   .graph-branch-summary{width:190px;height:96px;display:grid;place-items:center;align-content:center;gap:.2rem;border:1px dashed rgb(var(--graph-blocked-color)/.7);border-radius:1rem;background:rgb(var(--bg-surface)/.9);color:rgb(var(--text-secondary));box-shadow:var(--shadow-soft)}.graph-branch-summary span{font-size:.75rem}.graph-branch-summary strong{font-size:.82rem;color:rgb(var(--text-primary))}.task-graph .react-flow__edge.graph-edge-blocked .react-flow__edge-path{opacity:.45;stroke-dasharray:7 7}.task-graph .react-flow__edge.graph-edge-abandoned .react-flow__edge-path{opacity:.3;stroke-dasharray:3 9}.task-graph .react-flow__edge.graph-edge-route .react-flow__edge-path{stroke:rgb(var(--graph-route-color));stroke-width:3.5;opacity:1}.task-graph .react-flow__edge.graph-edge-complete .react-flow__edge-path{stroke:rgb(var(--graph-complete-color));stroke-width:3;opacity:.9}.task-graph .react-flow__edge.graph-edge-summary .react-flow__edge-path{stroke:rgb(var(--graph-blocked-color));stroke-dasharray:5 7}
   .graph-minimap-panel{position:absolute;right:14px;bottom:14px;z-index:10;width:230px;overflow:hidden;border:1px solid rgb(var(--graph-route-color)/.3);border-radius:1rem;background:rgb(var(--bg-surface)/.94);box-shadow:var(--shadow-card);backdrop-filter:blur(10px)}.graph-minimap-panel .react-flow__minimap{position:relative!important;inset:auto!important;width:230px!important;height:142px!important;margin:0!important;border-radius:0!important;background:rgb(var(--bg-surface-2))}.graph-minimap-title{display:flex;align-items:center;justify-content:space-between;padding:.55rem .7rem;font-size:.7rem;font-weight:700}.graph-minimap-title span,.graph-minimap-legend span{display:flex;align-items:center;gap:.3rem}.graph-minimap-toggle{position:absolute;right:14px;bottom:14px;z-index:11;display:grid;width:42px;height:42px;place-items:center;border:1px solid rgb(var(--graph-route-color)/.3);border-radius:.8rem;background:rgb(var(--bg-surface)/.94)}.graph-minimap-legend{display:flex;justify-content:space-around;padding:.5rem;font-size:.62rem;color:rgb(var(--text-secondary))}.graph-minimap-legend i{width:7px;height:7px;border-radius:50%}.legend-active{background:rgb(var(--graph-active-color))}.legend-route{background:rgb(var(--graph-route-color))}.legend-milestone{background:rgb(var(--graph-milestone-color))}
-  .graph-node-transitioning{animation:graph-node-reveal 420ms ease both;animation-delay:calc(var(--route-step) * 75ms)}.task-graph .graph-edge-transitioning .react-flow__edge-path{animation:graph-edge-reveal 480ms ease both;animation-delay:calc(var(--route-step) * 75ms)}@keyframes graph-node-reveal{from{opacity:.5;transform:scale(.97)}to{opacity:1;transform:scale(1)}}@keyframes graph-edge-reveal{from{opacity:.15;stroke-dashoffset:32}to{opacity:1;stroke-dashoffset:0}}html[data-theme='tech'] .task-graph::after{content:'';pointer-events:none;position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,transparent,rgba(79,209,255,.035),transparent);background-size:100% 160px;animation:graph-scan 8s linear infinite}@keyframes graph-scan{to{background-position:0 720px}}html[data-theme='game'] .graph-node-active::after{content:'QUEST';position:absolute;right:14px;top:90px;font-size:.55rem;letter-spacing:.18em;color:rgb(var(--graph-active-color)/.5);transform:rotate(90deg)}html[data-theme='game'] .graph-node-focused::after{content:'FOCUS';position:absolute;right:14px;top:90px;font-size:.55rem;letter-spacing:.18em;color:rgb(var(--graph-active-color)/.5);transform:rotate(90deg)}
-  @media(max-width:640px){.task-graph{min-height:500px}.graph-toolbar{left:10px;right:auto;top:10px}.graph-minimap-panel{width:200px}.graph-minimap-panel .react-flow__minimap{width:200px!important}}@media(prefers-reduced-motion:reduce){.graph-node-transitioning,.task-graph .graph-edge-transitioning .react-flow__edge-path,html[data-theme='tech'] .task-graph::after{animation:none!important}.task-graph .react-flow__edge.animated .react-flow__edge-path{animation:none!important}}
+  .graph-node-transitioning{animation:graph-node-reveal 420ms ease both;animation-delay:calc(var(--route-step) * 75ms)}.task-graph .graph-edge-transitioning .react-flow__edge-path{animation:graph-edge-reveal 480ms ease both;animation-delay:calc(var(--route-step) * 75ms)}@keyframes graph-node-reveal{from{opacity:.5;transform:scale(.97)}to{opacity:1;transform:scale(1)}}@keyframes graph-edge-reveal{from{opacity:.15;stroke-dashoffset:32}to{opacity:1;stroke-dashoffset:0}}html[data-theme='game'] .graph-node-active::after{content:'QUEST';position:absolute;right:14px;top:90px;font-size:.55rem;letter-spacing:.18em;color:rgb(var(--graph-active-color)/.5);transform:rotate(90deg)}html[data-theme='game'] .graph-node-focused::after{content:'FOCUS';position:absolute;right:14px;top:90px;font-size:.55rem;letter-spacing:.18em;color:rgb(var(--graph-active-color)/.5);transform:rotate(90deg)}
+  @media(max-width:640px){.task-graph{min-height:500px}.graph-toolbar{left:10px;right:auto;top:10px}.graph-minimap-panel{width:200px}.graph-minimap-panel .react-flow__minimap{width:200px!important}}@media(prefers-reduced-motion:reduce){.graph-node-transitioning,.task-graph .graph-edge-transitioning .react-flow__edge-path{animation:none!important}.task-graph .react-flow__edge.animated .react-flow__edge-path{animation:none!important}}
 
   html[data-theme='game'] .task-graph {
     --graph-node-clip: polygon(3% 0, 97% 0, 100% 10%, 100% 90%, 97% 100%, 3% 100%, 0 90%, 0 10%);
@@ -2145,59 +2198,56 @@
 
   html[data-theme='tech'] .graph-toolbar { top: 1.1rem; right: 1.1rem; left: 1.1rem; display: flex; align-items: flex-start; justify-content: space-between; pointer-events: none; }
   html[data-theme='tech'] .graph-toolbar-actions { display: flex; gap: 0.4rem; pointer-events: auto; }
-  html[data-theme='tech'] .graph-system-title { display: flex; flex-direction: column; gap: 0.25rem; padding: 0.55rem 0.75rem; border-left: 2px solid rgb(var(--accent-primary) / 0.76); background: rgb(4 13 25 / 0.82); color: rgb(var(--accent-primary) / 0.86); font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; backdrop-filter: blur(10px); }
-  html[data-theme='tech'] .graph-system-title small { color: rgb(var(--text-secondary) / 0.66); font-size: 0.52rem; font-weight: 500; letter-spacing: 0.09em; }
-  html[data-theme='tech'] .graph-system-action { display: inline-flex; align-items: center; gap: 0.35rem; border: 1px solid rgb(var(--accent-primary) / 0.2); border-radius: 0.35rem; padding: 0.5rem 0.65rem; background: rgb(5 16 30 / 0.84); color: rgb(var(--accent-primary) / 0.82); font-size: 0.68rem; font-weight: 600; backdrop-filter: blur(10px); }
-  html[data-theme='tech'] .graph-system-action:hover:not(:disabled) { border-color: rgb(var(--accent-primary) / 0.48); background: rgb(var(--accent-primary) / 0.1); }
+  html[data-theme='tech'] .graph-system-title { display: flex; flex-direction: column; gap: 0.25rem; padding: 0.55rem 0.75rem; border-left: 2px solid rgb(var(--accent-primary) / 0.75); background: rgb(var(--bg-panel) / 0.92); color: rgb(var(--text-secondary)); font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; box-shadow: var(--shadow-soft); font-variant-numeric: tabular-nums; }
+  html[data-theme='tech'] .graph-system-title small { color: rgb(var(--text-muted)); font-size: 0.52rem; font-weight: 500; letter-spacing: 0.08em; font-variant-numeric: tabular-nums; }
+  html[data-theme='tech'] .graph-system-action { display: inline-flex; align-items: center; gap: 0.35rem; border: 1px solid rgb(var(--border-soft) / 0.55); border-radius: 0.35rem; padding: 0.5rem 0.65rem; background: rgb(var(--bg-panel) / 0.94); color: rgb(var(--text-secondary)); font-size: 0.68rem; font-weight: 600; box-shadow: 0 1px 2px rgba(24, 35, 46, 0.06); }
+  html[data-theme='tech'] .graph-system-action:hover:not(:disabled) { border-color: rgb(var(--accent-primary) / 0.55); background: rgb(var(--accent-primary) / 0.08); color: rgb(var(--accent-primary)); }
   html[data-theme='tech'] .graph-system-action:disabled { opacity: 0.38; }
-  html[data-theme='tech'] .graph-coordinate-readout { pointer-events: none; position: absolute; right: 1.2rem; bottom: 0.95rem; left: 1.2rem; z-index: 3; display: flex; justify-content: space-between; color: rgb(var(--accent-primary) / 0.28); font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 0.52rem; letter-spacing: 0.16em; }
+  html[data-theme='tech'] .graph-coordinate-readout { pointer-events: none; position: absolute; right: 1.2rem; bottom: 0.95rem; left: 1.2rem; z-index: 3; display: flex; justify-content: space-between; color: rgb(var(--text-secondary) / 0.85); font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 0.52rem; letter-spacing: 0.12em; font-variant-numeric: tabular-nums; }
 
-  html[data-theme='tech'] .graph-node { --node-accent: 79 209 255; height: 236px; display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto; overflow: visible; border: 1px solid rgb(var(--node-accent) / 0.38); border-left-width: 3px; border-radius: 0; padding: 1.1rem 1.2rem 1rem 1.35rem; color: rgb(var(--text-primary)); background: linear-gradient(105deg, rgb(var(--node-accent) / 0.105), transparent 26%), linear-gradient(180deg, rgb(18 37 59 / 0.98), rgb(8 22 39 / 0.98)); box-shadow: 0 16px 38px rgba(0, 5, 14, 0.52), inset 0 1px 0 rgb(206 239 255 / 0.055), inset 14px 0 30px rgb(var(--node-accent) / 0.035); }
-  html[data-theme='tech'] .graph-node-kind-question { --node-accent: 56 189 248; }
-  html[data-theme='tech'] .graph-node-kind-solution { --node-accent: 245 158 11; }
-  html[data-theme='tech'] .graph-node-kind-result { --node-accent: 52 211 153; }
-  html[data-theme='tech'] .graph-node-frame { inset: 0.55rem; border: 1px solid rgb(var(--node-accent) / 0.1); background: linear-gradient(rgb(var(--node-accent) / 0.72), rgb(var(--node-accent) / 0.72)) left top / 2.8rem 1px no-repeat, linear-gradient(rgb(var(--node-accent) / 0.72), rgb(var(--node-accent) / 0.72)) left top / 1px 2.5rem no-repeat, linear-gradient(rgb(var(--node-accent) / 0.22), rgb(var(--node-accent) / 0.22)) right bottom / 2rem 1px no-repeat; }
-  html[data-theme='tech'] .graph-node::after { content: ''; pointer-events: none; position: absolute; top: 0; right: 1.1rem; width: 3.5rem; height: 2px; background: repeating-linear-gradient(90deg, rgb(var(--node-accent) / 0.72) 0 7px, transparent 7px 10px); }
-  html[data-theme='tech'] .graph-node-signal { position: absolute; left: -2px; top: 50%; display: flex; flex-direction: column; gap: 4px; transform: translateY(-50%); }
-  html[data-theme='tech'] .graph-node-signal i { width: 4px; height: 13px; background: rgb(var(--node-accent) / 0.24); }
-  html[data-theme='tech'] .graph-node-signal i:nth-child(2) { background: rgb(var(--node-accent) / 0.84); box-shadow: 0 0 10px rgb(var(--node-accent) / 0.42); }
-  html[data-theme='tech'] .graph-node-header { justify-content: flex-start; min-height: 1.65rem; padding-bottom: 0.55rem; border-bottom: 1px solid rgb(var(--node-accent) / 0.14); }
+  /* 节点即瓷面板：左侧类型色缘 + 顶缘刻度，圆角小、无切角、无辉光 */
+  html[data-theme='tech'] .graph-node { --node-accent: 46 104 172; height: 236px; display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto; overflow: visible; border: 1px solid rgb(var(--border-soft) / 0.55); border-left: 2px solid rgb(var(--node-accent) / 0.7); border-radius: 6px; padding: 1.1rem 1.2rem 1rem 1.35rem; color: rgb(var(--text-primary)); background: rgb(var(--bg-surface)); box-shadow: var(--shadow-soft), var(--surface-edge); }
+  html[data-theme='tech'] .graph-node-kind-question { --node-accent: 46 104 172; }
+  html[data-theme='tech'] .graph-node-kind-solution { --node-accent: 150 98 18; }
+  html[data-theme='tech'] .graph-node-kind-result { --node-accent: 27 122 90; }
+  html[data-theme='tech'] .graph-node-frame { background: none; }
+  html[data-theme='tech'] .graph-node::after { content: ''; pointer-events: none; position: absolute; top: 0; right: 1.1rem; width: 3.5rem; height: 5px; background: repeating-linear-gradient(90deg, rgb(var(--node-accent) / 0.55) 0 1px, transparent 1px 7px); }
+  html[data-theme='tech'] .graph-node-header { justify-content: flex-start; min-height: 1.65rem; padding-bottom: 0.55rem; border-bottom: 1px solid rgb(var(--border-soft) / 0.28); }
   html[data-theme='tech'] .graph-node-header > .status-badge { margin-left: auto; border-radius: 0.3rem; font-size: 0.66rem !important; }
-  html[data-theme='tech'] .graph-node-module-id { display: inline-flex; padding-right: 0.65rem; border-right: 1px solid rgb(var(--node-accent) / 0.26); color: rgb(var(--node-accent) / 0.8); font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; }
-  html[data-theme='tech'] .graph-node-type { color: rgb(var(--node-accent)); font-size: 0.78rem; letter-spacing: 0.1em; }
-  html[data-theme='tech'] .graph-state-badge, html[data-theme='tech'] .route-choice-badge, html[data-theme='tech'] .graph-milestone-badge { border-radius: 0.3rem; }
-  html[data-theme='tech'] .graph-node-content { height: auto; min-height: 0; margin-top: 0.55rem; color: rgb(var(--text-primary)); font-size: 17px; font-weight: 520; line-height: 1.52; letter-spacing: 0.005em; -webkit-line-clamp: 3; text-wrap: pretty; }
-  html[data-theme='tech'] .graph-node-footer { align-self: end; border-top-color: rgb(var(--node-accent) / 0.14); }
+  html[data-theme='tech'] .graph-node-module-id { display: inline-flex; padding-right: 0.65rem; border-right: 1px solid rgb(var(--node-accent) / 0.3); color: rgb(var(--node-accent)); font-family: ui-monospace, Consolas, monospace; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; font-variant-numeric: tabular-nums; }
+  html[data-theme='tech'] .graph-node-type { color: rgb(var(--node-accent)); font-size: 0.72rem; letter-spacing: 0.08em; }
+  html[data-theme='tech'] .graph-state-badge, html[data-theme='tech'] .route-choice-badge, html[data-theme='tech'] .graph-milestone-badge { border-radius: 0.3rem; font-variant-numeric: tabular-nums; }
+  html[data-theme='tech'] .graph-node-content { height: auto; min-height: 0; margin-top: 0.55rem; color: rgb(var(--text-primary)); font-size: 17px; font-weight: 450; line-height: 1.55; letter-spacing: 0; -webkit-line-clamp: 3; text-wrap: pretty; }
+  html[data-theme='tech'] .graph-node-footer { align-self: end; border-top-color: rgb(var(--border-soft) / 0.28); }
   html[data-theme='tech'] .graph-node-actions { min-width: 0; justify-content: flex-end; flex-wrap: wrap; }
-  html[data-theme='tech'] .graph-node-index { color: rgb(var(--node-accent) / 0.56); font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 0.67rem; letter-spacing: 0.12em; }
-  html[data-theme='tech'] .graph-advance-button, html[data-theme='tech'] .graph-branch-toggle { border: 1px solid rgb(var(--node-accent) / 0.18); border-radius: 0.3rem; color: rgb(var(--node-accent)); background: rgb(var(--node-accent) / 0.075); }
-  html[data-theme='tech'] .graph-node:hover, html[data-theme='tech'] .graph-node-selected { transform: translateY(-2px) scale(1.012); border-color: rgb(var(--node-accent) / 0.76); box-shadow: 0 20px 46px rgba(0, 5, 14, 0.58), 0 0 0 2px rgb(var(--node-accent) / 0.1); }
-  html[data-theme='tech'] .graph-node-milestone { border-width: 1px 3px; border-color: rgb(var(--graph-milestone-color) / 0.7); padding-inline: 1.45rem; }
+  html[data-theme='tech'] .graph-node-index { color: rgb(var(--text-muted)); font-family: ui-monospace, Consolas, monospace; font-size: 0.67rem; letter-spacing: 0.08em; font-variant-numeric: tabular-nums; }
+  html[data-theme='tech'] .graph-advance-button, html[data-theme='tech'] .graph-branch-toggle { border: 1px solid rgb(var(--node-accent) / 0.3); border-radius: 0.3rem; color: rgb(var(--node-accent)); background: rgb(var(--node-accent) / 0.07); }
+  html[data-theme='tech'] .graph-node:hover, html[data-theme='tech'] .graph-node-selected { transform: none; border-color: rgb(var(--node-accent) / 0.7); box-shadow: var(--shadow-card), 0 0 0 1px rgb(var(--node-accent) / 0.16); }
+  html[data-theme='tech'] .graph-node-milestone { border-width: 1px 1px 1px 3px; border-color: rgb(var(--graph-milestone-color) / 0.7); border-left-color: rgb(var(--graph-milestone-color)); padding-inline: 1.45rem; }
   html[data-theme='tech'] .graph-node-active,
   html[data-theme='tech'] .graph-node-focused,
   html[data-theme='tech'] .graph-node-active:hover,
   html[data-theme='tech'] .graph-node-active.graph-node-selected,
   html[data-theme='tech'] .graph-node-focused:hover,
-  html[data-theme='tech'] .graph-node-focused.graph-node-selected { border-color: rgb(var(--graph-active-color)); border-width: 2px 2px 2px 3px; box-shadow: 0 20px 48px rgba(0, 5, 14, 0.6), 0 0 0 4px rgb(var(--graph-active-color) / 0.32), 0 0 38px rgb(var(--graph-active-color) / 0.36); }
-  html[data-theme='tech'] .graph-handle { width: 10px; height: 10px; border: 2px solid rgb(5 14 27); border-radius: 2px; background: rgb(var(--node-accent)); box-shadow: 0 0 8px rgb(var(--node-accent) / 0.48); transform: translateY(-50%) rotate(45deg); }
-  html[data-theme='tech'] .graph-branch-summary { border-radius: 0.35rem; border-color: rgb(var(--accent-primary) / 0.3); background: linear-gradient(135deg, rgb(var(--accent-primary) / 0.07), transparent 46%), rgb(7 19 34 / 0.94); font-family: ui-monospace, "Cascadia Code", Consolas, monospace; }
+  html[data-theme='tech'] .graph-node-focused.graph-node-selected { border-color: rgb(var(--graph-active-color)); border-width: 2px 2px 2px 3px; box-shadow: var(--shadow-card), 0 0 0 1.5px rgb(var(--graph-active-color) / 0.3); }
+  /* 校准销：圆形把手，替代旋转菱形与辉光 */
+  html[data-theme='tech'] .graph-handle { width: 9px !important; height: 9px !important; border: 1.5px solid rgb(var(--bg-surface)) !important; border-radius: 50%; background: rgb(var(--accent-primary)) !important; box-shadow: 0 0 0 1px rgb(var(--accent-primary) / 0.45); transform: translateY(-50%); }
+  html[data-theme='tech'] .graph-branch-summary { border-radius: 0.4rem; border-color: rgb(var(--border-soft) / 0.5); background: rgb(var(--bg-panel) / 0.94); font-family: ui-monospace, Consolas, monospace; font-variant-numeric: tabular-nums; }
 
-  .graph-signal-bed { display: none; }
-  html[data-theme='tech'] .graph-signal-bed { display: block; fill: none; stroke: rgb(1 8 18 / 0.92); stroke-linecap: square; stroke-width: 9; pointer-events: none; }
-  html[data-theme='tech'] .react-flow__edge.graph-edge-route .graph-signal-bed { stroke: rgb(var(--graph-route-color) / 0.12); stroke-width: 11; }
-  html[data-theme='tech'] .react-flow__edge.graph-edge-complete .graph-signal-bed { stroke: rgb(var(--graph-complete-color) / 0.1); }
-  html[data-theme='tech'] .task-graph .react-flow__edge-path { stroke: rgb(var(--graph-blocked-color) / 0.9); stroke-width: 2; }
-  html[data-theme='tech'] .task-graph .react-flow__edge.graph-edge-blocked .react-flow__edge-path { stroke: rgb(var(--graph-blocked-color) / 0.9); stroke-dasharray: none; opacity: 0.85; }
-  html[data-theme='tech'] .task-graph .react-flow__edge.graph-edge-route .react-flow__edge-path { stroke-width: 3; stroke-dasharray: 10 7; filter: drop-shadow(0 0 4px rgb(var(--graph-route-color) / 0.58)); }
-  html[data-theme='tech'] .task-graph .react-flow__edge.graph-edge-complete .react-flow__edge-path { stroke-width: 2.5; filter: drop-shadow(0 0 3px rgb(var(--graph-complete-color) / 0.38)); }
-  html[data-theme='tech'] .graph-minimap-panel { border-radius: 0.4rem; border-color: rgb(var(--accent-primary) / 0.24); background: rgb(5 16 30 / 0.94); box-shadow: 0 18px 40px rgba(0, 5, 14, 0.52); }
-  html[data-theme='tech'] .graph-minimap-title, html[data-theme='tech'] .graph-minimap-legend { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; letter-spacing: 0.06em; }
-  html[data-theme='tech'] .graph-minimap-toggle, html[data-theme='tech'] .task-graph .react-flow__controls { border-radius: 0.35rem; border-color: rgb(var(--accent-primary) / 0.24); background: rgb(5 16 30 / 0.92); }
-  html[data-theme='tech'] .graph-intel-panel { border-radius: 0.55rem; border-top-color: rgb(var(--accent-primary) / 0.46); background: linear-gradient(180deg, rgb(var(--accent-primary) / 0.045), transparent 28%), rgb(var(--bg-surface) / 0.96); }
+  /* 边层级靠线宽与线型，不靠辉光：路线 3px 实线 / 完成 2px / 普通 1.5px 点划 */
+  /* 共享基础：所有主题都隐藏信号床（RouteMapEdge 会渲染这条 path），初版 tech 曾把它画成深色衬底 */
+  .graph-signal-bed { display: none; fill: none; pointer-events: none; }
+  html[data-theme='tech'] .task-graph .react-flow__edge-path { stroke: rgb(var(--graph-blocked-color) / 0.85); stroke-width: 1.5; }
+  html[data-theme='tech'] .task-graph .react-flow__edge.graph-edge-blocked .react-flow__edge-path { stroke: rgb(var(--graph-blocked-color) / 0.85); stroke-width: 1.5; stroke-dasharray: 5 5; opacity: 0.7; filter: none; }
+  html[data-theme='tech'] .task-graph .react-flow__edge.graph-edge-route .react-flow__edge-path { stroke: rgb(var(--graph-route-color)); stroke-width: 3; stroke-dasharray: none; opacity: 1; filter: none; }
+  html[data-theme='tech'] .task-graph .react-flow__edge.graph-edge-complete .react-flow__edge-path { stroke: rgb(var(--graph-complete-color)); stroke-width: 2; filter: none; }
+  html[data-theme='tech'] .graph-minimap-panel { border-radius: 0.45rem; border-color: rgb(var(--border-soft) / 0.5); background: rgb(var(--bg-panel) / 0.94); box-shadow: var(--shadow-card); }
+  html[data-theme='tech'] .graph-minimap-title, html[data-theme='tech'] .graph-minimap-legend { color: rgb(var(--text-secondary)); font-family: ui-monospace, Consolas, monospace; letter-spacing: 0.06em; font-variant-numeric: tabular-nums; }
+  html[data-theme='tech'] .graph-minimap-toggle, html[data-theme='tech'] .task-graph .react-flow__controls { border-radius: 0.35rem; border-color: rgb(var(--border-soft) / 0.5); background: rgb(var(--bg-panel) / 0.94); }
+  html[data-theme='tech'] .graph-intel-panel { border-radius: 0.5rem; border-top: 2px solid rgb(var(--accent-primary) / 0.6); background: rgb(var(--bg-surface) / 0.96); }
   @media (max-width: 1279px) { html[data-theme='tech'] .task-graph-layout { grid-template-columns: minmax(0, 1fr); } }
   @media (min-width: 1024px) and (max-width: 1279px) { html[data-theme='tech'] .task-graph-layout.task-graph-fullscreen { grid-template-columns: minmax(0, 1fr) 320px; } }
   @media (max-width: 767px) { html[data-theme='tech'] .graph-toolbar { top: 0.75rem; right: 0.75rem; left: 0.75rem; justify-content: flex-end; } html[data-theme='tech'] .graph-system-title { display: none; } html[data-theme='tech'] .graph-toolbar-actions button span { display: none; } html[data-theme='tech'] .graph-coordinate-readout { display: none; } html[data-theme='tech'] .graph-node-content { font-size: 16.5px; } }
-
 
 
   /* ── Calm roadmap ──────────────────────────────────────────────────────
@@ -4018,6 +4068,7 @@
     html[data-theme='tech'] .project-card,
     html[data-theme='tech'] .project-card-link,
     html[data-theme='tech'] .progress-fill,
+    html[data-theme='tech'] .button-primary,
     html[data-theme='game'] .project-card,
     html[data-theme='game'] .project-card::after,
     html[data-theme='game'] .project-card-link,

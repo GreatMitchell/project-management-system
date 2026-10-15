@@ -20,7 +20,7 @@ export function ProjectCard({ project, nodes, milestones, onTogglePin }: Props) 
       >
         <div className="project-card-header relative z-[1] flex items-center justify-between pr-9">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="tech-module-label" aria-hidden="true">PROJECT / {project.id.slice(-4).toUpperCase()}</span>
+            <span className="tech-module-label" aria-hidden="true">NO. {project.id.slice(-4).toUpperCase()}</span>
             <span className="game-module-label" aria-hidden="true">{questCode}</span>
             <span className={`status-badge ${statusStyles[project.status]}`}>
               <CircleDot size={12} />

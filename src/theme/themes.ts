@@ -19,13 +19,13 @@ export const themes: ThemeDefinition[] = [
   {
     id: 'tech',
     label: 'Tech',
-    description: '深色数据控制台风格，强化信号感、结构线与高亮反馈。',
-    themeColor: '#08111f',
+    description: '冷瓷台面与精密刻度：发丝工程线、刻度尺母题与对齐读数，安静而可校准。',
+    themeColor: '#eaeff4',
     preview: {
-      background: '#08111f',
-      surface: '#0f1b2d',
-      accent: '#4fd1ff',
-      highlight: '#7ef7c8',
+      background: '#eaeff4',
+      surface: '#f9fbfc',
+      accent: '#1d4e92',
+      highlight: '#176a7a',
     },
   },
   {

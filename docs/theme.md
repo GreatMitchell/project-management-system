@@ -543,3 +543,33 @@ Tailwind 层则尽量通过：
 - 侧栏收起时题签缩为单字「日」(`sidebar-collapse.css`),避免收窄后装饰文字越界。
 - 实现载体:全套 CSS 变量槽位(含 guofeng 专属 `--font-seal`)+ `html[data-theme='guofeng']` 组件/图谱皮肤;分享页 `shareThemeIds` 同步追加,分享查看器经 ThemeProvider 复用整套皮肤。
 
+
+---
+
+## 十、Tech 重设计：光学工作台 · 精密刻度
+
+2026-10 重设计第三主题 Tech。初版「深色数据控制台」(深海军蓝 + 电光青 + 等宽 HUD 标语 + 扫描线 + 发光) 使用已久、审美疲劳，整体翻转为 **浅色精密仪器台**。
+
+### 设计语言:光学工作台 · 精密刻度
+
+核心原则:**科技感来自刻度与公差,不来自发光**。冷瓷白台面 + 发丝工程线 + 刻度尺母题 + tabular-nums 读数对齐;像 Leica 镜筒刻度与 Braun 面板那样,把「精密」画成刻度而不是霓虹。装饰零新资源、零组件 markup 结构改动,纯 CSS(仅少量 aria-hidden 装饰文案换词)。
+
+### 母题清单(相对初版「替代什么」)
+
+1. **台面即冷瓷**(body):冰灰蓝 234 239 244 / 卡面 249 251 252,蓝图方格 32px(墨色 0.045,透明度封顶保证长文录入可读);0.5rem 小圆角(五主题最小),阴影是台面轻投影,禁外扩辉光。**浅色主题,已移出 color-scheme dark 组**。
+2. **卡片即仪器面板**(`.surface-card`):顶缘刻度尺(::before:小刻度 9px / 大刻度 45px,替代强调色渐变顶线);**撤掉四角 L 角标**(识别靠刻度与公差,不靠角框)。
+3. **进度条即刻度槽**:track 竖刻度纹,fill 平涂靛蓝,末端 2px 游标刻线(深青),替代发光圆点。
+4. **按钮即瓷面按键**:实心靛蓝 29 78 146(约 8:1 对比),悬停只提亮不位移,按压下沉 1px;次级按钮白瓷 + 发丝边。
+5. **侧栏即阳极氧化机身**:冷钢蓝灰 22 32 43,品牌铭牌 `PRAXIS / REF. 04`,导航刻字 `MODULES / 04`(收起时缩 `NAV`);激活态左侧靛蓝缘 + 发丝环。
+6. **节点即瓷面板**:左侧类型色缘 + 顶缘刻度条,6px 小圆角,`--graph-node-clip: none`(撤掉初版切角 polygon);frame 走 calm 的 `background: none`。键帽式 node-marker(不旋转、不发光)。类型色:问题钢青 46 104 172 / 方案赭石 150 98 18 / 成果校准绿 27 122 90,里程碑赭红 166 72 52(与方案黄拉开)。
+7. **边层级靠线宽与线型**:路线 3px 实线(靛蓝 29 78 146)/ 完成 2px(低饱和松绿 39 112 82,已归档不抢视线)/ 普通 1.5px 点划灰;全部去掉 drop-shadow 辉光与信号床(`.graph-signal-bed` 隐藏)。
+8. **读数对齐**:`.metric-value` / `.graph-node-index` / 编号铭牌统一 `font-variant-numeric: tabular-nums`;等宽字只留给编号与读数。
+9. **撤掉 HUD 语气**:扫描线动画与 `@keyframes graph-scan` 整体删除;标语换功能性短词——`WORKSPACE / PROJECT MATRIX` 页眉角标删除、`Validation Terminal`→`VALIDATION`、`Diagnostic Reports`→`REVIEWS`、`ALL MODULES`→`ALL PROJECTS`、`PROJECT / XXXX`→`NO. XXXX`、坐标读数 `PRAXIS LAB / ...`→`TOPOLOGY VIEW / GRID 32`。悬停一律不位移(静气)。
+10. **里程碑面板**仍是深色台面(全主题一致):面板内强调色用亮一档靛蓝 122 158 230,保证暗底可辨。
+
+### 验证与约束
+
+- `--graph-route-color` 固定 `29 78 146`(e2e `graph-themes.spec.ts` 断言精确值)。
+- 对比度(实测 WCAG):正文约 13:1、强调约 8:1、按钮白字约 8:1;text-muted 92 107 121 ≥4.7:1、warning 133 84 12 ≥5:1,只用于次级标签与小号读数;状态徽章(`statusStyles`)从暗色系 `*-300` 改吃语义 token(`text-successTone` 等),五主题在各自底色上都可读。
+- `prefers-reduced-motion`:主题零持续动画(扫描线 keyframes 已随改版删除);reduce 组覆盖按钮/卡片/进度条过渡;侧栏收起 `NAV` 缩写与节点操作区 ≥8px、390px 不溢出等既有 e2e 约束保持。共享基础 `.graph-signal-bed` 保持隐藏(五主题共用,初版 tech 曾画深色衬底)。
+- 实现载体:全套 CSS 变量槽位 + `html[data-theme='tech']` 组件/图谱皮肤;分享页 `shareThemeIds` 无需改动(id 不变),分享查看器经 ThemeProvider 复用整套皮肤。

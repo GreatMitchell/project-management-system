@@ -98,7 +98,7 @@ export function ProjectsPage() {
               <section className="mt-10">
                 <div className="pinned-divider">
                   <span className="theme-label-default">全部项目</span>
-                  <span className="tech-only">ALL MODULES</span>
+                  <span className="tech-only">ALL PROJECTS</span>
                   <span className="game-only">其余委托</span>
                 </div>
                 <div className="mt-4 grid gap-5 md:grid-cols-2 2xl:grid-cols-3">

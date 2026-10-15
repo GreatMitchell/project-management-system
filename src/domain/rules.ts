@@ -8,12 +8,13 @@ export const statusLabels: Record<ProjectStatus, string> = {
   abandoned: '已弃用',
 }
 
+/* 状态徽章吃语义 token：五主题各自校准过的状态色，浅色底上不再用暗色系 *-300 */
 export const statusStyles: Record<ProjectStatus, string> = {
-  exploring: 'border-sky-400/30 bg-sky-500/12 text-sky-300',
-  advancing: 'border-amber-400/30 bg-amber-500/12 text-amber-300',
-  paused: 'border-slate-400/30 bg-slate-500/12 text-slate-300',
-  completed: 'border-emerald-400/30 bg-emerald-500/12 text-emerald-300',
-  abandoned: 'border-rose-400/30 bg-rose-500/12 text-rose-300',
+  exploring: 'border-accent-primary/30 bg-accent-primary/12 text-accent-primary',
+  advancing: 'border-warningTone/30 bg-warningTone/12 text-warningTone',
+  paused: 'border-text-secondary/30 bg-text-secondary/12 text-text-secondary',
+  completed: 'border-successTone/30 bg-successTone/12 text-successTone',
+  abandoned: 'border-dangerTone/30 bg-dangerTone/12 text-dangerTone',
 }
 
 export const allowedProjectTransitions: Record<ProjectStatus, ProjectStatus[]> = {
@@ -56,10 +57,10 @@ export const vulnerabilityStatusLabels: Record<VulnerabilityStatus, string> = {
 }
 
 export const vulnerabilityStatusStyles: Record<VulnerabilityStatus, string> = {
-  unexplored: 'border-slate-400/30 bg-slate-500/12 text-slate-300',
-  patched: 'border-sky-400/30 bg-sky-500/12 text-sky-300',
-  open: 'border-amber-400/30 bg-amber-500/12 text-amber-300',
-  conquered: 'border-emerald-400/30 bg-emerald-500/12 text-emerald-300',
+  unexplored: 'border-text-secondary/30 bg-text-secondary/12 text-text-secondary',
+  patched: 'border-accent-primary/30 bg-accent-primary/12 text-accent-primary',
+  open: 'border-warningTone/30 bg-warningTone/12 text-warningTone',
+  conquered: 'border-successTone/30 bg-successTone/12 text-successTone',
 }
 
 export const edgeTypeLabels: Record<EdgeType, string> = {
