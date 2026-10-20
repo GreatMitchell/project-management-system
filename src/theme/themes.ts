@@ -31,13 +31,13 @@ export const themes: ThemeDefinition[] = [
   {
     id: 'game',
     label: 'Game',
-    description: '暗色冒险任务日志风格，用任务契约、路线事件与检查点强化行动反馈。',
-    themeColor: '#17141f',
+    description: '深夜街机柜风格：显像管点阵、硬边阶梯影与青/品红/金币机板色，用关卡编号与记分读数强化推进反馈。',
+    themeColor: '#0a0e1a',
     preview: {
-      background: '#17141f',
-      surface: '#231d33',
-      accent: '#ffb84d',
-      highlight: '#93ff85',
+      background: '#0a0e1a',
+      surface: '#121a2e',
+      accent: '#22d3ee',
+      highlight: '#ff5fa2',
     },
   },
   {

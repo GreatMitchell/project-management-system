@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-const routeColors = { calm: '197 145 63', tech: '29 78 146', game: '255 184 77', golden: '232 181 74', guofeng: '171 58 48' } as const
+const routeColors = { calm: '197 145 63', tech: '29 78 146', game: '255 95 162', golden: '232 181 74', guofeng: '171 58 48' } as const
 
 for (const theme of ['calm', 'tech', 'game', 'golden', 'guofeng'] as const) {
   test(`${theme} 路线图主题变量与减少动画`, async ({ page }) => {

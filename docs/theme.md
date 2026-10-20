@@ -573,3 +573,40 @@ Tailwind 层则尽量通过：
 - 对比度(实测 WCAG):正文约 13:1、强调约 8:1、按钮白字约 8:1;text-muted 92 107 121 ≥4.7:1、warning 133 84 12 ≥5:1,只用于次级标签与小号读数;状态徽章(`statusStyles`)从暗色系 `*-300` 改吃语义 token(`text-successTone` 等),五主题在各自底色上都可读。
 - `prefers-reduced-motion`:主题零持续动画(扫描线 keyframes 已随改版删除);reduce 组覆盖按钮/卡片/进度条过渡;侧栏收起 `NAV` 缩写与节点操作区 ≥8px、390px 不溢出等既有 e2e 约束保持。共享基础 `.graph-signal-bed` 保持隐藏(五主题共用,初版 tech 曾画深色衬底)。
 - 实现载体:全套 CSS 变量槽位 + `html[data-theme='tech']` 组件/图谱皮肤;分享页 `shareThemeIds` 无需改动(id 不变),分享查看器经 ThemeProvider 复用整套皮肤。
+
+---
+
+## 十一、Game 重设计：像素街机 · 记分屏
+
+2026-10 重设计第三主题 Game。初版「暗色冒险任务日志」(深紫 + 琥珀金/荧光绿 + RPG 语气 QUEST/CHECKPOINTS/据点 + 大圆角 + 辉光 + 呼吸动画) 使用已久、审美疲劳，整体翻转为 **投币街机柜**。
+
+### 设计语言:像素街机 · 记分屏
+
+核心原则:**游戏感来自硬边、阶梯投影与记分读数,不来自冒险叙事**。深夜 CRT 屏 + 机板三色(铬青/品红/金币金) + 零模糊硬影 + 直角硬边;像一台暂停的投币机——构图静止,只有按键有手感。装饰零新资源、零组件 markup 结构改动,纯 CSS + 少量装饰文案换词。
+
+**三槽色纪律**:铬青 34 211 238 = 按钮/HUD/焦点;品红 255 95 162 = 路线边/置顶(路线色避开 golden 的金,且不与铬青同值);金币金 255 200 64 = 方案节点/记分读数。节点类型色:问题铬青 / 方案金币 / 结果 1UP 绿 74 222 128 / 假设钢蓝 120 156 255 / 缺陷街机红 255 107 74。
+
+### 母题清单(相对初版「替代什么」)
+
+1. **画布即 CRT 屏**(`.task-graph`):深屏 8 11 22 + 静态扫描线(3px 周期 0.08)+ 荫罩点阵(4px 0.05);2px 屏框 + 八处阶梯像素角标(::before),6px 硬影;水印 `PUSH START` 左上(避开右下 minimap),撤掉斜置的 UNCHARTED TERRITORY 与全部魔法光晕。
+2. **卡片即机板**(`.surface-card`/`.project-card`):1.5px 硬边 + 零模糊阶梯硬影(6px 6px 0),圆角 0.15rem;项目卡左缘类型色脊替代内衬角框;悬停 translate(-2,-2) 影子加长,不发光不位移超过 2px。
+3. **按钮即街机按键**(`.button-primary`):实心铬青 + 2px 墨边 + `0 4px 0` 底棱硬影;按压 translate(3,3) 影子塌缩——90ms linear 微动开关手感;焦点用 outline 不吃影子。次级按钮同构。
+4. **进度条即能量格**:track 12px 直角 + 1.5px 边,fill 平涂铬青,::after 叠固定 5 格分段(20% 格),无 sheen 无发光。
+5. **记分读数**:`.metric-value` 等宽 tabular-nums 纯色;`.milestone-score` 唯一一处套色错位印刷字(magenta 2px + cyan -1px 零模糊),只给 ≥2.4rem 大读数。
+6. **节点即卡带面板**(`.graph-node`):直角 + 2px 类型色边 + 5px 硬影,**保持 clip-path: none**(切角会裁掉 react-flow 手柄与负偏移徽章);徽章改方牌不旋转不呼吸;里程碑顶缘 6px 旗牌凸起(::after,clip-path 做不了加法);戳记改等宽丝印 PLAY/LOCK/CLEAR/NO SIGNAL/OFFLINE。
+7. **边层级靠线宽线型**:路线 4px 品红实线 / 完成 2.5px 绿 / 普通 2px 点划钢蓝,全部去 drop-shadow 与流动虚线;`.game-road-bed` 保留(golden 共用类)改深墨方头路衬底。
+8. **罗盘即 HUD 读数条**:1P + 像素箭头 + MAP,凹槽黑条 + 等宽大写,一套隐喻贯穿(无 CREDIT/HIGH SCORE 等无内核经济梗词)。
+9. **侧栏即机箱**:7 10 19 深机身;**不加 nav::before 装饰字**(game 在 e2e 侧栏收起 72px 越界断言循环内,零风险优先)。
+10. **撤掉的旧 DNA**:紫罗兰节点色/辉光/大圆角/呼吸循环动画(`game-outpost-pulse`/`game-road-glow`/`game-road-travel` 三组 keyframes 全删);写死在 Tailwind 工具类里的紫罗兰残色(`text-violet-300` 等)按语义收敛到钢蓝;背景纹理只留荫罩点阵一种,杜绝拍频摩尔纹。
+
+### 装饰文案换词(单一方言:投币街机)
+
+- aria-hidden 英文层:`QUEST-XXXX`→`STG-XXXX`、`Quest Route Map`→`STAGE MAP`、水印→`PUSH START`、罗盘 `N/Praxis Atlas`→`1P/MAP`、节点戳记 `CURRENT/FOCUS/CLEARED/UNKNOWN/CLOSED`→`PLAY/LOCK/CLEAR/NO SIGNAL/OFFLINE`。
+- 可见中文层改中文游戏语汇(英文大写不进用户导航):高优先级契约→王牌关卡、Active Quest→关卡、ROUTE CLEARED→通关、CHECKPOINTS→检查点、奖励→通关/攻克 +N、高优先级→主打关卡、其余委托→全部关卡、Quest Intel/据点情报→关卡情报/关卡节点、Route Atlas→小地图、Quest Checkpoints→检查点、Journey Log→复盘记录、迷雾岔路→暗道支线。
+
+### 验证与约束
+
+- `--graph-route-color` 固定 `255 95 162`(品红;e2e `graph-themes.spec.ts` 断言精确值,同 commit 已同步)。
+- 对比度(实测 WCAG):正文 16.8:1、次级 8.8:1、弱化 6.1:1(blocked/abandoned 叠 opacity+filter 后仍 ≥4.5:1,text-muted 提亮至 147 165 204、blocked 透明度 0.86);按钮青底墨字 10.6:1;路线品红作文字色 6.1:1。
+- prefers-reduced-motion:主题零持续动画(三组 keyframes 已删);reduce 组覆盖按钮/卡片/进度条/节点过渡。节点 336×220 四区布局、操作区 ≥8px、全屏无横向溢出等 e2e 约束保持(27/27 主题相关用例全绿;全量 41/42,「搜索节点并定位选中」为并行下视口对焦既有抖动,单跑通过)。
+- 实现载体:全套 CSS 变量槽位 + `html[data-theme='game']` 组件/图谱皮肤;分享页 `shareThemeIds` 无需改动(id 不变)。

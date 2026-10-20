@@ -143,67 +143,75 @@
     --milestone-chip-hover: rgba(236, 242, 247, 0.14);
   }
 
+  /* ===== Game（像素街机）：CRT 深夜屏 · 硬边阶梯影 · 机板三色（铬青/品红/金币） =====
+     设计宪章：禁 1px 发丝线（那是 tech 的语汇）、禁模糊辉光、禁金属渐变（那是 golden 的语汇）；
+     描边 1.5-2px、圆角≤0.2rem、投影零模糊位移≤6px；循环动画全删，动效只留按键手感。 */
   html[data-theme='game'] {
-    --font-body: "Trebuchet MS", "Inter", "Noto Sans SC", system-ui, sans-serif;
-    --font-display: "Arial Black", "Trebuchet MS", "Noto Sans SC", system-ui, sans-serif;
+    --font-body: "Inter", "Segoe UI", "Noto Sans SC", system-ui, sans-serif;
+    --font-display: "Arial Black", "Noto Sans SC", "Segoe UI", system-ui, sans-serif;
 
-    --color-ink: 245 241 255;
-    --color-paper: 23 20 31;
-    --color-moss: 162 255 145;
-    --color-clay: 255 132 82;
-    --color-amber: 255 184 77;
+    --color-ink: 232 240 255;
+    --color-paper: 10 14 26;
+    --color-moss: 74 222 128;
+    --color-clay: 255 107 74;
+    --color-amber: 255 200 64;
 
-    --bg-app: 23 20 31;
-    --bg-surface: 35 29 51;
-    --bg-surface-2: 43 31 62;
-    --bg-panel: 49 38 73;
-    --bg-sidebar: 16 12 27;
-    --bg-overlay: 10 8 17;
+    --bg-app: 10 14 26;
+    --bg-surface: 18 26 46;
+    --bg-surface-2: 24 34 60;
+    --bg-panel: 32 44 74;
+    --bg-sidebar: 7 10 19;
+    --bg-overlay: 4 6 12;
 
-    --text-primary: 245 241 255;
-    --text-secondary: 193 183 229;
-    --text-muted: 150 139 186;
-    --text-inverse: 20 17 29;
-    --sidebar-fg: 250 244 255;
-    --milestone-fg: 252 246 255;
-    --milestone-muted: rgba(238, 221, 255, 0.68);
+    --text-primary: 232 240 255;
+    --text-secondary: 158 176 210;
+    /* 弱化文字提到 147 165 204：blocked/abandoned 叠 opacity 后仍 ≥4.5:1 */
+    --text-muted: 147 165 204;
+    --text-inverse: 6 16 24;
+    --sidebar-fg: 236 240 255;
+    --milestone-fg: 236 242 255;
+    --milestone-muted: rgba(210, 222, 245, 0.72);
 
-    --accent-primary: 255 184 77;
-    --accent-secondary: 147 255 133;
-    --accent-soft: 66 46 91;
+    /* 三槽色纪律：铬青=按钮/HUD/焦点，品红=路线/置顶，金币金=方案节点/读数 */
+    --accent-primary: 34 211 238;
+    --accent-secondary: 255 95 162;
+    --accent-soft: 30 44 66;
 
-    --border-soft: 123 95 177;
-    --border-strong: 255 184 77;
+    --border-soft: 56 76 110;
+    --border-strong: 34 211 238;
     --success-rgb: 74 222 128;
-    --warning-rgb: 251 191 36;
-    --danger-rgb: 251 113 133;
+    --warning-rgb: 255 200 64;
+    --danger-rgb: 255 107 74;
 
-    --focus-ring: 255 184 77;
-    --focus-offset: 23 20 31;
-    --shadow-soft: 0 20px 50px rgba(8, 5, 16, 0.44);
-    --shadow-card: 0 28px 74px rgba(11, 7, 21, 0.55);
-    --shadow-glow: 0 0 0 1px rgba(255, 184, 77, 0.16), 0 0 32px rgba(147, 255, 133, 0.14);
-    --radius-card: 1.5rem;
-    --radius-pill: 999px;
+    --focus-ring: 34 211 238;
+    --focus-offset: 10 14 26;
+    /* 阶梯硬影：零模糊，位移≤6px */
+    --shadow-soft: 3px 3px 0 rgba(2, 4, 10, 0.55);
+    --shadow-card: 6px 6px 0 rgba(2, 4, 10, 0.6);
+    --shadow-glow: 0 0 0 2px rgba(34, 211, 238, 0.35);
+    --radius-card: 0.15rem;
+    --radius-pill: 0.3rem;
 
-    --bg-pattern: radial-gradient(circle at 18% 0%, rgba(255, 184, 77, 0.13), transparent 26%), radial-gradient(circle at 84% 12%, rgba(147, 255, 133, 0.10), transparent 20%), linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-    --bg-pattern-size: auto, auto, 100% 28px;
-    --surface-edge: inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 0 0 1px rgba(255, 184, 77, 0.05);
-    --card-highlight: linear-gradient(180deg, rgba(255, 184, 77, 0.12), rgba(147, 255, 133, 0.03) 48%, rgba(255,255,255,0));
-    --button-primary-text: 24 17 30;
-    --sidebar-active-bg: linear-gradient(90deg, rgba(255, 184, 77, 0.22), rgba(255, 132, 82, 0.12));
-    --sidebar-active-ring: rgba(255, 184, 77, 0.18);
-    --sidebar-hover-bg: rgba(255, 184, 77, 0.08);
-    --sidebar-panel-bg: linear-gradient(180deg, rgba(255, 184, 77, 0.10), rgba(147, 255, 133, 0.04));
-    --sidebar-panel-border: rgba(255, 184, 77, 0.16);
-    --detail-rail: rgba(255, 184, 77, 0.22);
-    --detail-rail-glow: rgba(147, 255, 133, 0.18);
-    --node-card-pattern: linear-gradient(135deg, rgba(255, 184, 77, 0.14), rgba(255, 132, 82, 0.05) 42%, rgba(147,255,133,0.04) 68%, rgba(255,255,255,0) 82%), linear-gradient(90deg, rgba(255, 184, 77, 0.04) 1px, transparent 1px);
-    --review-card-pattern: linear-gradient(180deg, rgba(255,184,77,0.14), rgba(147,255,133,0.02) 48%, rgba(255,255,255,0)), radial-gradient(circle at top right, rgba(255,132,82,0.12), transparent 32%);
-    --milestone-panel-bg: linear-gradient(180deg, rgba(20,14,31,0.96), rgba(15,11,24,0.92)), radial-gradient(circle at top right, rgba(255,184,77,0.18), transparent 34%);
-    --milestone-panel-border: rgba(255, 184, 77, 0.18);
-    --milestone-chip-bg: rgba(255, 184, 77, 0.10);
-    --milestone-chip-hover: rgba(255, 184, 77, 0.18);
+    /* 全局底纹只留荫罩点阵一种（≤2%），杜绝多周期拍频 */
+    --bg-pattern: radial-gradient(circle, rgba(180, 200, 255, 0.05) 0.5px, transparent 0.6px);
+    --bg-pattern-size: 4px 4px;
+    --surface-edge: inset -2px -2px 0 rgba(0, 0, 0, 0.32), inset 2px 2px 0 rgba(255, 255, 255, 0.05);
+    --card-highlight: linear-gradient(180deg, rgba(34, 211, 238, 0.05), transparent 42%);
+    --button-primary-text: 6 16 24;
+    --sidebar-active-bg: linear-gradient(90deg, rgba(34, 211, 238, 0.18), rgba(34, 211, 238, 0.05));
+    --sidebar-active-ring: rgba(34, 211, 238, 0.35);
+    --sidebar-hover-bg: rgba(34, 211, 238, 0.08);
+    --sidebar-panel-bg: rgba(255, 255, 255, 0.03);
+    --sidebar-panel-border: rgba(255, 255, 255, 0.08);
+    --detail-rail: rgba(34, 211, 238, 0.2);
+    --detail-rail-glow: rgba(34, 211, 238, 0.15);
+    /* 正文区纯色防摩尔纹：卡片内不叠纹理 */
+    --node-card-pattern: none;
+    --review-card-pattern: none;
+    --milestone-panel-bg: linear-gradient(180deg, rgba(8, 12, 24, 0.97), rgba(6, 10, 20, 0.94));
+    --milestone-panel-border: rgba(34, 211, 238, 0.25);
+    --milestone-chip-bg: rgba(34, 211, 238, 0.08);
+    --milestone-chip-hover: rgba(34, 211, 238, 0.14);
   }
 
   html[data-theme='golden'] {
@@ -820,7 +828,7 @@
   .graph-intel-panel .markdown-content { max-height: min(52vh, 34rem); overflow: auto; padding-right: 0.15rem; }
   html[data-theme='tech'] .markdown-content pre,
   html[data-theme='tech'] .markdown-preview { border-radius: 0.35rem; box-shadow: inset 0 0 0 1px rgb(var(--border-soft) / 0.35); }
-  html[data-theme='game'] .markdown-content pre { border-color: rgb(var(--accent-primary) / 0.24); }
+  html[data-theme='game'] .markdown-content pre { border-color: rgb(var(--accent-primary) / 0.3); border-radius: 0.15rem; }
   html[data-theme='game'] .markdown-content h1,
   html[data-theme='game'] .markdown-content h2,
   html[data-theme='game'] .markdown-content h3 { letter-spacing: 0.02em; }
@@ -1417,112 +1425,126 @@
     display: inline;
   }
 
+  /* 关卡编号铭牌：等宽 + tabular-nums，装饰英文统一规格 ≥0.55rem / 字距 ≥0.16em */
   html[data-theme='game'] .game-module-label {
     display: inline-flex;
     align-items: center;
-    color: rgb(var(--accent-primary) / 0.82);
+    color: rgb(var(--accent-primary) / 0.88);
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
     font-size: 0.625rem;
-    font-weight: 800;
+    font-weight: 700;
     letter-spacing: 0.16em;
     line-height: 1;
     text-transform: uppercase;
     white-space: nowrap;
+    font-variant-numeric: tabular-nums;
   }
 
+  /* 卡片即机板：1.5px 硬边 + 零模糊阶梯硬影（位移≤6px），悬停只移 2px 并加深影子 */
   html[data-theme='game'] .surface-card {
-    border-color: rgb(var(--border-soft) / 0.3);
-    background: rgb(var(--bg-surface) / 0.96);
-    box-shadow: 0 22px 54px rgba(8, 5, 16, 0.38), inset 0 1px 0 rgb(255 255 255 / 0.045);
+    border: 1.5px solid rgb(var(--border-soft) / 0.85);
+    border-radius: var(--radius-card);
+    background: rgb(var(--bg-surface) / 0.97);
+    box-shadow: 5px 5px 0 rgba(2, 4, 10, 0.55), var(--surface-edge);
   }
 
   html[data-theme='game'] .surface-card::before {
-    background: radial-gradient(circle at 18% 0%, rgb(var(--accent-primary) / 0.07), transparent 30%), radial-gradient(circle at 92% 100%, rgb(var(--accent-secondary) / 0.035), transparent 30%);
+    background: var(--card-highlight);
     opacity: 1;
   }
 
   html[data-theme='game'] .surface-panel {
-    border-color: rgb(var(--border-soft) / 0.28);
-    background: rgb(var(--bg-panel) / 0.9);
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 14px 34px rgba(8, 5, 16, 0.28);
+    border: 1.5px solid rgb(var(--border-soft) / 0.8);
+    border-radius: var(--radius-card);
+    background: rgb(var(--bg-panel) / 0.92);
+    box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.3), inset 0 -1px 0 rgba(255, 255, 255, 0.05);
   }
 
+  /* 按钮即街机按键：2px 墨边 + 阶梯硬影，按压 = 影子塌缩下沉 */
   html[data-theme='game'] .button-primary {
-    border: 1px solid rgb(255 226 150 / 0.42);
-    border-radius: 0.7rem;
-    box-shadow: inset 0 -3px 0 rgb(91 48 21 / 0.34), 0 5px 0 rgb(12 8 20 / 0.58), 0 10px 24px rgb(var(--accent-primary) / 0.1);
-    font-weight: 800;
-    letter-spacing: 0.025em;
+    border: 2px solid rgb(6 16 24 / 0.85);
+    border-radius: var(--radius-card);
+    background: rgb(var(--accent-primary));
+    box-shadow: 0 4px 0 rgb(6 16 24 / 0.9), 3px 3px 0 rgba(2, 4, 10, 0.55);
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    transition: transform 90ms linear, box-shadow 90ms linear;
   }
 
   html[data-theme='game'] .button-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: inset 0 -3px 0 rgb(91 48 21 / 0.3), 0 6px 0 rgb(12 8 20 / 0.58), 0 12px 28px rgb(var(--accent-primary) / 0.14);
+    transform: translate(-1px, -1px);
+    box-shadow: 0 5px 0 rgb(6 16 24 / 0.9), 4px 4px 0 rgba(2, 4, 10, 0.55);
   }
 
   html[data-theme='game'] .button-primary:active {
-    transform: translateY(3px);
-    box-shadow: inset 0 -1px 0 rgb(91 48 21 / 0.28), 0 2px 0 rgb(12 8 20 / 0.58);
+    transform: translate(3px, 3px);
+    box-shadow: 0 1px 0 rgb(6 16 24 / 0.9), 1px 1px 0 rgba(2, 4, 10, 0.55);
+  }
+
+  html[data-theme='game'] .button-primary:focus-visible,
+  html[data-theme='game'] .button-secondary:focus-visible,
+  html[data-theme='game'] .icon-button:focus-visible {
+    outline: 2px solid rgb(var(--focus-ring));
+    outline-offset: 2px;
   }
 
   html[data-theme='game'] .button-secondary,
   html[data-theme='game'] .icon-button {
-    border-color: rgb(var(--border-soft) / 0.3);
-    background: rgb(var(--bg-panel) / 0.86);
-    box-shadow: inset 0 -2px 0 rgb(9 6 15 / 0.3);
+    border: 1.5px solid rgb(var(--border-soft) / 0.9);
+    border-radius: var(--radius-card);
+    background: rgb(var(--bg-panel) / 0.9);
+    box-shadow: 0 3px 0 rgba(2, 4, 10, 0.5);
+    transition: transform 90ms linear, box-shadow 90ms linear;
   }
 
+  html[data-theme='game'] .button-secondary:active,
+  html[data-theme='game'] .icon-button:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 1px 0 rgba(2, 4, 10, 0.5);
+  }
+
+  /* 直角钢印标签：唯一保留的曲线是点缀级圆徽 */
   html[data-theme='game'] .status-badge,
   html[data-theme='game'] .filter-chip,
   html[data-theme='game'] .project-kind,
-  html[data-theme='game'] .project-reward {
-    border-radius: 0.45rem;
+  html[data-theme='game'] .project-reward,
+  html[data-theme='game'] .route-badge {
+    border-radius: 0.2rem;
   }
 
   html[data-theme='game'] .project-card {
     isolation: isolate;
-    border-radius: 0.85rem;
-    border-color: rgb(var(--accent-primary) / 0.26);
-    background: linear-gradient(135deg, rgb(var(--accent-primary) / 0.055), transparent 34%), rgb(var(--bg-surface) / 0.98);
-    box-shadow: 0 22px 50px rgba(8, 5, 16, 0.4), inset 0 0 0 1px rgb(255 255 255 / 0.025);
+    border: 1.5px solid rgb(var(--border-soft) / 0.85);
+    border-radius: var(--radius-card);
+    background: rgb(var(--bg-surface) / 0.98);
+    box-shadow: var(--shadow-card), var(--surface-edge);
+    transition: transform 120ms linear, box-shadow 120ms linear, border-color 120ms linear;
   }
 
+  /* 卡片左缘类型色脊：像卡带标签条 */
   html[data-theme='game'] .project-card::before {
-    inset: 0.7rem;
-    border: 1px solid rgb(var(--accent-primary) / 0.11);
-    border-radius: 0.45rem;
-    background: linear-gradient(90deg, rgb(var(--accent-primary) / 0.64), rgb(var(--accent-primary) / 0.64)) left top / 2.5rem 2px no-repeat, linear-gradient(180deg, rgb(var(--accent-primary) / 0.64), rgb(var(--accent-primary) / 0.64)) left top / 2px 2.5rem no-repeat, linear-gradient(90deg, rgb(var(--accent-secondary) / 0.36), rgb(var(--accent-secondary) / 0.36)) right bottom / 1.75rem 1px no-repeat, linear-gradient(180deg, rgb(var(--accent-secondary) / 0.36), rgb(var(--accent-secondary) / 0.36)) right bottom / 1px 1.75rem no-repeat;
-    opacity: 0.8;
+    inset: 0 auto 0 0;
+    border: 0;
+    border-radius: 0;
+    background: linear-gradient(180deg, rgb(var(--accent-primary) / 0.85) 0 38%, rgb(var(--accent-primary) / 0.25) 38% 100%);
+    opacity: 0.75;
   }
 
   html[data-theme='game'] .project-card::after {
-    content: '';
-    pointer-events: none;
-    position: absolute;
-    inset: 0 auto 0 0;
-    z-index: 2;
-    width: 3px;
-    background: linear-gradient(180deg, transparent 8%, rgb(var(--accent-primary) / 0.9) 22%, rgb(var(--accent-primary) / 0.28) 70%, transparent 92%);
-    opacity: 0.62;
-    transform: scaleY(0.42);
-    transition: opacity 240ms ease, transform 300ms ease;
+    display: none;
   }
 
   html[data-theme='game'] .project-card:hover {
-    transform: translateY(-3px);
-    border-color: rgb(var(--accent-primary) / 0.48);
-    background: linear-gradient(135deg, rgb(var(--accent-primary) / 0.085), transparent 36%), rgb(var(--bg-surface) / 0.99);
-    box-shadow: 0 28px 64px rgba(8, 5, 16, 0.48), 0 0 0 1px rgb(var(--accent-primary) / 0.08);
-  }
-
-  html[data-theme='game'] .project-card:hover::after {
-    opacity: 1;
-    transform: scaleY(0.82);
+    transform: translate(-2px, -2px);
+    border-color: rgb(var(--accent-primary) / 0.55);
+    box-shadow: 6px 6px 0 rgba(2, 4, 10, 0.72), var(--surface-edge);
   }
 
   html[data-theme='game'] .project-card-header {
     min-height: 2.4rem;
-    padding-bottom: 0.9rem;
-    border-bottom: 1px solid rgb(var(--accent-primary) / 0.16);
+    padding-bottom: 0.85rem;
+    border-bottom: 1.5px solid rgb(var(--border-soft) / 0.55);
   }
 
   html[data-theme='game'] .project-card-header::after {
@@ -1531,8 +1553,8 @@
     right: 0;
     bottom: -1px;
     width: 3.25rem;
-    height: 1px;
-    background: rgb(var(--accent-primary) / 0.72);
+    height: 2px;
+    background: rgb(var(--accent-primary) / 0.8);
   }
 
   html[data-theme='game'] .project-card-link {
@@ -1540,16 +1562,17 @@
     width: 2rem;
     height: 2rem;
     place-items: center;
-    border: 1px solid rgb(var(--accent-primary) / 0.25);
-    border-radius: 50%;
+    border: 1.5px solid rgb(var(--accent-primary) / 0.4);
+    border-radius: 0.15rem;
     padding: 0.35rem;
-    color: rgb(var(--accent-primary) / 0.78);
+    color: rgb(var(--accent-primary));
   }
 
   html[data-theme='game'] .project-kind {
-    border-color: rgb(var(--accent-primary) / 0.3);
-    background: rgb(var(--accent-primary) / 0.08);
-    font-size: 0.56rem;
+    border-color: rgb(var(--accent-primary) / 0.35);
+    background: rgb(var(--accent-primary) / 0.1);
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    font-size: 0.58rem;
     letter-spacing: 0.14em;
   }
 
@@ -1558,138 +1581,182 @@
   }
 
   html[data-theme='game'] .project-card-pinned {
-    border-color: rgb(255 226 150 / 0.45);
-    background: linear-gradient(135deg, rgb(255 184 77 / 0.1), transparent 40%), rgb(var(--bg-surface) / 0.98);
-    box-shadow: 0 22px 50px rgba(8, 5, 16, 0.4), inset 0 0 0 1px rgb(255 226 150 / 0.06);
+    border-color: rgb(var(--accent-secondary) / 0.65);
+    background: linear-gradient(135deg, rgb(var(--accent-secondary) / 0.08), transparent 40%), rgb(var(--bg-surface) / 0.98);
+    box-shadow: 6px 6px 0 rgba(2, 4, 10, 0.6), inset 0 0 0 1.5px rgb(var(--accent-secondary) / 0.12);
   }
 
-  html[data-theme='game'] .project-card-pinned::after {
-    opacity: 1;
-    transform: scaleY(0.85);
-    background: linear-gradient(180deg, transparent 4%, rgb(255 226 150 / 0.95) 22%, rgb(255 184 77 / 0.4) 75%, transparent 95%);
+  html[data-theme='game'] .project-card-pinned::before {
+    background: linear-gradient(180deg, rgb(var(--accent-secondary) / 0.95) 0 52%, rgb(var(--accent-secondary) / 0.3) 52% 100%);
+    opacity: 0.9;
   }
 
   html[data-theme='game'] .project-pin-badge,
   html[data-theme='game'] .project-pin-toggle-active {
-    border-color: rgb(255 226 150 / 0.45);
-    color: rgb(255 226 150);
+    border-color: rgb(var(--accent-secondary) / 0.55);
+    border-radius: 0.2rem;
+    color: rgb(var(--accent-secondary));
   }
 
+  /* 记分读数：金币金 + 等宽对齐，每日必读数字不加错位套色 */
   html[data-theme='game'] .metric-value {
-    color: rgb(var(--accent-primary));
-    font-weight: 800;
+    color: rgb(var(--warning-rgb));
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    font-weight: 700;
     font-variant-numeric: tabular-nums;
+    text-shadow: none;
   }
 
+  /* 进度条即能量格：固定 5 格分段，平涂无发光 */
   html[data-theme='game'] .progress-track {
-    height: 0.65rem;
-    border: 1px solid rgb(var(--accent-primary) / 0.16);
-    border-radius: 0.25rem;
+    height: 0.75rem;
+    border: 1.5px solid rgb(var(--border-soft) / 0.8);
+    border-radius: 0;
     padding: 2px;
-    background: repeating-linear-gradient(90deg, transparent 0 calc(10% - 2px), rgb(var(--bg-app) / 0.8) calc(10% - 2px) 10%), rgb(var(--bg-app) / 0.66);
+    background: rgb(var(--bg-app) / 0.85);
   }
 
   html[data-theme='game'] .progress-fill {
     position: relative;
-    border-radius: 0.12rem;
-    background: linear-gradient(90deg, rgb(220 133 54), rgb(var(--accent-primary)) 72%, rgb(255 221 132));
-    box-shadow: 0 0 12px rgb(var(--accent-primary) / 0.22);
+    border-radius: 0;
+    background: rgb(var(--accent-primary));
+    box-shadow: none;
+    transition: none;
+  }
+
+  html[data-theme='game'] .progress-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(90deg, transparent 0 calc(20% - 2px), rgb(var(--bg-app) / 0.85) calc(20% - 2px) 20%);
+    pointer-events: none;
   }
 
   html[data-theme='game'] .project-reward {
-    border: 1px solid rgb(var(--accent-secondary) / 0.2);
-    background: rgb(var(--accent-secondary) / 0.075);
+    border: 1.5px solid rgb(var(--accent-secondary) / 0.35);
+    background: rgb(var(--accent-secondary) / 0.1);
     color: rgb(var(--accent-secondary));
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
     letter-spacing: 0.08em;
+    font-variant-numeric: tabular-nums;
   }
 
   html[data-theme='game'] .detail-timeline::before {
     left: 1.93rem;
-    width: 3px;
-    border-radius: 99px;
-    background: linear-gradient(180deg, rgb(var(--accent-primary) / 0.66), rgb(var(--accent-primary) / 0.16) 52%, rgb(var(--accent-secondary) / 0.34));
-    box-shadow: 0 0 0 3px rgb(var(--bg-app)), 0 0 14px rgb(var(--accent-primary) / 0.12);
+    width: 2px;
+    border-radius: 0;
+    background: linear-gradient(180deg, rgb(var(--accent-primary) / 0.7), rgb(var(--accent-primary) / 0.18) 52%, rgb(var(--accent-secondary) / 0.4));
+    box-shadow: 0 0 0 3px rgb(var(--bg-app));
   }
 
   html[data-theme='game'] .node-surface {
     background-image: none;
   }
 
+  /* 列表节点卡：直角机板 + 左缘类型色脊，菱形标记改方牌 */
   html[data-theme='game'] .node-card {
-    --node-accent: 168 132 232;
+    --node-accent: 120 156 255;
     overflow: visible;
-    border-radius: 0.85rem;
-    border-color: rgb(var(--node-accent) / 0.26);
-    border-left-width: 3px;
-    background: linear-gradient(90deg, rgb(var(--node-accent) / 0.07), transparent 22%), rgb(var(--bg-surface) / 0.97);
+    border: 1.5px solid rgb(var(--border-soft) / 0.85);
+    border-radius: var(--radius-card);
+    border-left: 3px solid rgb(var(--node-accent) / 0.85);
+    background: rgb(var(--bg-surface) / 0.97);
   }
 
   html[data-theme='game'] .node-card-question {
-    --node-accent: 148 129 255;
+    --node-accent: 34 211 238;
   }
 
   html[data-theme='game'] .node-card-solution {
-    --node-accent: 255 184 77;
+    --node-accent: 255 200 64;
   }
 
   html[data-theme='game'] .node-card-result {
-    --node-accent: 125 225 139;
+    --node-accent: 74 222 128;
+  }
+
+  html[data-theme='game'] .node-card-assumption {
+    --node-accent: 120 156 255;
+  }
+
+  html[data-theme='game'] .node-card-vulnerability {
+    --node-accent: 255 107 74;
   }
 
   html[data-theme='game'] .node-card::before {
     inset: 0;
     border-radius: inherit;
-    background: linear-gradient(90deg, rgb(var(--node-accent) / 0.72), transparent 30%) top left / 8rem 1px no-repeat, radial-gradient(circle at 7% 20%, rgb(var(--node-accent) / 0.08), transparent 19%);
+    background: linear-gradient(90deg, rgb(var(--node-accent) / 0.75), transparent 30%) top left / 8rem 2px no-repeat;
   }
 
   html[data-theme='game'] .node-card::after {
     content: '';
     pointer-events: none;
     position: absolute;
-    top: 0.65rem;
-    right: 0.65rem;
+    top: 0.55rem;
+    right: 0.55rem;
     z-index: 0;
-    width: 0.8rem;
-    height: 0.8rem;
-    border-top: 1px solid rgb(var(--node-accent) / 0.42);
-    border-right: 1px solid rgb(var(--node-accent) / 0.42);
+    width: 0.55rem;
+    height: 0.55rem;
+    border-top: 2px solid rgb(var(--node-accent) / 0.55);
+    border-right: 2px solid rgb(var(--node-accent) / 0.55);
   }
 
   html[data-theme='game'] .node-marker {
-    border: 2px solid rgb(var(--node-accent) / 0.72);
-    border-radius: 0.65rem;
+    border: 2px solid rgb(var(--node-accent) / 0.85);
+    border-radius: 0.15rem;
     color: rgb(var(--node-accent));
     background: rgb(var(--bg-panel));
-    box-shadow: 0 0 0 4px rgb(var(--bg-app)), 0 7px 18px rgb(7 4 13 / 0.38);
-    transform: rotate(45deg);
+    box-shadow: 2px 2px 0 rgba(2, 4, 10, 0.5);
+    transform: none;
   }
 
   html[data-theme='game'] .node-marker > svg {
-    transform: rotate(-45deg);
+    transform: none;
   }
 
   html[data-theme='game'] .node-type-label {
     color: rgb(var(--node-accent));
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    letter-spacing: 0.12em;
   }
 
   html[data-theme='game'] .node-card .game-module-label {
-    border-right: 1px solid rgb(var(--node-accent) / 0.3);
+    border-right: 1.5px solid rgb(var(--node-accent) / 0.35);
     padding-right: 0.6rem;
-    color: rgb(var(--node-accent) / 0.88);
+    color: rgb(var(--node-accent) / 0.95);
   }
 
+  /* 旧主题的紫罗兰残留在写死的 Tailwind 工具类里，按语义收敛到机板色 */
+  html[data-theme='game'] [class*='text-violet-300'] {
+    color: rgb(148 172 255);
+  }
+
+  html[data-theme='game'] [class*='bg-violet-500'] {
+    background-color: rgb(120 156 255 / 0.12);
+  }
+
+  html[data-theme='game'] [class*='border-violet-400'] {
+    border-color: rgb(120 156 255 / 0.32);
+  }
+
+  /* 记分板面板：深色台面 + 硬边框，套色错位大读数是唯一一处印刷趣味 */
   html[data-theme='game'] .checkpoint-panel {
-    border: 1px solid rgb(var(--accent-primary) / 0.34);
-    border-radius: 0.8rem;
-    background: radial-gradient(circle at 82% 13%, rgb(var(--accent-primary) / 0.12), transparent 25%), linear-gradient(160deg, rgb(30 20 44 / 0.98), rgb(16 11 25 / 0.98));
-    box-shadow: 0 24px 58px rgba(7, 4, 13, 0.5), inset 0 0 0 4px rgb(255 184 77 / 0.035), inset 0 1px 0 rgb(255 230 176 / 0.08);
+    border: 1.5px solid rgb(var(--accent-primary) / 0.38);
+    border-radius: var(--radius-card);
+    background: rgb(8 12 24 / 0.98);
+    box-shadow: var(--shadow-card);
   }
 
   html[data-theme='game'] .checkpoint-panel::before {
     inset: 0.55rem;
-    border: 1px solid rgb(var(--accent-primary) / 0.13);
-    border-radius: 0.45rem;
-    background: linear-gradient(90deg, rgb(var(--accent-primary) / 0.74), rgb(var(--accent-primary) / 0.74)) left top / 2.4rem 2px no-repeat, linear-gradient(180deg, rgb(var(--accent-primary) / 0.74), rgb(var(--accent-primary) / 0.74)) left top / 2px 2.4rem no-repeat, linear-gradient(90deg, rgb(var(--accent-primary) / 0.4), rgb(var(--accent-primary) / 0.4)) right bottom / 1.7rem 1px no-repeat, linear-gradient(180deg, rgb(var(--accent-primary) / 0.4), rgb(var(--accent-primary) / 0.4)) right bottom / 1px 1.7rem no-repeat;
+    border: 0;
+    border-radius: 0;
+    background:
+      linear-gradient(90deg, rgb(var(--accent-primary) / 0.85), rgb(var(--accent-primary) / 0.85)) left top / 2.4rem 2px no-repeat,
+      linear-gradient(180deg, rgb(var(--accent-primary) / 0.85), rgb(var(--accent-primary) / 0.85)) left top / 2px 2.4rem no-repeat,
+      linear-gradient(90deg, rgb(var(--accent-secondary) / 0.55), rgb(var(--accent-secondary) / 0.55)) right bottom / 1.7rem 2px no-repeat,
+      linear-gradient(180deg, rgb(var(--accent-secondary) / 0.55), rgb(var(--accent-secondary) / 0.55)) right bottom / 2px 1.7rem no-repeat;
     opacity: 1;
   }
 
@@ -1698,24 +1765,27 @@
     width: 2.45rem;
     height: 2.45rem;
     place-items: center;
-    border: 1px solid rgb(var(--accent-primary) / 0.35);
-    border-radius: 50%;
-    background: rgb(var(--accent-primary) / 0.08);
-    box-shadow: inset 0 0 0 3px rgb(var(--bg-sidebar) / 0.6);
+    border: 2px solid rgb(var(--accent-primary) / 0.55);
+    border-radius: 0.15rem;
+    background: rgb(var(--accent-primary) / 0.1);
+    box-shadow: 2px 2px 0 rgba(2, 4, 10, 0.5);
   }
 
   html[data-theme='game'] .milestone-score {
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
     font-size: 2.4rem;
+    font-weight: 700;
     font-variant-numeric: tabular-nums;
-    text-shadow: 0 2px 18px rgb(var(--accent-primary) / 0.2);
+    color: rgb(var(--warning-rgb));
+    text-shadow: 2px 2px 0 rgb(255 95 162 / 0.45), -1px -1px 0 rgb(34 211 238 / 0.28);
   }
 
   html[data-theme='game'] .milestone-chip {
     position: relative;
-    border: 1px solid rgb(var(--accent-primary) / 0.14);
-    border-radius: 0.4rem;
+    border: 1.5px solid rgb(var(--accent-primary) / 0.22);
+    border-radius: 0.15rem;
     padding-left: 1.9rem;
-    background: rgb(var(--accent-primary) / 0.06);
+    background: rgb(var(--accent-primary) / 0.07);
   }
 
   html[data-theme='game'] .milestone-chip::before {
@@ -1723,76 +1793,80 @@
     position: absolute;
     left: 0.72rem;
     top: 50%;
-    width: 0.48rem;
-    height: 0.48rem;
-    border: 1px solid rgb(var(--accent-primary) / 0.62);
-    transform: translateY(-50%) rotate(45deg);
+    width: 0.5rem;
+    height: 0.5rem;
+    border: 0;
+    border-radius: 0;
+    background: rgb(var(--accent-primary) / 0.75);
+    transform: translateY(-50%);
   }
 
   html[data-theme='game'] .milestone-chip:hover {
-    border-color: rgb(var(--accent-primary) / 0.3);
-    background: rgb(var(--accent-primary) / 0.1);
+    border-color: rgb(var(--accent-primary) / 0.45);
+    background: rgb(var(--accent-primary) / 0.12);
     transform: translateX(2px);
   }
 
   .task-graph { --graph-grid-color:82 103 93;--graph-route-color:197 145 63;--graph-complete-color:5 150 105;--graph-active-color:197 145 63;--graph-milestone-color:183 93 69;--graph-blocked-color:120 132 125;--graph-blocked-opacity:.72;--graph-node-clip:inset(0 round 1.15rem);--graph-milestone-clip:polygon(4% 0,96% 0,100% 18%,100% 82%,96% 100%,4% 100%,0 82%,0 18%);height:min(72vh,780px);min-height:560px;background-color:rgb(var(--bg-surface-2)/.78);background-image:radial-gradient(circle at 18% 20%,rgba(197,145,63,.08),transparent 30%),linear-gradient(rgba(24,35,31,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(24,35,31,.025) 1px,transparent 1px);background-size:auto,38px 38px,38px 38px}
   html[data-theme='tech'] .task-graph {--graph-grid-color:92 112 132;--graph-route-color:29 78 146;--graph-complete-color:39 112 82;--graph-active-color:29 78 146;--graph-milestone-color:166 72 52;--graph-blocked-color:92 106 120;--graph-blocked-opacity:.62;--graph-node-clip:none;--graph-milestone-clip:none;background-image:linear-gradient(rgba(92,112,132,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(92,112,132,.1) 1px,transparent 1px);background-size:32px 32px,32px 32px}
-  html[data-theme='game'] .task-graph {--graph-grid-color:123 95 177;--graph-route-color:255 184 77;--graph-complete-color:147 255 133;--graph-active-color:255 184 77;--graph-milestone-color:255 132 82;--graph-blocked-color:164 134 216;--graph-blocked-opacity:.58;--graph-node-clip:polygon(3% 0,97% 0,100% 10%,100% 90%,97% 100%,3% 100%,0 90%,0 10%);--graph-milestone-clip:polygon(50% 0,95% 12%,100% 65%,82% 100%,18% 100%,0 65%,5% 12%);background-image:radial-gradient(ellipse at 20% 25%,rgba(255,184,77,.12),transparent 28%),radial-gradient(ellipse at 82% 70%,rgba(147,255,133,.07),transparent 22%),repeating-radial-gradient(circle at 30% 40%,transparent 0 24px,rgba(255,255,255,.018) 25px 26px)}
+  html[data-theme='game'] .task-graph {--graph-grid-color:56 76 110;--graph-route-color:255 95 162;--graph-complete-color:74 222 128;--graph-active-color:34 211 238;--graph-milestone-color:255 107 74;--graph-blocked-color:108 122 154;--graph-blocked-opacity:.86;--graph-node-clip:none;--graph-milestone-clip:none;background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.08) 0 1px,transparent 1px 3px),radial-gradient(circle,rgba(180,200,255,.05) 0.5px,transparent 0.6px);background-size:auto,4px 4px}
   .graph-toolbar{position:absolute;right:14px;top:14px;z-index:12}.graph-node{position:relative;width:336px;height:220px;isolation:isolate;padding:1.1rem 1.15rem;clip-path:var(--graph-node-clip)}.graph-node-frame{position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(135deg,rgb(var(--accent-primary)/.11),transparent 38%,rgb(var(--accent-secondary)/.05))}.graph-node:hover,.graph-node-selected{transform:translateY(-2px)}.graph-node-route{border-color:rgb(var(--graph-route-color)/.66)}.graph-node-blocked{opacity:var(--graph-blocked-opacity);filter:saturate(.68)}.graph-node-blocked:hover,.graph-node-blocked.graph-node-selected{opacity:.96;filter:none}.graph-node-paused{filter:saturate(.6)}.graph-node-abandoned{opacity:.6;filter:grayscale(.55)}.graph-node-completed,.graph-node-unlocked{border-color:rgb(var(--graph-complete-color)/.65)}.graph-node-milestone{clip-path:var(--graph-milestone-clip);border-width:2px;border-color:rgb(var(--graph-milestone-color)/.72);padding-inline:1.35rem}.graph-node-active,.graph-node-focused,.graph-node-active:hover,.graph-node-active.graph-node-selected,.graph-node-focused:hover,.graph-node-focused.graph-node-selected{border-color:rgb(var(--graph-active-color));border-width:2px;box-shadow:var(--shadow-soft),0 0 0 4px rgb(var(--graph-active-color)/.34),0 0 36px rgb(var(--graph-active-color)/.34)}
   .graph-node-header,.graph-node-footer{display:flex;align-items:center;justify-content:space-between;gap:.75rem}.graph-node-type{display:inline-flex;align-items:center;gap:.45rem;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.graph-node-type-question{color:#38bdf8}.graph-node-type-solution{color:#fbbf24}.graph-node-type-result{color:#34d399}.graph-node-state-row{display:flex;min-height:28px;align-items:center;gap:.45rem;margin-top:.55rem;overflow:hidden}.graph-state-badge{display:inline-flex;align-items:center;gap:.3rem;flex:none;border-radius:999px;padding:.25rem .55rem;font-size:.68rem;font-weight:700;background:rgb(var(--graph-blocked-color)/.12);color:rgb(var(--text-secondary))}.graph-state-active{background:rgb(var(--graph-active-color)/.18);color:rgb(var(--graph-active-color))}.graph-state-unlocked,.graph-state-completed{background:rgb(var(--graph-complete-color)/.15);color:rgb(var(--graph-complete-color))}.graph-state-available{background:rgb(var(--graph-route-color)/.15);color:rgb(var(--graph-route-color))}.graph-milestone-badge{display:inline-flex;min-width:0;max-width:132px;align-items:center;gap:.3rem;border-radius:999px;padding:.25rem .5rem;font-size:.65rem;font-weight:700;color:rgb(var(--graph-milestone-color));background:rgb(var(--graph-milestone-color)/.14)}.graph-node-content{height:76px;margin-top:.45rem;font-size:15.5px;line-height:1.62;-webkit-line-clamp:3}.graph-node-footer{border-top:1px solid rgb(var(--border-soft)/.15);padding-top:.58rem}.graph-node-actions{min-width:0;justify-content:flex-end;gap:.35rem}.graph-node-actions>button{min-width:0;white-space:nowrap}.graph-node-index{flex:none;font-size:.68rem;color:rgb(var(--text-muted))}.graph-advance-button,.graph-branch-toggle{display:inline-flex;align-items:center;gap:.3rem;border-radius:.6rem;padding:.38rem .5rem;font-size:.69rem;font-weight:700;color:rgb(var(--graph-route-color));background:rgb(var(--graph-route-color)/.1)}
 
   .graph-branch-summary{width:190px;height:96px;display:grid;place-items:center;align-content:center;gap:.2rem;border:1px dashed rgb(var(--graph-blocked-color)/.7);border-radius:1rem;background:rgb(var(--bg-surface)/.9);color:rgb(var(--text-secondary));box-shadow:var(--shadow-soft)}.graph-branch-summary span{font-size:.75rem}.graph-branch-summary strong{font-size:.82rem;color:rgb(var(--text-primary))}.task-graph .react-flow__edge.graph-edge-blocked .react-flow__edge-path{opacity:.45;stroke-dasharray:7 7}.task-graph .react-flow__edge.graph-edge-abandoned .react-flow__edge-path{opacity:.3;stroke-dasharray:3 9}.task-graph .react-flow__edge.graph-edge-route .react-flow__edge-path{stroke:rgb(var(--graph-route-color));stroke-width:3.5;opacity:1}.task-graph .react-flow__edge.graph-edge-complete .react-flow__edge-path{stroke:rgb(var(--graph-complete-color));stroke-width:3;opacity:.9}.task-graph .react-flow__edge.graph-edge-summary .react-flow__edge-path{stroke:rgb(var(--graph-blocked-color));stroke-dasharray:5 7}
   .graph-minimap-panel{position:absolute;right:14px;bottom:14px;z-index:10;width:230px;overflow:hidden;border:1px solid rgb(var(--graph-route-color)/.3);border-radius:1rem;background:rgb(var(--bg-surface)/.94);box-shadow:var(--shadow-card);backdrop-filter:blur(10px)}.graph-minimap-panel .react-flow__minimap{position:relative!important;inset:auto!important;width:230px!important;height:142px!important;margin:0!important;border-radius:0!important;background:rgb(var(--bg-surface-2))}.graph-minimap-title{display:flex;align-items:center;justify-content:space-between;padding:.55rem .7rem;font-size:.7rem;font-weight:700}.graph-minimap-title span,.graph-minimap-legend span{display:flex;align-items:center;gap:.3rem}.graph-minimap-toggle{position:absolute;right:14px;bottom:14px;z-index:11;display:grid;width:42px;height:42px;place-items:center;border:1px solid rgb(var(--graph-route-color)/.3);border-radius:.8rem;background:rgb(var(--bg-surface)/.94)}.graph-minimap-legend{display:flex;justify-content:space-around;padding:.5rem;font-size:.62rem;color:rgb(var(--text-secondary))}.graph-minimap-legend i{width:7px;height:7px;border-radius:50%}.legend-active{background:rgb(var(--graph-active-color))}.legend-route{background:rgb(var(--graph-route-color))}.legend-milestone{background:rgb(var(--graph-milestone-color))}
-  .graph-node-transitioning{animation:graph-node-reveal 420ms ease both;animation-delay:calc(var(--route-step) * 75ms)}.task-graph .graph-edge-transitioning .react-flow__edge-path{animation:graph-edge-reveal 480ms ease both;animation-delay:calc(var(--route-step) * 75ms)}@keyframes graph-node-reveal{from{opacity:.5;transform:scale(.97)}to{opacity:1;transform:scale(1)}}@keyframes graph-edge-reveal{from{opacity:.15;stroke-dashoffset:32}to{opacity:1;stroke-dashoffset:0}}html[data-theme='game'] .graph-node-active::after{content:'QUEST';position:absolute;right:14px;top:90px;font-size:.55rem;letter-spacing:.18em;color:rgb(var(--graph-active-color)/.5);transform:rotate(90deg)}html[data-theme='game'] .graph-node-focused::after{content:'FOCUS';position:absolute;right:14px;top:90px;font-size:.55rem;letter-spacing:.18em;color:rgb(var(--graph-active-color)/.5);transform:rotate(90deg)}
+  .graph-node-transitioning{animation:graph-node-reveal 420ms ease both;animation-delay:calc(var(--route-step) * 75ms)}.task-graph .graph-edge-transitioning .react-flow__edge-path{animation:graph-edge-reveal 480ms ease both;animation-delay:calc(var(--route-step) * 75ms)}@keyframes graph-node-reveal{from{opacity:.5;transform:scale(.97)}to{opacity:1;transform:scale(1)}}@keyframes graph-edge-reveal{from{opacity:.15;stroke-dashoffset:32}to{opacity:1;stroke-dashoffset:0}}
   @media(max-width:640px){.task-graph{min-height:500px}.graph-toolbar{left:10px;right:auto;top:10px}.graph-minimap-panel{width:200px}.graph-minimap-panel .react-flow__minimap{width:200px!important}}@media(prefers-reduced-motion:reduce){.graph-node-transitioning,.task-graph .graph-edge-transitioning .react-flow__edge-path{animation:none!important}.task-graph .react-flow__edge.animated .react-flow__edge-path{animation:none!important}}
 
+  /* 画布即 CRT 屏：静态扫描线 + 荫罩点阵 + 硬边屏框，零辉光零循环动画 */
   html[data-theme='game'] .task-graph {
-    --graph-node-clip: polygon(3% 0, 97% 0, 100% 10%, 100% 90%, 97% 100%, 3% 100%, 0 90%, 0 10%);
-    --graph-milestone-clip: polygon(50% 0, 95% 12%, 100% 65%, 82% 100%, 18% 100%, 0 65%, 5% 12%);
+    --graph-node-clip: none;
+    --graph-milestone-clip: none;
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    border: 1px solid rgb(var(--accent-primary) / 0.28);
-    border-radius: 1rem;
-    background-color: rgb(18 13 28);
+    border: 2px solid rgb(var(--accent-primary) / 0.32);
+    border-radius: 0.15rem;
+    background-color: rgb(8 11 22);
     background-image:
-      radial-gradient(ellipse at 14% 18%, rgb(var(--accent-primary) / 0.13), transparent 26%),
-      radial-gradient(ellipse at 86% 76%, rgb(var(--accent-secondary) / 0.1), transparent 24%),
-      radial-gradient(ellipse at 46% 108%, rgb(104 72 163 / 0.12), transparent 34%),
-      repeating-radial-gradient(ellipse at 34% 34%, transparent 0 42px, rgb(210 170 255 / 0.035) 43px 44px, transparent 45px 78px),
-      linear-gradient(135deg, rgb(255 255 255 / 0.018) 25%, transparent 25% 75%, rgb(255 255 255 / 0.012) 75%);
-    background-size: auto, auto, auto, auto, 13px 13px;
-    box-shadow: 0 26px 70px rgba(8, 4, 16, 0.48), inset 0 0 0 5px rgb(8 5 15 / 0.38), inset 0 1px 0 rgb(255 226 150 / 0.08);
+      repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.08) 0 1px, transparent 1px 3px),
+      radial-gradient(circle, rgba(180, 200, 255, 0.05) 0.5px, transparent 0.6px);
+    background-size: auto, 4px 4px;
+    box-shadow: 6px 6px 0 rgba(2, 4, 10, 0.55), inset 0 0 0 4px rgb(4 6 12 / 0.85), inset 0 0 0 5px rgb(var(--accent-primary) / 0.18);
   }
 
+  /* 屏框角标：阶梯像素角，替代柔光内框 */
   html[data-theme='game'] .task-graph::before {
     content: '';
     pointer-events: none;
     position: absolute;
     inset: 0.55rem;
     z-index: 1;
-    border: 1px solid rgb(var(--accent-primary) / 0.14);
-    border-radius: 0.65rem;
     background:
-      linear-gradient(90deg, rgb(var(--accent-primary) / 0.8), rgb(var(--accent-primary) / 0.8)) left top / 3.5rem 2px no-repeat,
-      linear-gradient(180deg, rgb(var(--accent-primary) / 0.8), rgb(var(--accent-primary) / 0.8)) left top / 2px 3.5rem no-repeat,
-      linear-gradient(90deg, rgb(var(--accent-secondary) / 0.42), rgb(var(--accent-secondary) / 0.42)) right bottom / 3rem 1px no-repeat,
-      linear-gradient(180deg, rgb(var(--accent-secondary) / 0.42), rgb(var(--accent-secondary) / 0.42)) right bottom / 1px 2.5rem no-repeat;
-    opacity: 0.82;
+      linear-gradient(90deg, rgb(var(--accent-primary) / 0.85), rgb(var(--accent-primary) / 0.85)) left top / 2.8rem 2px no-repeat,
+      linear-gradient(180deg, rgb(var(--accent-primary) / 0.85), rgb(var(--accent-primary) / 0.85)) left top / 2px 2.8rem no-repeat,
+      linear-gradient(90deg, rgb(var(--accent-secondary) / 0.6), rgb(var(--accent-secondary) / 0.6)) right top / 2.2rem 2px no-repeat,
+      linear-gradient(180deg, rgb(var(--accent-secondary) / 0.6), rgb(var(--accent-secondary) / 0.6)) right top / 2px 2.2rem no-repeat,
+      linear-gradient(90deg, rgb(var(--accent-primary) / 0.55), rgb(var(--accent-primary) / 0.55)) right bottom / 2.2rem 2px no-repeat,
+      linear-gradient(180deg, rgb(var(--accent-primary) / 0.55), rgb(var(--accent-primary) / 0.55)) right bottom / 2px 2.2rem no-repeat,
+      linear-gradient(90deg, rgb(var(--accent-secondary) / 0.45), rgb(var(--accent-secondary) / 0.45)) left bottom / 2.2rem 2px no-repeat,
+      linear-gradient(180deg, rgb(var(--accent-secondary) / 0.45), rgb(var(--accent-secondary) / 0.45)) left bottom / 2px 2.2rem no-repeat;
+    opacity: 0.9;
   }
 
+  /* 水印左上：避开右下 minimap 与左下罗盘；PUSH START 是街机方言本体,不含经济梗词 */
   html[data-theme='game'] .task-graph::after {
-    content: 'UNCHARTED TERRITORY';
+    content: 'PUSH START';
     pointer-events: none;
     position: absolute;
-    right: 1.8rem;
-    bottom: 1rem;
+    left: 1.8rem;
+    top: 1.15rem;
     z-index: 1;
-    color: rgb(222 194 255 / 0.16);
-    font-size: 0.52rem;
-    font-weight: 800;
-    letter-spacing: 0.24em;
-    transform: rotate(-8deg);
+    color: rgb(180 200 255 / 0.18);
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
   }
 
   html[data-theme='game'] .task-graph .react-flow {
@@ -1808,22 +1882,28 @@
     gap: 0.75rem;
   }
 
+  /* HUD 读数条：凹槽黑条 + 等宽大写，标签青、次行淡钢蓝（大读数的金币金见 .metric-value/.milestone-score） */
   html[data-theme='game'] .graph-map-title {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
     padding: 0.55rem 0.7rem;
-    border-left: 2px solid rgb(var(--accent-primary) / 0.72);
-    background: rgb(12 8 20 / 0.68);
-    color: rgb(var(--accent-primary) / 0.82);
-    font-size: 0.6rem;
-    font-weight: 800;
+    border: 1.5px solid rgb(var(--accent-primary) / 0.35);
+    border-radius: 0.15rem;
+    background: rgb(6 9 18 / 0.92);
+    box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.55);
+    color: rgb(var(--accent-primary));
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    font-size: 0.58rem;
+    font-weight: 700;
     letter-spacing: 0.16em;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   html[data-theme='game'] .graph-map-title small {
-    color: rgb(var(--text-secondary) / 0.72);
+    color: rgb(var(--text-secondary) / 0.85);
+    font-family: var(--font-body);
     font-size: 0.55rem;
     font-weight: 500;
     letter-spacing: 0.04em;
@@ -1839,33 +1919,53 @@
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    border: 1px solid rgb(var(--accent-primary) / 0.24);
-    border-radius: 0.45rem;
+    border: 1.5px solid rgb(var(--accent-primary) / 0.35);
+    border-radius: 0.15rem;
     padding: 0.5rem 0.6rem;
-    background: rgb(20 13 31 / 0.84);
-    color: rgb(var(--accent-primary) / 0.86);
-    font-size: 0.65rem;
+    background: rgb(6 9 18 / 0.9);
+    box-shadow: 0 3px 0 rgba(2, 4, 10, 0.5);
+    color: rgb(var(--accent-primary));
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    font-size: 0.62rem;
     font-weight: 700;
-    transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+    letter-spacing: 0.08em;
+    transition: transform 90ms linear, box-shadow 90ms linear, border-color 90ms linear;
   }
 
   html[data-theme='game'] .graph-map-action:hover {
-    border-color: rgb(var(--accent-primary) / 0.52);
-    background: rgb(var(--accent-primary) / 0.1);
-    transform: translateY(-1px);
+    border-color: rgb(var(--accent-primary) / 0.7);
+    background: rgb(var(--accent-primary) / 0.12);
+    transform: translate(-1px, -1px);
+    box-shadow: 0 4px 0 rgba(2, 4, 10, 0.5);
   }
 
+  html[data-theme='game'] .graph-map-action:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 1px 0 rgba(2, 4, 10, 0.5);
+  }
+
+  /* 推进/支线按钮走铬青槽（基础规则泄漏 route 色与 0.6rem 圆角，此处在 game 内收回） */
+  html[data-theme='game'] .graph-advance-button,
+  html[data-theme='game'] .graph-branch-toggle {
+    border: 1.5px solid rgb(var(--accent-primary) / 0.35);
+    border-radius: 0.15rem;
+    color: rgb(var(--accent-primary));
+    background: rgb(var(--accent-primary) / 0.08);
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  }
+
+  /* 节点即卡带面板：直角 + 2px 墨边 + 阶梯硬影；不加 clip-path（会裁掉手柄与徽章） */
   html[data-theme='game'] .graph-node {
     width: 336px;
     height: 220px;
     min-height: 220px;
     overflow: visible;
     clip-path: none;
-    border: 1px solid rgb(var(--node-accent, var(--border-soft)) / 0.4);
-    border-radius: 0.75rem;
+    border: 2px solid rgb(var(--node-accent, var(--border-soft)) / 0.55);
+    border-radius: 0.15rem;
     padding: 1.15rem 1.2rem 1rem 1.35rem;
-    background: linear-gradient(135deg, rgb(var(--node-accent, var(--accent-primary)) / 0.09), transparent 40%), rgb(31 24 47 / 0.97);
-    box-shadow: 0 16px 34px rgba(7, 4, 14, 0.42), inset 0 1px 0 rgb(255 255 255 / 0.055);
+    background: rgb(20 28 48 / 0.98);
+    box-shadow: 5px 5px 0 rgba(2, 4, 10, 0.55);
   }
 
   html[data-theme='game'] .graph-node::before {
@@ -1874,17 +1974,12 @@
     position: absolute;
     inset: 0;
     z-index: -1;
-    clip-path: inherit;
     border-radius: inherit;
-    background: linear-gradient(90deg, rgb(var(--node-accent, var(--accent-primary)) / 0.78), transparent 31%) top left / 8rem 2px no-repeat, linear-gradient(135deg, transparent 72%, rgb(var(--node-accent, var(--accent-primary)) / 0.12));
+    background: linear-gradient(90deg, rgb(var(--node-accent, var(--accent-primary)) / 0.85), transparent 30%) top left / 8rem 2px no-repeat;
   }
 
   html[data-theme='game'] .graph-node-frame {
-    inset: 0.45rem;
-    z-index: 0;
-    border: 1px solid rgb(var(--node-accent, var(--accent-primary)) / 0.12);
-    border-radius: 0.45rem;
-    background: linear-gradient(90deg, rgb(var(--node-accent, var(--accent-primary)) / 0.6), rgb(var(--node-accent, var(--accent-primary)) / 0.6)) left top / 2rem 1px no-repeat, linear-gradient(180deg, rgb(var(--node-accent, var(--accent-primary)) / 0.6), rgb(var(--node-accent, var(--accent-primary)) / 0.6)) left top / 1px 2rem no-repeat, linear-gradient(90deg, rgb(var(--accent-secondary) / 0.32), rgb(var(--accent-secondary) / 0.32)) right bottom / 1.5rem 1px no-repeat;
+    background: none;
   }
 
   html[data-theme='game'] .graph-node > *:not(.graph-node-frame):not(.graph-outpost-emblem):not(.graph-handle) {
@@ -1892,6 +1987,7 @@
     z-index: 2;
   }
 
+  /* 徽章即方牌：负偏移贴外沿，不旋转不呼吸 */
   html[data-theme='game'] .graph-outpost-emblem {
     position: absolute;
     top: 1rem;
@@ -1901,32 +1997,37 @@
     width: 2.8rem;
     height: 2.8rem;
     place-items: center;
-    border: 2px solid rgb(var(--node-accent, var(--accent-primary)) / 0.82);
-    border-radius: 0.65rem;
+    border: 2px solid rgb(var(--node-accent, var(--accent-primary)) / 0.9);
+    border-radius: 0.15rem;
     color: rgb(var(--node-accent, var(--accent-primary)));
-    background: rgb(25 17 38 / 0.98);
-    box-shadow: 0 0 0 4px rgb(18 13 28), 0 8px 18px rgb(5 3 10 / 0.46);
-    transform: rotate(45deg);
+    background: rgb(10 14 26 / 0.98);
+    box-shadow: 3px 3px 0 rgba(2, 4, 10, 0.55);
+    transform: none;
+    animation: none;
   }
 
   html[data-theme='game'] .graph-outpost-emblem svg {
-    transform: rotate(-45deg);
+    transform: none;
   }
 
-  html[data-theme='game'] .graph-node-kind-question { --node-accent: 148 129 255; }
-  html[data-theme='game'] .graph-node-kind-solution { --node-accent: 255 184 77; }
-  html[data-theme='game'] .graph-node-kind-result { --node-accent: 125 225 139; }
+  html[data-theme='game'] .graph-node-kind-question { --node-accent: 34 211 238; }
+  html[data-theme='game'] .graph-node-kind-solution { --node-accent: 255 200 64; }
+  html[data-theme='game'] .graph-node-kind-result { --node-accent: 74 222 128; }
+  html[data-theme='game'] .graph-node-kind-assumption { --node-accent: 120 156 255; }
+  html[data-theme='game'] .graph-node-kind-vulnerability { --node-accent: 255 107 74; }
 
   html[data-theme='game'] .graph-node-header {
     min-height: 2rem;
     padding-left: 1.25rem;
-    border-bottom: 1px solid rgb(var(--node-accent) / 0.16);
+    border-bottom: 1.5px solid rgb(var(--node-accent) / 0.28);
   }
 
   html[data-theme='game'] .graph-node-type {
     color: rgb(var(--node-accent));
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
     font-size: 0.72rem;
-    letter-spacing: 0.14em;
+    font-weight: 700;
+    letter-spacing: 0.12em;
   }
 
   html[data-theme='game'] .graph-node-state-row {
@@ -1938,10 +2039,12 @@
   html[data-theme='game'] .graph-state-badge,
   html[data-theme='game'] .route-choice-badge,
   html[data-theme='game'] .graph-milestone-badge {
-    border: 1px solid rgb(var(--node-accent) / 0.22);
-    border-radius: 0.35rem;
-    background: rgb(var(--node-accent) / 0.09);
+    border: 1.5px solid rgb(var(--node-accent) / 0.3);
+    border-radius: 0.15rem;
+    background: rgb(var(--node-accent) / 0.1);
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
     font-size: 0.65rem;
+    font-variant-numeric: tabular-nums;
   }
 
   html[data-theme='game'] .graph-node-content {
@@ -1953,31 +2056,29 @@
     font-weight: 600;
     line-height: 1.58;
     -webkit-line-clamp: 2;
+    text-shadow: none;
   }
 
   html[data-theme='game'] .graph-node-footer {
     gap: 0.35rem;
     padding-top: 0.45rem;
     padding-left: 1.25rem;
-    border-top-color: rgb(var(--node-accent) / 0.18);
+    border-top-color: rgb(var(--node-accent) / 0.28);
+    border-top-width: 1.5px;
   }
 
   html[data-theme='game'] .graph-node-index {
-    color: rgb(var(--node-accent) / 0.76);
+    color: rgb(var(--node-accent) / 0.9);
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
     font-size: 0.65rem;
-    font-weight: 800;
+    font-weight: 700;
     letter-spacing: 0.12em;
-  }
-
-  html[data-theme='game'] .graph-node-active .graph-outpost-emblem {
-    animation: game-outpost-pulse 2.8s ease-in-out infinite;
-    border-color: rgb(var(--accent-primary));
-    color: rgb(var(--accent-primary));
+    font-variant-numeric: tabular-nums;
   }
 
   html[data-theme='game'] .graph-node-blocked {
-    opacity: 0.78;
-    filter: saturate(0.7);
+    opacity: 0.86;
+    filter: saturate(0.75);
   }
 
   html[data-theme='game'] .graph-node-blocked .graph-outpost-emblem {
@@ -1987,12 +2088,28 @@
 
   html[data-theme='game'] .graph-node-completed,
   html[data-theme='game'] .graph-node-unlocked {
-    border-color: rgb(var(--graph-complete-color) / 0.62);
+    border-color: rgb(var(--graph-complete-color) / 0.7);
   }
 
+  /* 里程碑即关底旗牌：顶缘凸起方块，clip-path 只做减法做不了凸起 */
   html[data-theme='game'] .graph-node-milestone {
     border-width: 2px;
-    border-color: rgb(var(--graph-milestone-color) / 0.78);
+    border-color: rgb(var(--graph-milestone-color) / 0.85);
+  }
+
+  html[data-theme='game'] .graph-node-milestone::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    top: -6px;
+    right: 1.15rem;
+    z-index: 3;
+    width: 1.35rem;
+    height: 6px;
+    border: 2px solid rgb(var(--graph-milestone-color) / 0.9);
+    border-bottom: 0;
+    border-radius: 0;
+    background: rgb(var(--graph-milestone-color) / 0.85);
   }
 
   html[data-theme='game'] .graph-node-milestone .graph-outpost-emblem {
@@ -2008,45 +2125,41 @@
   html[data-theme='game'] .graph-node-focused.graph-node-selected {
     border-color: rgb(var(--accent-primary));
     border-width: 2px;
-    box-shadow: 0 18px 38px rgba(7, 4, 14, 0.52), 0 0 0 5px rgb(var(--accent-primary) / 0.3), 0 0 42px rgb(var(--accent-primary) / 0.32);
+    box-shadow: 5px 5px 0 rgba(2, 4, 10, 0.55), 0 0 0 3px rgb(var(--accent-primary) / 0.35);
   }
 
   html[data-theme='game'] .graph-handle {
     width: 12px !important;
     height: 12px !important;
-    border: 2px solid rgb(18 13 28) !important;
+    border: 2px solid rgb(8 11 22) !important;
+    border-radius: 0 !important;
     background: rgb(var(--node-accent, var(--accent-primary))) !important;
-    box-shadow: 0 0 10px rgb(var(--node-accent, var(--accent-primary)) / 0.4);
-  }
-
-  @keyframes game-outpost-pulse {
-    0%, 100% { box-shadow: 0 0 0 4px rgb(18 13 28), 0 8px 18px rgb(5 3 10 / 0.46); }
-    50% { box-shadow: 0 0 0 4px rgb(18 13 28), 0 0 0 8px rgb(var(--accent-primary) / 0.08), 0 8px 22px rgb(var(--accent-primary) / 0.22); }
+    box-shadow: 2px 2px 0 rgba(2, 4, 10, 0.5);
+    animation: none;
   }
 
   html[data-theme='game'] .diagnostic-panel {
-    border-radius: 0.85rem;
+    border-radius: var(--radius-card);
     background: rgb(var(--bg-surface-2) / 0.96);
   }
 
-  html[data-theme='game'] .task-graph .react-flow__background { opacity: 0.24; }
-  html[data-theme='game'] .task-graph .react-flow__edge-path { stroke: rgb(var(--graph-blocked-color) / 0.56); stroke-width: 2.5; filter: drop-shadow(0 2px 3px rgb(5 3 10 / 0.32)); }
-  html[data-theme='game'] .task-graph .react-flow__edge.graph-edge-blocked .react-flow__edge-path { stroke: rgb(var(--graph-blocked-color) / 0.85); stroke-width: 2.25; stroke-dasharray: 5 9; opacity: 0.82; }
-  html[data-theme='game'] .task-graph .react-flow__edge.graph-edge-route .react-flow__edge-path { stroke: rgb(var(--graph-route-color)); stroke-width: 5; opacity: 0.95; filter: drop-shadow(0 0 7px rgb(var(--graph-route-color) / 0.3)); animation: game-road-glow 3.8s ease-in-out infinite; }
-  html[data-theme='game'] .task-graph .react-flow__edge.graph-edge-complete .react-flow__edge-path { stroke: rgb(var(--graph-complete-color)); stroke-width: 4; opacity: 0.68; filter: drop-shadow(0 0 5px rgb(var(--graph-complete-color) / 0.2)); }
-  html[data-theme='game'] .task-graph .react-flow__edge.graph-edge-abandoned .react-flow__edge-path { stroke: rgb(var(--graph-blocked-color) / 0.36); stroke-width: 2; stroke-dasharray: 3 11; }
+  html[data-theme='game'] .task-graph .react-flow__background { opacity: 0.4; }
+  /* 边层级靠线宽与线型：路线 4px 品红实线 / 完成 2.5px / 普通 2px 点划，零 drop-shadow */
+  html[data-theme='game'] .task-graph .react-flow__edge-path { stroke: rgb(var(--graph-blocked-color) / 0.75); stroke-width: 2; filter: none; }
+  html[data-theme='game'] .task-graph .react-flow__edge.graph-edge-blocked .react-flow__edge-path { stroke: rgb(var(--graph-blocked-color) / 0.9); stroke-width: 2.25; stroke-dasharray: 5 9; opacity: 0.85; filter: none; }
+  html[data-theme='game'] .task-graph .react-flow__edge.graph-edge-route .react-flow__edge-path { stroke: rgb(var(--graph-route-color)); stroke-width: 4; stroke-dasharray: none; opacity: 1; filter: none; animation: none; }
+  html[data-theme='game'] .task-graph .react-flow__edge.graph-edge-complete .react-flow__edge-path { stroke: rgb(var(--graph-complete-color)); stroke-width: 2.5; opacity: 0.92; filter: none; }
+  html[data-theme='game'] .task-graph .react-flow__edge.graph-edge-abandoned .react-flow__edge-path { stroke: rgb(var(--graph-blocked-color) / 0.45); stroke-width: 2; stroke-dasharray: 3 11; }
 
-  html[data-theme='game'] .graph-branch-summary { border: 1px dashed rgb(var(--graph-blocked-color) / 0.72); border-radius: 0.55rem; background: rgb(26 18 39 / 0.88); box-shadow: 0 14px 28px rgb(6 3 12 / 0.34), inset 0 1px 0 rgb(255 255 255 / 0.035); }
-  html[data-theme='game'] .graph-branch-summary .graph-branch-sign { display: grid; width: 2rem; height: 2rem; place-items: center; border: 1px solid rgb(var(--graph-blocked-color) / 0.52); border-radius: 50%; color: rgb(var(--graph-blocked-color)); }
-  html[data-theme='game'] .graph-branch-summary span:not(.graph-branch-sign) { color: rgb(var(--text-secondary)); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  html[data-theme='game'] .graph-branch-summary { border: 1.5px dashed rgb(var(--graph-blocked-color) / 0.75); border-radius: 0.15rem; background: rgb(var(--bg-panel) / 0.92); box-shadow: 3px 3px 0 rgba(2, 4, 10, 0.45); }
+  html[data-theme='game'] .graph-branch-summary .graph-branch-sign { display: grid; width: 2rem; height: 2rem; place-items: center; border: 1.5px solid rgb(var(--graph-blocked-color) / 0.6); border-radius: 0.15rem; color: rgb(var(--graph-blocked-color)); }
+  html[data-theme='game'] .graph-branch-summary span:not(.graph-branch-sign) { color: rgb(var(--text-secondary)); font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; }
 
   html[data-theme='game'] .graph-minimap-panel,
-  html[data-theme='game'] .graph-minimap-toggle { border-color: rgb(var(--accent-primary) / 0.32); border-radius: 0.65rem; background: rgb(20 13 31 / 0.94); box-shadow: 0 18px 34px rgb(6 3 12 / 0.46), inset 0 1px 0 rgb(255 226 150 / 0.06); }
-  html[data-theme='game'] .graph-minimap-title { border-bottom: 1px solid rgb(var(--accent-primary) / 0.14); color: rgb(var(--accent-primary) / 0.88); letter-spacing: 0.1em; text-transform: uppercase; }
-  html[data-theme='game'] .graph-minimap-panel .react-flow__minimap { background: rgb(14 9 24); }
-  html[data-theme='game'] .graph-intel-panel { border-radius: 0.8rem; border-color: rgb(var(--accent-primary) / 0.22); background: linear-gradient(160deg, rgb(31 21 45 / 0.96), rgb(20 14 31 / 0.96)); box-shadow: 0 20px 42px rgb(7 4 14 / 0.34), inset 0 1px 0 rgb(255 226 150 / 0.05); }
-
-  @keyframes game-road-glow { 0%, 100% { opacity: 0.95; } 50% { opacity: 1; } }
+  html[data-theme='game'] .graph-minimap-toggle { border: 1.5px solid rgb(var(--accent-primary) / 0.35); border-radius: 0.15rem; background: rgb(6 9 18 / 0.94); box-shadow: 4px 4px 0 rgba(2, 4, 10, 0.5); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  html[data-theme='game'] .graph-minimap-title { border-bottom: 1.5px solid rgb(var(--accent-primary) / 0.22); color: rgb(var(--accent-primary)); font-family: ui-monospace, "Cascadia Code", Consolas, monospace; letter-spacing: 0.12em; text-transform: uppercase; }
+  html[data-theme='game'] .graph-minimap-panel .react-flow__minimap { background: rgb(8 11 22); }
+  html[data-theme='game'] .graph-intel-panel { border-radius: var(--radius-card); border-color: rgb(var(--accent-primary) / 0.3); background: rgb(var(--bg-surface) / 0.97); box-shadow: var(--shadow-card); }
 
   @media (max-width: 767px) {
     html[data-theme='game'] .graph-toolbar { top: 0.75rem; right: 0.75rem; left: 0.75rem; justify-content: space-between; }
@@ -2057,6 +2170,7 @@
     html[data-theme='game'] .graph-toolbar-actions button span { display: none; }
     html[data-theme='game'] .graph-map-compass { left: 0.9rem; bottom: 0.9rem; transform: scale(0.78); transform-origin: bottom left; }
     html[data-theme='game'] .graph-node-content { font-size: 1.04rem; }
+    html[data-theme='game'] .task-graph::after { display: none; }
   }
 
   @media (max-width: 420px) {
@@ -2065,12 +2179,7 @@
     html[data-theme='game'] .graph-minimap-toggle { right: 0.75rem; bottom: 0.75rem; }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    html[data-theme='game'] .graph-node-active .graph-outpost-emblem,
-    html[data-theme='game'] .task-graph .react-flow__edge.graph-edge-route .react-flow__edge-path { animation: none; }
-    html[data-theme='game'] .task-graph .react-flow__edge.graph-edge-route .react-flow__edge-path { stroke-dasharray: none; }
-  }
-
+  /* 像素路衬底：方头零模糊，只做层次不做发光 */
   .game-road-bed {
     display: none;
   }
@@ -2078,42 +2187,31 @@
   html[data-theme='game'] .game-road-bed {
     display: block;
     fill: none;
-    stroke: rgb(7 4 13 / 0.76);
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 8;
+    stroke: rgb(4 6 12 / 0.85);
+    stroke-linecap: butt;
+    stroke-linejoin: miter;
+    stroke-width: 9;
     pointer-events: none;
   }
 
   html[data-theme='game'] .react-flow__edge.graph-edge-route .game-road-bed {
-    stroke: rgb(75 48 31 / 0.94);
+    stroke: rgb(12 8 20 / 0.92);
     stroke-width: 11;
-    filter: drop-shadow(0 3px 4px rgb(4 2 8 / 0.58));
   }
 
   html[data-theme='game'] .react-flow__edge.graph-edge-complete .game-road-bed {
-    stroke: rgb(25 62 45 / 0.88);
-    stroke-width: 9;
+    stroke: rgb(8 20 16 / 0.85);
+    stroke-width: 8;
   }
 
   html[data-theme='game'] .react-flow__edge.graph-edge-blocked .game-road-bed,
   html[data-theme='game'] .react-flow__edge.graph-edge-abandoned .game-road-bed,
   html[data-theme='game'] .react-flow__edge.graph-edge-summary .game-road-bed {
-    stroke-width: 6;
-    opacity: 0.42;
+    stroke-width: 5;
+    opacity: 0.45;
   }
 
-  html[data-theme='game'] .task-graph .react-flow__edge.graph-edge-route .react-flow__edge-path {
-    stroke-width: 3.25;
-    stroke-dasharray: 12 7;
-    animation: game-road-travel 2.4s linear infinite, game-road-glow 3.8s ease-in-out infinite;
-  }
-
-  html[data-theme='game'] .task-graph .react-flow__edge.graph-edge-complete .react-flow__edge-path {
-    stroke-width: 3;
-    stroke-dasharray: none;
-  }
-
+  /* 罗盘即 HUD 读数条：1P + 像素箭头 + MAP，一套隐喻贯穿 */
   html[data-theme='game'] .graph-map-compass {
     pointer-events: none;
     position: absolute;
@@ -2121,68 +2219,70 @@
     bottom: 1.25rem;
     z-index: 3;
     display: grid;
-    width: 4.8rem;
-    height: 4.8rem;
+    width: 3.6rem;
+    height: 3.6rem;
     place-items: center;
-    border: 1px solid rgb(var(--accent-primary) / 0.13);
-    border-radius: 50%;
-    color: rgb(var(--accent-primary) / 0.32);
-    background: radial-gradient(circle, rgb(var(--accent-primary) / 0.04), transparent 62%);
+    border: 1.5px solid rgb(var(--accent-primary) / 0.35);
+    border-radius: 0.15rem;
+    color: rgb(var(--accent-primary) / 0.75);
+    background: rgb(6 9 18 / 0.88);
+    box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.5);
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
   }
 
   html[data-theme='game'] .graph-map-compass::before,
   html[data-theme='game'] .graph-map-compass::after {
     content: '';
     position: absolute;
-    background: rgb(var(--accent-primary) / 0.15);
+    background: rgb(var(--accent-primary) / 0.28);
   }
 
-  html[data-theme='game'] .graph-map-compass::before { width: 1px; height: 78%; }
-  html[data-theme='game'] .graph-map-compass::after { width: 78%; height: 1px; }
-  html[data-theme='game'] .graph-map-compass span { position: absolute; top: 0.25rem; font-size: 0.5rem; font-weight: 800; }
-  html[data-theme='game'] .graph-map-compass i { width: 0; height: 0; border-right: 0.28rem solid transparent; border-bottom: 1.15rem solid rgb(var(--accent-primary) / 0.25); border-left: 0.28rem solid transparent; transform: translateY(-0.45rem); }
-  html[data-theme='game'] .graph-map-compass small { position: absolute; bottom: -1.05rem; width: 7rem; text-align: center; font-size: 0.45rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+  html[data-theme='game'] .graph-map-compass::before { width: 1.5px; height: 70%; }
+  html[data-theme='game'] .graph-map-compass::after { width: 70%; height: 1.5px; }
+  html[data-theme='game'] .graph-map-compass span { position: absolute; top: 0.28rem; font-size: 0.55rem; font-weight: 700; letter-spacing: 0.16em; }
+  html[data-theme='game'] .graph-map-compass i { width: 0; height: 0; border-right: 0.32rem solid transparent; border-bottom: 0.95rem solid rgb(var(--accent-primary) / 0.7); border-left: 0.32rem solid transparent; transform: none; }
+  html[data-theme='game'] .graph-map-compass small { position: absolute; bottom: -1.15rem; width: 7rem; text-align: center; color: rgb(var(--text-secondary) / 0.8); font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 0.55rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
 
+  /* 状态戳记：等宽大写压低透明度，像丝印在卡带上 */
   html[data-theme='game'] .graph-node-seal {
     position: absolute;
     right: 0.9rem;
     bottom: 2.8rem;
     z-index: 1;
     display: block;
-    color: rgb(var(--node-accent) / 0.12);
-    font-size: 0.72rem;
-    font-weight: 900;
-    letter-spacing: 0.16em;
-    transform: rotate(-7deg);
+    color: rgb(var(--node-accent) / 0.28);
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    transform: none;
+    text-shadow: none;
   }
 
   html[data-theme='game'] .graph-node-selected {
-    transform: translateY(-3px) scale(1.012);
-    border-color: rgb(var(--node-accent) / 0.86);
-    box-shadow: 0 20px 42px rgba(7, 4, 14, 0.54), 0 0 0 3px rgb(var(--node-accent) / 0.13);
+    transform: translateY(-3px);
+    border-color: rgb(var(--node-accent) / 0.9);
+    box-shadow: 5px 5px 0 rgba(2, 4, 10, 0.55), 0 0 0 2px rgb(var(--node-accent) / 0.2);
   }
 
   html[data-theme='game'] .graph-node-completed .graph-node-seal,
   html[data-theme='game'] .graph-node-unlocked .graph-node-seal {
-    color: rgb(var(--graph-complete-color) / 0.2);
+    color: rgb(var(--graph-complete-color) / 0.38);
   }
 
-  html[data-theme='game'] .graph-node-active .graph-node-seal {
-    color: rgb(var(--accent-primary) / 0.22);
-  }
-
+  html[data-theme='game'] .graph-node-active .graph-node-seal,
   html[data-theme='game'] .graph-node-focused .graph-node-seal {
-    color: rgb(var(--accent-primary) / 0.22);
+    color: rgb(var(--accent-primary) / 0.42);
   }
 
   html[data-theme='game'] .graph-node-paused {
     border-style: dashed;
-    filter: saturate(0.72);
+    filter: saturate(0.75);
   }
 
   html[data-theme='game'] .graph-node-abandoned {
-    opacity: 0.7;
-    filter: grayscale(0.62) saturate(0.5);
+    opacity: 0.88;
+    filter: grayscale(0.4) saturate(0.55);
   }
 
   html[data-theme='game'] .graph-node-abandoned::after {
@@ -2191,9 +2291,52 @@
     position: absolute;
     inset: 50% 1.1rem auto;
     z-index: 3;
-    height: 1px;
-    background: rgb(var(--text-muted) / 0.42);
+    height: 2px;
+    background: rgb(var(--text-muted) / 0.5);
     transform: rotate(-5deg);
+  }
+
+  /* dimmed 节点上的文本提亮：opacity/saturate/grayscale 合成后仍 ≥4.5:1 */
+  html[data-theme='game'] .graph-node-blocked.graph-node-kind-vulnerability,
+  html[data-theme='game'] .graph-node-abandoned.graph-node-kind-vulnerability,
+  html[data-theme='game'] .node-card-blocked.node-card-vulnerability {
+    --node-accent: 255 137 110;
+  }
+
+  html[data-theme='game'] .graph-node-blocked .graph-milestone-badge,
+  html[data-theme='game'] .graph-node-abandoned .graph-milestone-badge {
+    border-color: rgb(255 135 102 / 0.5);
+    color: rgb(255 135 102);
+    background: rgb(255 135 102 / 0.12);
+  }
+
+  html[data-theme='game'] .graph-node-blocked .graph-advance-button,
+  html[data-theme='game'] .graph-node-abandoned .graph-advance-button,
+  html[data-theme='game'] .graph-node-blocked .graph-branch-toggle,
+  html[data-theme='game'] .graph-node-abandoned .graph-branch-toggle {
+    border-color: rgb(255 121 188 / 0.45);
+    color: rgb(255 121 188);
+    background: rgb(255 121 188 / 0.1);
+  }
+
+  /* 大圆角工具类收敛（utilities 层压过 components 层，需 !important）：game 全域 ≤0.2rem */
+  html[data-theme='game'] [class*='rounded-2xl'],
+  html[data-theme='game'] [class*='rounded-xl'],
+  html[data-theme='game'] [class*='rounded-lg'],
+  html[data-theme='game'] [class*='rounded-md'] {
+    border-radius: 0.15rem !important;
+  }
+
+  html[data-theme='game'] [class*='rounded-full'] {
+    border-radius: 0.2rem !important;
+  }
+
+  html[data-theme='game'] .search-box,
+  html[data-theme='game'] .field input,
+  html[data-theme='game'] .field textarea,
+  html[data-theme='game'] .field select,
+  html[data-theme='game'] .button-danger {
+    border-radius: 0.15rem;
   }
 
   html[data-theme='tech'] .graph-toolbar { top: 1.1rem; right: 1.1rem; left: 1.1rem; display: flex; align-items: flex-start; justify-content: space-between; pointer-events: none; }
@@ -2566,21 +2709,19 @@
     html[data-theme='calm'] .graph-paper-action { transition: none; }
   }
 
-  @keyframes game-road-travel { to { stroke-dashoffset: -38; } }
-
   html[data-theme='game'] .diagnostic-panel::before {
-    background: linear-gradient(135deg, rgb(var(--accent-secondary) / 0.05), transparent 44%);
+    background: linear-gradient(180deg, rgba(34, 211, 238, 0.05), transparent 44%);
   }
 
   html[data-theme='game'] .review-card {
-    border-radius: 0.35rem;
-    border-color: rgb(var(--accent-secondary) / 0.18);
-    border-left: 3px solid rgb(var(--accent-secondary) / 0.48);
-    background: rgb(var(--bg-panel) / 0.68);
+    border-radius: 0.15rem;
+    border-color: rgb(var(--accent-secondary) / 0.28);
+    border-left: 3px solid rgb(var(--accent-secondary) / 0.65);
+    background: rgb(var(--bg-panel) / 0.55);
   }
 
   html[data-theme='game'] .review-card::before {
-    background: linear-gradient(90deg, rgb(var(--accent-secondary) / 0.055), transparent 55%), repeating-linear-gradient(0deg, transparent 0 10px, rgb(var(--text-primary) / 0.018) 10px 11px);
+    background: repeating-linear-gradient(0deg, transparent 0 10px, rgb(var(--text-primary) / 0.02) 10px 11px);
   }
 
   /* ===== Golden（金色辉煌）：黑漆鎏金 / 双金线装裱 · 八角铭牌 · 烛光高光 · 衬线镌刻 ===== */
@@ -4070,10 +4211,13 @@
     html[data-theme='tech'] .progress-fill,
     html[data-theme='tech'] .button-primary,
     html[data-theme='game'] .project-card,
-    html[data-theme='game'] .project-card::after,
     html[data-theme='game'] .project-card-link,
     html[data-theme='game'] .button-primary,
+    html[data-theme='game'] .button-secondary,
+    html[data-theme='game'] .icon-button,
+    html[data-theme='game'] .graph-map-action,
     html[data-theme='game'] .milestone-chip,
+    html[data-theme='game'] .graph-node,
     html[data-theme='game'] .progress-fill {
       transition: none;
     }

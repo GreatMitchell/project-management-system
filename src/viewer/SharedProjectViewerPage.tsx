@@ -156,7 +156,7 @@ function ReadyView({ data }: { data: ShareData }) {
       <aside className="grid gap-5 xl:grid-cols-2">
         {shareOptions.includeMilestones && milestones.length > 0 && (
           <section className="milestone-panel validation-terminal checkpoint-panel">
-            <div className="flex items-center justify-between"><p className="milestone-kicker text-xs uppercase tracking-widest"><span className="theme-label-default">里程碑</span><span className="tech-only">VALIDATION</span><span className="game-only">Quest Checkpoints</span></p><span className="checkpoint-emblem"><Trophy size={19} className="text-accent-primary" /></span></div>
+            <div className="flex items-center justify-between"><p className="milestone-kicker text-xs uppercase tracking-widest"><span className="theme-label-default">里程碑</span><span className="tech-only">VALIDATION</span><span className="game-only">检查点</span></p><span className="checkpoint-emblem"><Trophy size={19} className="text-accent-primary" /></span></div>
             <p className="milestone-score mt-4 font-serif text-3xl text-[rgb(var(--milestone-fg))]">{milestones.filter((item) => item.result === 'passed').length}<span className="text-lg milestone-subtle"> / {milestones.length}</span></p>
             <p className="mt-1 text-xs milestone-subtle">验证通过</p>
             <div className="mt-5 space-y-3">{milestones.map((item) => <div key={item.id} className="rounded-2xl border border-line/15 bg-surface2/60 p-4">
@@ -171,7 +171,7 @@ function ReadyView({ data }: { data: ShareData }) {
         {shareOptions.includeReviews && reviews.length > 0 && (
           <section className="diagnostic-panel surface-card p-6">
             <div className="relative z-[1] flex items-center justify-between">
-              <div><p className="eyebrow"><span className="theme-label-default">反馈修正</span><span className="tech-only">REVIEWS</span><span className="game-only">Journey Log</span></p><h3 className="mt-1 font-serif text-xl text-text-primary">审视记录</h3></div>
+              <div><p className="eyebrow"><span className="theme-label-default">反馈修正</span><span className="tech-only">REVIEWS</span><span className="game-only">复盘记录</span></p><h3 className="mt-1 font-serif text-xl text-text-primary">审视记录</h3></div>
               <NotebookPen size={17} className="relative z-[1] text-text-secondary" />
             </div>
             <div className="relative z-[1] mt-5 space-y-3">{reviews.map((item) => <div key={item.id} className="review-card">

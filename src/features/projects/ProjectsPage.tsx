@@ -80,7 +80,7 @@ export function ProjectsPage() {
               <div className="pinned-divider">
                 <span className="theme-label-default">置顶</span>
                 <span className="tech-only">PINNED</span>
-                <span className="game-only">高优先级</span>
+                <span className="game-only">主打关卡</span>
               </div>
               <div className="mt-4 grid gap-5 md:grid-cols-2 2xl:grid-cols-3">
                 {pinned.map((project) => (
@@ -99,7 +99,7 @@ export function ProjectsPage() {
                 <div className="pinned-divider">
                   <span className="theme-label-default">全部项目</span>
                   <span className="tech-only">ALL PROJECTS</span>
-                  <span className="game-only">其余委托</span>
+                  <span className="game-only">全部关卡</span>
                 </div>
                 <div className="mt-4 grid gap-5 md:grid-cols-2 2xl:grid-cols-3">
                   {unpinned.map((project) => (

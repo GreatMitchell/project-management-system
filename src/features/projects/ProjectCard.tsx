@@ -9,7 +9,7 @@ export function ProjectCard({ project, nodes, milestones, onTogglePin }: Props) 
   const progress = calculateProgress(nodes)
   const researchProgress = project.type === 'research' ? calculateResearchProgress(nodes) : null
   const passed = milestones.filter((item) => item.result === 'passed').length
-  const questCode = `QUEST-${project.id.slice(-4).toUpperCase()}`
+  const questCode = `STG-${project.id.slice(-4).toUpperCase()}`
   const pinned = Boolean(project.pinnedAt)
 
   return (
@@ -31,7 +31,7 @@ export function ProjectCard({ project, nodes, milestones, onTogglePin }: Props) 
                 <Pin size={11} />
                 <span className="theme-label-default">置顶</span>
                 <span className="tech-only">PINNED</span>
-                <span className="game-only">高优先级契约</span>
+                <span className="game-only">王牌关卡</span>
               </span>
             )}
           </div>
@@ -41,18 +41,18 @@ export function ProjectCard({ project, nodes, milestones, onTogglePin }: Props) 
       <div className="relative z-[1] mt-7 flex items-start justify-between gap-4">
         <h2 className="font-serif text-2xl font-semibold leading-snug text-text-primary">{project.title}</h2>
         <span className="project-kind rounded-full border border-line/15 bg-surface2/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-accent-primary">
-          <span className="theme-label-default">Quest</span><span className="tech-only">Module</span><span className="game-only">Active Quest</span>
+          <span className="theme-label-default">Quest</span><span className="tech-only">Module</span><span className="game-only">关卡</span>
         </span>
       </div>
       <p className="relative z-[1] mt-3 line-clamp-3 text-sm leading-6 text-text-secondary">{project.trigger}</p>
 
-      <div className="project-card-metrics relative z-[1] mt-auto pt-8">{project.type === 'research' && researchProgress ? <><div className="mb-2 flex justify-between text-xs text-text-secondary"><span>缺陷研究进度</span><span className="metric-value">{researchProgress.total ? `${researchProgress.conquered} / ${researchProgress.counted}` : '—'}</span></div><div className="progress-track h-2"><div className="progress-fill" style={{ width: `${researchProgress.counted ? Math.round((researchProgress.conquered / researchProgress.counted) * 100) : 0}%` }} /></div><div className="mt-4 grid grid-cols-2 gap-2 text-xs"><span className="rounded-md border border-amber-400/25 bg-amber-500/10 px-2.5 py-2 text-amber-300">待攻克 <strong className="ml-1 text-amber-400">{researchProgress.open}</strong></span><span className="rounded-md border border-emerald-400/25 bg-emerald-500/10 px-2.5 py-2 text-emerald-300">已攻克 <strong className="ml-1 text-emerald-400">{researchProgress.conquered}</strong></span></div></> : <><div className="mb-2 flex justify-between text-xs text-text-secondary"><span><span className="tech-only">NODE COMPLETION · </span><span className="game-only">ROUTE CLEARED · </span>{progress.completed} / {progress.total} 节点完成</span><span className="metric-value">{progress.percent}%</span></div><div className="progress-track h-2"><div className="progress-fill" style={{ width: `${progress.percent}%` }} /></div></>}
+      <div className="project-card-metrics relative z-[1] mt-auto pt-8">{project.type === 'research' && researchProgress ? <><div className="mb-2 flex justify-between text-xs text-text-secondary"><span>缺陷研究进度</span><span className="metric-value">{researchProgress.total ? `${researchProgress.conquered} / ${researchProgress.counted}` : '—'}</span></div><div className="progress-track h-2"><div className="progress-fill" style={{ width: `${researchProgress.counted ? Math.round((researchProgress.conquered / researchProgress.counted) * 100) : 0}%` }} /></div><div className="mt-4 grid grid-cols-2 gap-2 text-xs"><span className="rounded-md border border-amber-400/25 bg-amber-500/10 px-2.5 py-2 text-amber-300">待攻克 <strong className="ml-1 text-amber-400">{researchProgress.open}</strong></span><span className="rounded-md border border-emerald-400/25 bg-emerald-500/10 px-2.5 py-2 text-emerald-300">已攻克 <strong className="ml-1 text-emerald-400">{researchProgress.conquered}</strong></span></div></> : <><div className="mb-2 flex justify-between text-xs text-text-secondary"><span><span className="tech-only">NODE COMPLETION · </span><span className="game-only">通关 · </span>{progress.completed} / {progress.total} 节点完成</span><span className="metric-value">{progress.percent}%</span></div><div className="progress-track h-2"><div className="progress-fill" style={{ width: `${progress.percent}%` }} /></div></>}
         <div className="mt-4 flex items-center justify-between gap-3 text-xs text-text-secondary">
           <div className="flex items-center gap-2">
             <MilestoneIcon size={14} />
-            <span><span className="game-only">CHECKPOINTS · </span>{passed}/{milestones.length} 个里程碑已验证</span>
+            <span><span className="game-only">检查点 · </span>{passed}/{milestones.length} 个里程碑已验证</span>
           </div>
-          <span className="project-reward rounded-full bg-accent-soft px-2 py-1 text-[10px] font-medium text-accent-primary">{project.type === 'research' ? <><span className="theme-label-default">已攻克 {researchProgress?.conquered ?? 0}</span><span className="tech-only">CONQUERED {(researchProgress?.conquered ?? 0).toString().padStart(2, '0')}</span><span className="game-only">{researchProgress?.conquered ?? 0} VULNS CLEARED</span></> : <><span className="theme-label-default">+{progress.completed} EXP</span><span className="tech-only">RESOLVED {progress.completed.toString().padStart(2, '0')}</span><span className="game-only">{progress.completed} STEPS CLEARED</span></>}</span>
+          <span className="project-reward rounded-full bg-accent-soft px-2 py-1 text-[10px] font-medium text-accent-primary">{project.type === 'research' ? <><span className="theme-label-default">已攻克 {researchProgress?.conquered ?? 0}</span><span className="tech-only">CONQUERED {(researchProgress?.conquered ?? 0).toString().padStart(2, '0')}</span><span className="game-only">攻克 +{researchProgress?.conquered ?? 0}</span></> : <><span className="theme-label-default">+{progress.completed} EXP</span><span className="tech-only">RESOLVED {progress.completed.toString().padStart(2, '0')}</span><span className="game-only">通关 +{progress.completed}</span></>}</span>
         </div>
       </div>
       </Link>
