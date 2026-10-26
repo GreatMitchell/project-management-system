@@ -1,5 +1,6 @@
 import { ArchiveRestore, Crosshair, FolderKanban, Menu, PanelLeftClose, PanelLeftOpen, Route, Settings, X } from 'lucide-react'
 import { AutoSnapshotController } from '../persistence/AutoSnapshotController'
+import { CoreTasksSyncController } from '../features/focus/CoreTasksSyncController'
 import { StartupRecoveryPrompt } from '../persistence/StartupRecoveryPrompt'
 import { useLayoutEffect, useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
@@ -30,6 +31,7 @@ export function AppShell() {
   return (
     <div className="min-h-screen bg-app text-text-primary transition-colors duration-300">
       <AutoSnapshotController />
+      <CoreTasksSyncController />
       <StartupRecoveryPrompt />
 
       <button

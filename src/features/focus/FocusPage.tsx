@@ -3,33 +3,20 @@ import { useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { Link } from 'react-router-dom'
 import { useToast } from '../../components/Toast'
-import { db } from '../../db/database'
+import { isOpenFocusRow, loadFocusRows, type FocusRow } from './coreTasks'
 import { statusLabels, statusStyles, vulnerabilityStatusLabels } from '../../domain/rules'
 import { projectStatuses, vulnerabilityStatuses } from '../../domain/types'
-import type { NodeStatus, PraxisNode, Project, VulnerabilityStatus } from '../../domain/types'
+import type { NodeStatus, VulnerabilityStatus } from '../../domain/types'
 import { nodeTypeMeta } from '../nodes/NodeCard'
 import { markdownToPlainText } from '../nodes/markdown'
 import { repository } from '../../repositories/repository'
 
-export interface FocusRow { project: Project; node: PraxisNode }
-
-const closedStatuses = ['completed', 'abandoned']
-
 export function FocusPage() {
-  const rows = useLiveQuery(async (): Promise<FocusRow[]> => {
-    const projects = await db.projects.toArray()
-    const out: FocusRow[] = []
-    for (const project of projects) {
-      if (!project.coreNodeIds?.length) continue
-      const nodes = await db.nodes.bulkGet(project.coreNodeIds)
-      for (const node of nodes) if (node) out.push({ project, node })
-    }
-    return out.sort((a, b) => b.node.updatedAt.localeCompare(a.node.updatedAt))
-  }, []) ?? []
+  const rows = useLiveQuery(loadFocusRows, []) ?? []
   const [showClosed, setShowClosed] = useState(false)
   const { notify } = useToast()
 
-  const visibleRows = showClosed ? rows : rows.filter((row) => !closedStatuses.includes(row.project.status))
+  const visibleRows = showClosed ? rows : rows.filter(isOpenFocusRow)
   const hiddenCount = rows.length - visibleRows.length
 
   const unmark = async (row: FocusRow) => {
